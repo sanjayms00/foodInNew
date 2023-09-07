@@ -1,0 +1,272 @@
+<%- include("includes/header") %>
+
+<style>
+    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+    fieldset, label { margin: 0; padding: 0; }
+    body{ margin: 20px; }
+    h1 { font-size: 1.5em; margin: 10px; }
+
+
+    /****** Style Star Rating Widget *****/
+
+    .rating { 
+    border: none;
+    float: left;
+    }
+
+    .rating > input { display: none; } 
+    .rating > label:before { 
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+    }
+
+    .rating > .half:before { 
+    content: "\f089";
+    position: absolute;
+    }
+
+    .rating > label { 
+    color: #ddd; 
+    float: right; 
+    }
+
+    /***** CSS Magic to Highlight Stars on Hover *****/
+
+    .rating > input:checked ~ label, /* show gold star when clicked */
+    .rating:not(:checked) > label:hover, /* hover current star */
+    .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+    .rating > input:checked + label:hover, /* hover current star when changing rating */
+    .rating > input:checked ~ label:hover,
+    .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+    .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+</style>
+
+
+    <div class="container padd-top">
+        <div class="row">
+            <aside class="col-md-3">
+                <div class="card">
+                    <article class="filter-group">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Filter by Pricing
+                                </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        
+                                            
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="lowToHigh">
+                                                    <p>
+                                                         <a href="/foods?page=1&sort=1">
+                                                            <i class="bi bi-chevron-right my-3"></i>
+                                                             Low - High
+                                                         </a>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="lowToHigh">
+                                                    <p>
+                                                        <a href="/foods?page=1&sort=-1">
+                                                            <i class="bi bi-chevron-right my-3"></i>
+                                                             High - Low
+                                                        </a>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="lowToHigh">
+                                                    <p>
+                                                        <a href="/foods?page=1&price=-500">
+                                                            <i class="bi bi-chevron-right my-3"></i>
+                                                             Below 500 
+                                                        </a> 
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="lowToHigh">
+                                                    <p>
+                                                        <a href="/foods?page=1&price=-1000">
+                                                            <i class="bi bi-chevron-right my-3"></i>
+                                                             Below 1000 
+                                                        </a>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="lowToHigh">
+                                                    <p>
+                                                        <a href="/foods?page=1&price=100-500">
+                                                            <i class="bi bi-chevron-right my-3"></i>
+                                                             100 to 500
+                                                        </a>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    Filter by Food Type
+                                </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="form-check">
+                                            
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&type=veg">
+                                                        <i class="bi bi-chevron-right my-3"></i>Veg
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&type=non-veg">
+                                                        <i class="bi bi-chevron-right my-3"></i>Non-Veg
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    Top Categories
+                                </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+
+                                        <label class="form-check-label" for="lowToHigh">
+                                            <% 
+                                                if (locals.categories) { 
+                                                    categories.forEach((item)=>{
+                                            %>
+                                            <p>
+                                                <a href="/foods?page=1&category=<%= item.categoryName %>">
+                                                    <i class="bi bi-chevron-right my-3"></i>
+                                                    <%= item.categoryName %>
+                                                </a>
+                                            </p>
+                                            <% }) }else{ %>
+                                                <p class="text-secondary">No Categories</p>
+                                            <% } %>
+                                            
+                                        </label>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3">
+                                <fieldset class="rating pb-2">
+                                    <input type="radio" onclick="filter(this)" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                    <input type="radio" onclick="filter(this)" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                    <input type="radio" onclick="filter(this)" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                    <input type="radio" onclick="filter(this)" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                    <input type="radio" onclick="filter(this)" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                </fieldset>
+                            </div>
+                            
+                        </div>
+                    </article>
+                </div> 
+            </aside>
+            <main class="col-md-9">
+                <div class="border-bottom mb-4 pb-3">
+                    <div class="d-flex justify-content-between align-items-center bg-white p-3">
+                        <h5 class="mb-0 w-50">Total <%= totalSize %> Items</h5>
+                        
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <% 
+                        if (locals.food.length > 0) { 
+                            food.forEach((item)=>{
+                    %>
+                    <div class="col-md-3 border-start custom-border">
+                        <div class="bg-light mb-4">
+                            <div class="post-entry-1">
+                                <a href="/foodDetail/<%= item.slug %>">
+                                    <% if(item.image){ %>
+                                        <img src="/food/<%= item.image %>" alt="food image" class="img-fluid mb-0">
+                                    <% }else{ %>
+                                        <img src="/no-image.jpg" class="img-fluid" alt="food image">
+                                    <% } %>
+                                </a>
+                                <div class="p-2">
+                                    <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
+                                    <div class="float-end fs-6">
+													<i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`) "></i>
+													<i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5"></i>
+												</div>
+                                    <h2 style="height: 50px; padding-top: 10px;" class=""><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h2>
+                                    <a href="/foodDetail/<%= item.slug %>"><button type="button" class="btn btn-danger float-end">Show Details</button></a>
+                                    <h2 class="pt-2"><a href="/foodDetail/" class="text-success"><b>₹ <%= item.discPrice %></b></a>&nbsp;&nbsp;<small class="text-secondary"><del>₹ <%= item.orgPrice %></del></small></h2>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                    <% }) }else{ %>
+                        <p class="text-secondary text-center p-5">No products to display</p>
+                    <% } %>
+                        
+                    
+                </div>
+                <% if (totalSize > limit) { %>
+                    <nav aria-label="Page navigation example mt-3">
+                        <ul class="pagination justify-content-center">
+                        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                            <a class="page-link" href="<%= currentPage > 1 ? '/foods?page=' + (currentPage - 1) + '&' + serializeQuery(query) : '#' %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="/foods?page=<%= i %>&<%= serializeQuery(query) %>"><%= i %></a>
+                            </li>
+                        <% } %>
+                        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                            <a class="page-link" href="<%= currentPage < totalPages ? '/foods?page=' + (currentPage + 1) + '&' + serializeQuery(query) : '#' %>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        </ul>
+                    </nav>
+              <% } %>
+            </main>
+        </div>
+    </div>
+
+    <% function serializeQuery(query) { %>
+    <% return Object.keys(query).map(key => key + '=' + encodeURIComponent(query[key])).join('&'); %>
+    <% } %>
+
+
+<script>
+    function filter(btn, id){
+        alert(btn.value)
+    }
+</script>
+
+<script src="../assets/js/cart.js"></script>
+
+<%- include("includes/footer") %>

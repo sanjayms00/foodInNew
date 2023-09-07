@@ -1,0 +1,107 @@
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
+<style>
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: #333; /* Dark color for the header */
+    color: #fff; /* Text color for the header */
+    padding: 10px;
+    text-align: left;
+}
+
+.data-table tbody td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row py-3">
+            <div class="col-md-8">
+                <h2>
+                    Order Details
+                </h2>
+                <br>
+                <h5>Total Orders : <%= orders %></h5>
+            </div>
+            <div class="col-md-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle float-end" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sort Report
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/admin/sales-report?sortBy=today">Today</a></li>
+                      <li><a class="dropdown-item" href="/admin/sales-report?sortBy=month">Month</a></li>
+                      <li><a class="dropdown-item" href="/admin/sales-report?sortBy=year">Year</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped text-center table-sm text-dark" id="saleTable">
+            <thead class="data-table">
+                <tr>
+                <th class="py-3">#</th>
+                <th class="py-3">orderId</th>
+                <th class="py-3">Customer</th>
+                <th class="py-3">Date & time</th>
+                <th class="py-3">payment Method</th>
+                <th class="py-3">payment Status</th>
+                <th class="py-3">Order Status</th>
+                <th class="py-3" style="min-width: 200px;">address</th>
+                <th class="py-3">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+              <% 
+                let i = 1
+                orderReport.forEach(element => { 
+              %>
+                <tr>
+                <td class="py-3"><%= i %></td>
+                <td class="py-3"><%= element.orderDetails.orderId %></td>
+                <td class="py-3"><%= element.firstName +' '+ element.lastName %></td>
+                <td class="py-3">
+                    <%= element.orderDetails.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %> <br>
+                    <%= element.orderDetails.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> 
+                </td>
+                <td class="py-3"><%= element.orderDetails.paymentMethod %></td>
+                <td class="py-3"><%= element.orderDetails.paymentStatus %></td>
+                <td class="py-3"><%= element.orderDetails.status %></td>
+                <td class="py-3" style="max-width: 130px; text-align: left;"><%= element.orderDetails.address %></td>
+                <td class="py-3"><%= (element.orderDetails.subTotal < 1 && element.orderDetails.paymentMethod === 'wallet') ? element.orderDetails.walletAmount : element.orderDetails.subTotal  %></td>
+                </tr>
+              <% 
+                i++ }); 
+              %>
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+
+<!-- datatables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#saleTable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            // 'copy', 'csv', 'excel', 'pdf', 'print'
+            'excel', 'pdf'
+        ]
+    } );
+} );
+
+</script>

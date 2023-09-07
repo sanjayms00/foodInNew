@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Foodin</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="image/png" href="../assets/img/logo.png" />
+ 
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="./assets/css/login.css" rel="stylesheet">
+  <link href="./assets/css/preloader.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <!-- Template Main CSS Files -->
+  <link href="../assets/css/variables.css" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <link href="../assets/css/cart.css" rel="stylesheet">
+  <link href="../assets/css/slider.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!--CSS Spinner-->
+  <div class="spinner-wrapper">
+    <div class="sk-cube-grid">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl">
+        <div class="row pb-1">
+          <div class="col-md-12 d-flex align-items-center justify-content-between fst-italic">
+            <div class="p-2 bd-highlight">
+              <a href="mailto: sfoodin@gmail.com"><i class="bi bi-envelope-at-fill"></i>&nbsp;foodin@gmail.com</a>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a href="tel:+91 1234567890" class="mx-2"><i class="bi bi-telephone-outbound-fill"></i>&nbsp;+91 1234567890</a>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a href="#" class="mx-3"><i class="bi bi-geo-alt-fill"></i>&nbsp;access your location</a>
+            </div>
+            <div class="p-2 bd-highlight">
+              <a href="/contact" class="mx-3"><i class="bi bi-info-circle-fill"></i>&nbsp;Help</a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 d-flex align-items-center justify-content-between">
+            <!-- logo -->
+            <a href="/" class="logo d-flex align-items-center">
+              <img src="../assets/img/logo.png" class="rounded-circle" alt="logo">
+              <h1>FoodIn</h1>
+            </a>
+
+            <nav id="navbar" class="navbar">
+              <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/foods">Shop</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Category
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <% 
+                      if (locals.categories) { 
+                        categories.forEach((item)=>{
+                    %>
+                      <li><a href="/foods?page=1&category=<%= item.categoryName %>" class="dropdown-item"> <%= item.categoryName %></a></li>
+                    <% }) }else{ %>
+                      <p class="text-secondary">No products to display</p>
+                    <% } %>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+            <!-- search form starts -->
+            <form action="/search-result" class="d-flex">
+              <input type="search" placeholder="Search" name="search" id="search" class="form-control" aria-label="Search">
+              <button class="btn bg-light mx-1" type="submit"><span class="icon bi-search"></span></button>
+            </form>
+         
+            
+              <a href="/cart" class="mx-3"><i class="bi bi-bag-fill fs-6"></i>&nbsp;Cart&nbsp;<span class="badge bg-danger" id="cartCounter"><%= locals.CartLength ? locals.CartLength : "" %></span></a>
+            
+            
+              <a href="/wishlist" class="mx-3"><i class="bi bi-heart-fill fs-6"></i>&nbsp;wishlist&nbsp;<span class="badge bg-danger" id="cartCounter"><%= locals.CartLength ? locals.CartLength : "" %></span></a>
+           
+            <div class="navbar">
+              <% if (!isAuthenticated) { %>
+                <a href="/login" class="mx-3"><span class="bi bi-person-circle"></span>&nbsp; Login</a>
+                <% } else { %>
+                  <div class="dropdown" >
+                    <button class="dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <div class="d-flex align-items-center author mx-3">
+                        <i class="bi bi-list mobile-nav-toggle"></i>
+                        <div class="photo"><img src="../assets/img/person-1.jpg" alt="profile-img" class="img-fluid"></div>
+                        <div class="name">
+                          <a href="#" class="m-0 p-0"><%= userName ? userName : "user" %></a>
+                        </div>
+                      </div>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/my-profile">My Profile</a></li>
+                      <li><a class="dropdown-item" href="/address-book">Address Book</a></li>
+                      <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                      <li><a class="dropdown-item" href="/track-order">Track Order</a></li>
+                      <li><a class="dropdown-item" href="/wallet">Wallet</a></li>
+                      <hr>
+                      <li><a class="dropdown-item" href="/logout">logout</a></li>
+                    </ul>
+                  </div>
+                <% } %>
+              </div>
+        </div>
+      </div>
+      
+    </div>
+  </header><!-- End Header -->

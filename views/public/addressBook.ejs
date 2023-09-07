@@ -1,0 +1,118 @@
+<!-- include header -->
+<%- include('./includes/header') %>
+
+<section style="background-color: #eee;">
+    <div class="container profile-section">
+        <div class="row">
+            <%-include("./includes/profileLeft") %>
+            <div class="col-lg-8">
+                <div class="card mb-4 profile-right">
+                    <div class="card-body">
+                        <div class="row py-3">
+                            <div class="alert d-none" role="alert" id="alertResult">
+                                <%= locals.msg %>
+                            </div>
+                            <div class="col-sm-12">
+                                <h3 class="mb-0">Address Book</h3>
+                            </div>
+                        </div>
+                        <div class="row py-3 text-dark">
+                            <div class="py-3 col-sm-12">
+                                <% if (!address.addresses.length > 0) { %>
+                                 <p>No address to display</p>
+                                <% }else{ %>
+                                    <% address.addresses.forEach(element => { %>
+                                        <div class="rounded p-3 mb-3 bg-<%= address.defaultAddress.equals(element._id) ? 'secondary text-light' : 'light' %>">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <p class="mb-0"><strong><%= element.fullName %></strong></p>
+                                                    <p class="mb-0"><%= element.addressLine %>, <%= element.city %>, <%= element.state %>, <%= element.pinCode %></p>
+                                                    <p class="mb-0">Mobile: <%= element.mobileNumber %></p>
+                                                    <p class="mb-0">Address Type: <%= element.addressType %></p>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-<%= address.defaultAddress.equals(element._id) ? 'info text-light' : 'primary' %>" onclick="setDefault('<%= element._id %>')"><%= address.defaultAddress.equals(element._id) ? 'Default' : 'Set Default' %></button>
+                                                    <a href="/edit-address/<%= element._id %>"><button class="btn btn-primary">Edit</button></a>
+                                                    <button data-address="<%= JSON.stringify(element) %>" class="btn btn-danger delete-address">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+                            </div> 
+                        </div>
+                        <div class="row py-1">
+                            <div class="col-sm-12">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addressModal">
+                                    Add Address
+                                </button>
+  
+                                <!-- Modal -->
+                                <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning text-dark">
+                                            <h5 class="modal-title" id="addressModalLabel">Add Address</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addressBook" onsubmit="return validateForm()">
+                                                    <div class="mb-3">
+                                                        <label for="fullName" class="form-label">Full Name</label>
+                                                        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                                        <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Enter Mobile Number" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="pinCode" class="form-label">Pin Code</label>
+                                                        <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Enter Pin Code" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="addressLine1" class="form-label">Address Line</label>
+                                                        <input type="text" class="form-control" id="addressLine" name="addressLine" placeholder="Enter Address Line" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="city" class="form-label">City / Town / District</label>
+                                                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter City / Town / District" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="state" class="form-label">State</label>
+                                                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="addressType" class="form-label">Address Type</label>
+                                                        <select class="form-select" id="addressType" name="addressType">
+                                                          <option value="Home">Home</option>
+                                                          <option value="Office">Office</option>
+                                                          <option value="Other">Other</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-success">Add Address</button>     
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="./assets/js/addressBook.js"></script>
+
+
+
+
+
+
+<!-- include footer -->
+<%- include('./includes/footer') %>

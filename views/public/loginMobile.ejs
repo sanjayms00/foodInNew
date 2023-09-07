@@ -1,0 +1,109 @@
+    <%- include('./includes/header') %>
+    <div class="container-fluid p-0 login-mobile">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="back">
+                    <div class="backRight"></div>
+                    <div class="backLeft"></div>
+                </div>
+            
+                <div id="slideBox">
+                    <div class="topLayer">
+                        <div class="left">
+                            <div class="content">
+                                <h2>OTP Login</h2>
+                                <form class="row g-3 mobile-validation" id="mobileNumberValidateForm">
+                                    <div class="col-md-12">
+                                        <label for="validationCustom05" class="form-label">Email Id</label>
+                                        <input type="text" class="form-control" id="validationCustom05" name="mobileNumber" placeholder="Mobile Number" oninput="validateNumber(this)">
+                                        <div class="invalid-feedback" id="mobileNumberLabel">
+                                          Mobile Number Required!
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button id="mobilelogin" class="w-100" type="submit">Login</button>
+                                    </div>
+                                </form>
+                                <button id="goLeft" class="mt-0 w-100">Login >>></button>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="content">
+                                <h2>Login</h2>
+                                <form class="row g-3 needs-validation" novalidate id="loginForm">
+                                    <div class="col-md-12">
+                                        <label for="validationCustom05" class="form-label">Email Id</label>
+                                        <input type="email" class="form-control mt-0" id="validationCustom05" name="emailId" required>
+                                        <div class="invalid-feedback" id="emailLabel">
+                                          Email id Required!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="validationCustom04" class="form-label">Password</label>
+                                        <input type="password" class="form-control mt-0" id="validationCustom04" name="loginPassword" required>
+                                        <div class="invalid-feedback" id="passwordLabel">
+                                          Password Required
+                                        </div>
+                                      </div>
+                                    <div class="col-12">
+                                        <button id="login" class="w-100" type="submit">Login</button>
+                                    </div>
+                                </form>
+                                <button id="goRight" class="w-100 mt-0" class="off"> <<< MOBILE LOGIN </button>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a class="text-primary fw-bold" href="/forgot-password">Forgot Password ?</a>
+                                    <a class="text-primary fw-bold ms-2" href="/signup">Create an account</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        (function () {
+        'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation, .mobile-validation')
+            
+            // Loop over them and prevent submission
+            var loginForm = document.querySelector('.needs-validation');
+            loginForm.addEventListener('submit', function (event) {
+                if (!loginForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                loginForm.classList.add('was-validated');
+            });
+
+            var mobileOTPForm = document.querySelector('.mobile-validation');
+            mobileOTPForm.addEventListener('submit', function (event) {
+                if (!mobileOTPForm.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                alert(mobileOTPForm.classList)
+                mobileOTPForm.classList.add('was-validated');
+            });
+
+        })()
+
+        function validateNumber(input) {
+            const mobileNumber = input.value.trim();
+            const mobileNumberLabel = document.getElementById("mobileNumberLabel");
+
+            if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
+                mobileNumberLabel.style.display = "block"; // Show the error message
+                input.classList.add("is-invalid"); // Add Bootstrap's 'is-invalid' class
+            } else {
+                mobileNumberLabel.style.display = "none"; // Hide the error message
+                input.classList.remove("is-invalid"); // Remove Bootstrap's 'is-invalid' class
+            }
+        }
+    </script>
+    <script src="assets/js/validate.js"></script>
+    <%- include('./includes/footer') %>

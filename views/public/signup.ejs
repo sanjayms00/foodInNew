@@ -1,0 +1,67 @@
+<!-- include header -->
+<%- include('./includes/header') %>
+
+    
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100 padd-top">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <% if (locals.status === "success") { %>
+                            <div class="alert alert-success" role="alert">
+                                <%= locals.msg %>
+                                <p>Login</p>
+                            </div>
+                            <script>
+                                setTimeout(()=>{
+                                  window.location.href = "http://127.0.0.1:3000/login"; 
+                                },800)
+                            </script>
+                        <% } if(locals.status === "error"){ %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= locals.msg %>
+                            </div>
+                        <% } %>
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <h1 class="text-center">Signup</h1>
+                                <form class="login_form" action="/signupAuthenticate" method="post" id="signupForm" onsubmit="return validateSignup()">
+                                <div class="mb-2">
+                                    <label for="firstName" id="firstNameLabel" class="form-label">First Name</label>
+                                    <input type="text" class="form-control m-0" id="firstName" name="firstName" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'">				
+                                </div>
+                                <div class="mb-2">
+                                    <label for="lastName" id="lastNameLabel" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control m-0" id="lastName" name="lastName" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'">				
+                                </div>
+                                <div class="mb-2">
+                                    <label for="Email" id="emailLabel" class="form-label">Email Id</label>
+                                    <input type="email" class="form-control m-0" id="emailId" name="emailId" placeholder="Email Id" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Id'">				
+                                </div>
+                                <div class="mb-2">
+                                    <label for="mobile" id="mobileLabel" class="form-label">Mobile</label>
+                                    <input type="text" class="form-control m-0" id="mobileNumber" name="mobileNumber" placeholder="mobile" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mobile'">				
+                                </div>
+                                <div class="mb-2">
+                                    <label for="password" id="passwordLabel" class="form-label">Password</label>
+                                    <input type="password" class="form-control m-0" id="signupPassword" name="signupPassword" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">				
+                                </div>
+                                <div class="mb-2">
+                                    <label for="confirmPassword" id="confirmPasswordLabel" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control m-0" id="confirmPassword" name="confirmPassword" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">				
+                                </div>
+                                <button class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Submit</button>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="/login" class="fw-bold">login</a>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="assets/js/validate.js"></script>
+<!-- include footer -->
+<%- include('./includes/footer') %>

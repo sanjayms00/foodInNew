@@ -1,0 +1,233 @@
+<!-- include header -->
+<%- include('./includes/header') %>
+
+<style>
+    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+    fieldset, label { margin: 0; padding: 0; }
+    body{ margin: 20px; }
+    h1 { font-size: 1.5em; margin: 10px; }
+
+
+    /****** Style Star Rating Widget *****/
+
+    .rating { 
+    border: none;
+    float: left;
+    }
+
+    .rating > input { display: none; } 
+    .rating > label:before { 
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+    }
+
+    .rating > .half:before { 
+    content: "\f089";
+    position: absolute;
+    }
+
+    .rating > label { 
+    color: #ddd; 
+    float: right; 
+    }
+
+    /***** CSS Magic to Highlight Stars on Hover *****/
+
+    .rating > input:checked ~ label, /* show gold star when clicked */
+    .rating:not(:checked) > label:hover, /* hover current star */
+    .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+    .rating > input:checked + label:hover, /* hover current star when changing rating */
+    .rating > input:checked ~ label:hover,
+    .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+    .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+</style>
+
+
+
+    <section style="background-color: #eee;">
+        <div class="container profile-section">
+            <div class="row">
+                <%-include("./includes/profileLeft") %>
+                <div class="col-lg-8">
+                    <div class="card mb-4 profile-right">
+                        <div class="card-body">
+                            <div class="row py-3">
+                                <div class="col-sm-12">
+                                    <h3 class="mb-3 float-start">Current Orders</h3>
+                                    <a href="/order-history">
+                                        <button type="button" class="btn btn-outline-secondary float-end mb-3">Order History</button>
+                                    </a>
+                                    
+                                    <a href="/canceled-orders">
+                                        <button type="button" class="btn btn-outline-danger float-end mb-3 mx-1">Canceled Orders</button>
+                                    </a>
+                                    <div class="float-end mx-4 pt-2">
+                                        <div class="rounded-circle mx-1 float-start" style="width: 20px; height: 20px; background-color: #d3ea66;"> </div>
+                                        <h6 class="fw-semibold mb-0 float-start mx-1">Pending Orders</h6>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                            </div>
+                            <%  
+                                let i = 1;
+                                data.forEach((item)=>{
+                            %>
+                            <div class="row py-1">
+                                <div class="py-3 col-sm-12">
+                                    <div class="rounded p-2" style="background-color: #d3ea66;">
+                                        <% if (item.status === 'prepared' || item.status === 'delivered') { %>
+                                            <button type="button" class="btn btn-danger float-end m-1" disabled>Cancel Order</button>
+                                        <% }else{ %>
+                                        <button type="button" class="btn btn-danger float-end m-1" onclick="cancelOrder('<%= item._id %>')">Cancel Order</button>
+                                        <% } %>
+                                        <button type="button" class="btn btn-primary float-end m-1" data-bs-toggle="modal" data-bs-target="#reviewModal<%= i %>">
+                                            Add Rating
+                                        </button>
+
+                                        <div class="modal fade" id="reviewModal<%= i %>" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-secondary text-light">
+                                                    <h5 class="modal-title" id="addressModalLabel">Add review</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form id="rating">
+                                                        <div class="modal-body">
+                                                            <% item.items.forEach((element)=>{ %>
+                                                                <h6 class="mb-0 px-3">
+                                                                    <span ><%= element.carted[0].foodName %></span>
+                                                                    <div class="float-end">
+                                                                        <input type="radio" onclick="rate(this, '<%= element.item %>')" name="<%= element.item %>" value="1" />
+                                                                        <input type="radio" onclick="rate(this, '<%= element.item %>')" name="<%= element.item %>" value="2" />
+                                                                        <input type="radio" onclick="rate(this, '<%= element.item %>')" name="<%= element.item %>" value="3" />
+                                                                        <input type="radio" onclick="rate(this, '<%= element.item %>')" name="<%= element.item %>" value="4" />
+                                                                        <input type="radio" onclick="rate(this, '<%= element.item %>')" name="<%= element.item %>" value="5" />
+                                                                    </div>
+                                                                </h6>
+                                                            <% }) %>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        
+                                        <p class="mb-1 px-3"><span class="pe-4">Order Id</span> : <b><%= item._id %></b></p>
+                                        <p class="mb-1 px-3"><span class="pe-4">status</span> : <b><%= item.status %></b></p>
+                                        <p class="mb-1 px-3"><span class="pe-4">Date</span> : <b><%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></b></p>
+                                        <p class="mb-1 px-3"><span class="pe-4">Time</span> : <b><%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %></b> </p>
+                                        <p class="mb-1 px-3"><span class="pe-4">Address</span> : <b><b></b><%= item.address %></b></p>
+                                        <p class="mb-1 px-3"><span class="pe-4">Payment Method</span> : <b><%= item.paymentMethod %></b></p>
+                                        <p class="mb-1 px-3"><span class="pe-4">Payment Status</span> : <b><%= item.paymentStatus %></b></p>
+                                        <br>
+                                        <span class="mb-1 px-3"><span class="pe-4">Price</span> : <b>₹ <%= item.price ? item.price : 'Nil' %></b></span>
+                                        <span class="mb-1 px-3"><span class="pe-4">Discount Price</span> : <b>₹ <%= item.discountedPrice ? item.discountedPrice : 'Nil' %></b></span>
+                                        <span class="mb-1 px-3"><span class="pe-4">Discount</span> : <b><%= item.discount ? item.discount+'%' : 'Nil' %></b></span>
+                                        <hr>
+                                        <% item.items.forEach((element)=>{ %>
+                                            <span class="mb-0 px-3"><b>Dish :</b> <%= element.carted[0].foodName %></span><span class="mb-0 px-3"><b>Qty :</b> <%= element.quantity %></span><span class="mb-0 p-3"><b>Price :</b> <%= element.total %></span>
+                                            <hr>
+                                        <% }) %>
+                                        <h4 class="mb-0 px-3 float-start">Total : <span class="text-danger">₹ <%= item.subTotal %></span></h4>
+                                        <h4 class="mb-0 px-3">Wallet Amount : <span class="text-danger">₹ <%= item.walletAmount ? item.walletAmount : 'Nil' %></span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++ }) %> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+
+    function cancelOrder(orderId) {
+        Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Cancel it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const data = { id:  orderId};
+                try {
+                const response = await fetch("/cancel-order", {
+                    method: "DELETE",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json()
+                if(result.status === "success"){
+                    Swal.fire(
+                        'Canceled!',
+                        result.msg,
+                        'success'
+                        )
+                    setTimeout(() => {
+                        location.reload()
+                    }, 800);
+                }else{
+                    Toastify({
+                    text: result.msg,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+                    }).showToast();
+                }
+                
+                } catch (error) {
+                    Toastify({
+                    text: error.message,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+                    }).showToast();
+                }
+            }
+        })   
+    }
+
+async function rate(input, id){
+    
+    const value = {
+        rating : input.value,
+        id
+    }
+    console.log(value)
+    const response = await fetch("/rate-food", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
+    });
+
+    const result = await response.json();
+    if(result.status === "success"){
+        
+    }
+}
+
+</script>
+
+<%- include('./includes/footer') %>

@@ -1,0 +1,338 @@
+<!--  Header End -->
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4 float-start">orders</h5>
+        <div class="float-end mx-4 pt-2 float-end">
+          <div class="rounded-circle bg-danger mx-2 float-start" style="width: 18px; height: 18px;"></div>
+          <h6 class="fw-semibold mb-0 float-start">Canceled Orders</h6>
+      </div>
+        <div class="card w-100">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <% if(locals.data.length > 0){ %>
+              <table class="table text-nowrap mb-0 align-middle">
+                <thead class="text-dark fs-4 text-center">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">#</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">order Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Address</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">User Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Time</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Food & Qty</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Payment Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Payment Method</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Manage Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody class="text-center">
+                  <%  
+                    let i = 1;
+                    data.forEach((item)=>{
+                  %>
+                  <tr class="bg-<%= item.status === 'canceled' ? 'danger' : 'light' %>">
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0"><%= i %></h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0"><%= item._id %></h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addressModal<%= i %>">
+                        Address
+                      </button>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0"><%=  `${item.firstName} ${item.lastName}` %></h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#timeModal<%= i %>">
+                        Date & Time
+                      </button>
+                    </th>
+                    <th class="border-bottom-0">
+                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#foodQtyModal<%= i %>">
+                        Food & Quantity
+                      </button>
+                    </th>
+                    <th class="border-bottom-0">
+                        <% if(item.paymentStatus !== 'recieved'){ %>
+                          <div class="rounded-circle bg-warning float-start mx-1 payment-status-color" style="width: 20px; height: 20px;"></div>
+                          <h6 class="fw-semibold mb-0 float-start mx-1 payment-status-text"><%= 'Pending' %></h6>
+                        <% }else{ %>
+                          <div class="rounded-circle bg-success float-start mx-1 payment-status-color" style="width: 20px; height: 20px;"></div>
+                          <h6 class="fw-semibold mb-0 float-start mx-1 payment-status-text"><%= 'Received' %></h6>
+                        <% } %>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0"><%= item.paymentMethod %></h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <select class="form-select border-dark status-manager" aria-label="Default select example" onchange="changeStatus(this, '<%= item._id %>')" <%= (item.status === "canceled" || item.status === "delivered") ? 'disabled' : "" %>>
+                        <option value="placed" <%= (item.status === 'placed') ? "selected" : "" %> >Placed</option>
+                        <option value="confirmed" <%= (item.status === 'confirmed') ? "selected" : "" %> >confirmed</option>
+                        <option value="prepared" <%= (item.status === 'prepared') ? "selected" : "" %> >prepared</option>
+                        <option value="delivered" <%= (item.status === 'delivered') ? "selected" : "" %> >Delivered</option>
+                      </select>
+                    </th>
+                    <td class="border-bottom-0">
+                      <% if(item.status === "canceled" || item.status === "delivered" || item.status === "prepared"){ %>
+                        <button type="button" class="btn btn-danger w-100 cancel-button" disabled>Cancel Order</button>
+                      <% }else{ %>
+                        <button type="button" class="btn btn-danger w-100 cancel-button" onclick="cancelOrder('<%= item._id %>')">Cancel Order</button>
+                      <% } %>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="addressModal<%= i %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Order Address</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <%= item.address %> 
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="foodQtyModal<%= i %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Food Order Information</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <% item.items.forEach((element)=>{ %>
+                            <h6><b>Dish :</b> <%= element.carted.foodName %></h6><h6><b>Qty :</b> <%= element.quantity %></h6><h6><b>Price :</b> <%= element.total %></h6>
+                            <hr>
+                          <% }) %>
+                        </div>
+                        <div class="modal-footer">
+                          <h4>Total : <span class="text-danger">₹ <%= item.subTotal %></span></h4>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="timeModal<%= i %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Order Date & Time</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %> <br>
+                          <%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> 
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <% i++ }) %>
+                </tbody>
+
+                <tfoot class="text-dark fs-4 text-center">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">#</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">order Id</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Address</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">User Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Time</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Food & Qty</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Payment Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Payment Method</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Manage Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+              <% }else{ %>
+                  <h4 class="text-center text-danger m-5"><%= "No Orders To Show" %></h4>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+  function cancelOrder(orderId) {
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, cancel it!'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const data = { id:  orderId};
+      try {
+        const response = await fetch("/admin/cancel-order", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json()
+        if(result.status === "success"){
+          Swal.fire(
+            'Canceled!',
+            'Order has been Canceled.',
+            'success'
+          )
+          setTimeout(() => {
+              window.location.reload()
+          }, 1000);
+        }else{
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
+        }
+        
+      } catch (error) {
+          Toastify({
+            text: error.message,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
+      }
+    }
+  })
+    
+
+}
+
+async function changeStatus(status, orderId) {
+  
+    const data = { status:  status.value, id : orderId};
+    const paymentStatusTextChange = status.parentElement.parentElement.querySelector('.payment-status-text')
+    const paymentStatusColorChange = status.parentElement.parentElement.querySelector('.payment-status-color')
+    const cancelButton = status.parentElement.parentElement.querySelector('.cancel-button')
+    const dropdown = status.parentElement.querySelector('.status-manager')
+
+    try {
+      const response = await fetch("/admin/change-status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json()
+      if(result.status === "success"){
+        Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #0b7303, #24c9a3)",
+            }
+            }).showToast();
+          if(result.value === "prepared"){
+            status.querySelector(`[value="placed"]`).disabled = true;
+            status.querySelector(`[value="confirmed"]`).disabled = true;
+          }
+          if(result.value === "delivered" || result.value === "prepared"){
+            cancelButton.disabled = true
+          }
+          if(result.value === "delivered"){
+            paymentStatusColorChange.classList.remove('bg-warning');
+            paymentStatusColorChange.classList.add('bg-success');;
+            paymentStatusTextChange.innerHTML = 'Received';
+            cancelButton.disabled = true
+            dropdown.disabled = true;
+          }
+        setTimeout(() => {
+          status.querySelector(`[value="${result.value}"]`).selected = true;
+        }, 1000);
+      }else{
+        Toastify({
+          text: result.msg,
+          className: "info",
+          style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+          }
+        }).showToast();
+      }
+      
+    } catch (error) {
+        Toastify({
+          text: error.message,
+          className: "info",
+          style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+          }
+        }).showToast();
+    }
+
+}
+
+</script>
+
+

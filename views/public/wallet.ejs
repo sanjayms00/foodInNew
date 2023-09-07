@@ -1,0 +1,74 @@
+<!-- include header -->
+<%- include('./includes/header') %>
+
+    <section style="background-color: #eee;">
+        <div class="container profile-section">
+            <div class="row">
+                <%-include("./includes/profileLeft") %>
+                <div class="col-lg-8">
+                    <div class="card mb-4 profile-right">
+                        <div class="card-body">
+                            <div class="row py-3">
+                                <div class="col-sm-3">
+                                    <h3 class="mb-0">Wallet</h3>
+                                </div>
+                            </div>
+                            <hr>
+                            <br>
+                            <div class="row py-1">
+                                <div class="col-sm-2">
+                                    <h5 class="mb-0">Balance : </h5>
+                                </div>
+                                <div class="col-sm-10">
+                                    <h5 class="text-success mb-0"><b>₹ <%= locals.data[0].wallet %></b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <h6>Last few Transactions</h6>
+                            <table class="table table-striped text-center">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Order Id</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Transaction</th>
+                                    <th scope="col">Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
+                                        if(locals.data[0].walletTransactions.length > 0){
+                                            const length = locals.data[0].walletTransactions.length-1
+                                            let k = 1
+                                            let stop = length > 10 ? length-10 : 0
+                                            for(let i= length; i>= stop; i--){
+                                    %>
+                                        <tr>
+                                            <th scope="row"><%= k %></th>
+                                            <td><%= locals.data[0].walletTransactions[i].orderId %></td>
+                                            <td>
+                                                <%= locals.data[0].walletTransactions[i].time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %> <br>
+                                                <%= locals.data[0].walletTransactions[i].time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> 
+                                            </td>
+                                            <td><%= locals.data[0].walletTransactions[i].TransactionType %></td>
+                                            <% if (locals.data[0].walletTransactions[i].TransactionType === 'credit') { %>
+                                                <td class="text-success">+<%= locals.data[0].walletTransactions[i].amount %></td>
+                                            <% }else if(locals.data[0].walletTransactions[i].TransactionType === 'debit'){ %>
+                                                <td class="text-danger">-<%= locals.data[0].walletTransactions[i].amount %></td>
+                                            <% } %>
+                                        </tr>   
+                                    <%
+                                            k++ }
+                                        } 
+                                    %>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- include footer -->
+<%- include('./includes/footer') %>

@@ -1,0 +1,105 @@
+<!-- edit-address.ejs -->
+<%- include('./includes/header') %>
+
+<section style="background-color: #f8f9fa;">
+    <div class="container profile-section">
+        <div class="row">
+            <%- include("./includes/profileLeft") %>
+            <div class="col-lg-8">
+                <div class="card mb-4 profile-right">
+                    <div class="card-body">
+                        <div class="row py-3">
+                            <div class="col-sm-12">
+                                <h3 class="mb-0">Edit Address</h3>
+                            </div>
+                        </div>
+                        <div class="row py-3 text-dark">
+                            <div class="py-3 col-sm-12">
+                                <div class="rounded p-3 mb-3" style="background-color: #e4e4da;">
+                                    <form id="editAddressForm">
+                                        <div class="mb-3">
+                                            <label for="fullName" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter Full Name" value="<%= address.fullName %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="hidden" class="form-control" id="addressId" name="addressId" value="<%= address._id %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="mobileNumber" class="form-label">Mobile Number</label>
+                                            <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Enter Mobile Number" value="<%= address.mobileNumber %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pinCode" class="form-label">Pin Code</label>
+                                            <input type="text" class="form-control" id="pinCode" name="pinCode" placeholder="Enter Pin Code" value="<%= address.pinCode %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addressLine" class="form-label">Address Line</label>
+                                            <input type="text" class="form-control" id="addressLine" name="addressLine" placeholder="Enter Address Line" value="<%= address.addressLine %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="city" class="form-label">City / Town / District</label>
+                                            <input type="text" class="form-control" id="city" name="city" placeholder="Enter City / Town / District" value="<%= address.city %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="state" class="form-label">State</label>
+                                            <input type="text" class="form-control" id="state" name="state" placeholder="Enter State" value="<%= address.state %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="addressType" class="form-label">Address Type</label>
+                                            <select class="form-select" id="addressType" name="addressType" required>
+                                                <option value="Home" <% if (address.addressType === 'Home') { %> selected <% } %>>Home</option>
+                                                <option value="Office" <% if (address.addressType === 'Office') { %> selected <% } %>>Office</option>
+                                                <option value="Other" <% if (address.addressType === 'Other') { %> selected <% } %>>Other</option>
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <button type="submit" class="btn btn-success">Update Address</button>
+                                    </form>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('editAddressForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const addressData = {
+                fullName: formData.get('fullName'),
+                addressId : formData.get('addressId'),
+                mobileNumber: formData.get('mobileNumber'),
+                pinCode: formData.get('pinCode'),
+                addressLine: formData.get('addressLine'),
+                city: formData.get('city'),
+                state: formData.get('state'),
+                addressType: formData.get('addressType')
+            };
+        try {
+            const response = await fetch('/update-address', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(addressData)
+            })
+            const data = await response.json();
+            if (data.status === 'success') {
+                // alert(data.msg);
+                location.href = "/address-book";
+            }else{
+                alert(data.msg);
+            }  
+            
+        } catch (error) {
+            alert(error.message)
+        }
+    });
+
+</script>
+
+<%- include('./includes/footer') %>

@@ -1,0 +1,302 @@
+<!--  Header End -->
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4 float-start">Banner</h5>
+        <a href="/admin/create-banner"><button type="button" class="btn btn-primary float-end">Add Banner</button></a>
+        <div class="card w-100">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped text-nowrap mb-0 align-middle text-center">
+                <thead class="fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0" style="min-width: 100px;">
+                      <h6 class="fw-semibold mb-0">Image</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Heading</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Product Url</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Desciption</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Position</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(locals.banner){ 
+                    let i = 1;
+                    banner.forEach((item)=>{
+                  %>
+                  <tr>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0"><%= i %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <% if(item.image){ %>
+                          <img src="/banner/<%= item.image %>" class="img-fluid">
+                          <% }else{ %>
+                            <img src="/no-image.jpg" class="img-fluid">
+                        <% } %>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.heading %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bannerModalUrl<%= i %>">
+                          <h6 class="fw-semibold mb-1">Open Url</h6>
+                        </button>
+                      </td>
+                      <td class="border-bottom-0">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#bannerModal<%= i %>">
+                          <h6 class="fw-semibold mb-1">Description</h6>
+                        </button>
+                      </td>
+                      <td class="border-bottom-0">
+                        <input type="text" class="form-control border-dark" value="<%= item.position %>" oninput="changePosition('<%= item._id %>', this)">
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">
+                          <% if (!item.status) { %>
+                            <button type="button" onclick="changeStatus('<%= item._id %>', true)" class="btn btn-success w-100">Active</button>
+                            <% } else { %> 
+                              <button type="button" onclick="changeStatus('<%= item._id %>', false)" class="btn btn-danger w-100">Inactive</button>
+                          <% } %>
+                        </h6>
+                      </td>
+                      <td class="border-bottom-0">
+                          <a href="/admin/edit-banner?id=<%= item._id %>"><button type="button" class="btn btn-primary w-100">Edit</button></a>
+                          <br><br>
+                          <button type="button" class="btn btn-danger w-100" onclick="deleteBanner('<%= item._id %>', '<%= item.image %>')">Delete</button>
+                      </td>
+                  </tr>
+
+                  <div class="modal fade" id="bannerModal<%= i %>" tabindex="-1" aria-labelledby="bannerModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="bannerModalLabel"><%= item.bannerName %></h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><%= item.description %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="bannerModalUrl<%= i %>" tabindex="-1" aria-labelledby="bannerModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="bannerModalLabel"><%= item.bannerName %></h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><%= item.url %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <% i++ }) }else{ %>
+                      <%= "No Bannners Available" %>
+                  <% } %>
+                </tbody>
+                <tfoot class="fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0" style="min-width: 100px;">
+                      <h6 class="fw-semibold mb-0">Image</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Heading</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Product Url</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Desciption</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Position</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function deleteBanner(id, image) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await fetch('/admin/delete-banner', {
+              method: 'DELETE',
+              headers: {
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({ id, image })
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'success') {
+              Swal.fire(
+                'Deleted!',
+                'Banner has been deleted.',
+                'success'
+              )
+              // Refresh the page
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            } else {
+              Toastify({
+                text: result.msg,
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                }
+              }).showToast();
+            }
+          } catch (error) {
+            Toastify({
+                text: result.msg,
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                }
+              }).showToast();
+          }
+        }
+      })
+        
+    }
+  
+    async function changeStatus(orderId, status) {
+      try {
+        const response = await fetch("/admin/banner-status", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({orderId, status}),
+        });
+
+        const result = await response.json()
+        if(result.status === "success"){
+          Toastify({
+              text: result.msg,
+              className: "info",
+              style: {
+                  background: "linear-gradient(to right, #0b7303, #24c9a3)",
+              }
+              }).showToast();
+              setTimeout(() => {
+                location.reload()
+              }, 800);
+
+          
+        }else{
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
+        }
+        
+      } catch (error) {
+          Toastify({
+            text: error.message,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
+      }
+
+  }
+
+  async function changePosition(id, input){
+      const value = input.value
+      try {
+        const response = await fetch("/admin/banner-position", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({id, value}),
+        });
+
+        const result = await response.json()
+        if(result.status === "success"){
+          Toastify({
+              text: result.msg,
+              className: "info",
+              style: {
+                  background: "linear-gradient(to right, #0b7303, #24c9a3)",
+              }
+              }).showToast();
+              setTimeout(() => {
+                location.reload()
+              }, 800);
+
+          
+        }else{
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
+        }
+      } catch (error) {
+        
+      }
+    }
+  
+  </script>
+

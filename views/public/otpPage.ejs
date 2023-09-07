@@ -1,0 +1,150 @@
+
+<!-- include header -->
+<%- include('./includes/header') %>
+
+
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <div
+	class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+	<div class="d-flex align-items-center justify-content-center w-100">
+	  <div class="row justify-content-center w-100">
+		<div class="col-md-8 col-lg-6 col-xxl-3">
+		  <div class="card mb-0">
+			<div class="card-body">
+			  <h1 class="text-center pt-2">Verify</h1>
+			  <form class="login_form" method="POST" id="otpValidateForm">			
+				<div class="mb-3">
+					<label for="otp" id="otpLabel" class="form-label">OTP</label>
+					<input type="text" class="form-control border-secondary" id="otp" name="otp" placeholder="OTP">				
+				</div>
+				<button class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Verify OTP</button>
+				<p class="text-center" id="counter">60</p>
+				<div id="buttonContainer" class="text-center">
+					
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<script>
+	function counter(count) {
+		const counterElement = document.getElementById('counter');
+
+		if (count >= 0) {
+			counterElement.textContent = count;
+			setTimeout(function() {
+				counter(count - 1);
+			}, 1000);
+		} else {
+			// Resend OTP button
+			const button = document.createElement('button');
+			button.textContent = 'Resend OTP';
+			button.type = 'button'
+			button.className = 'btn border-0'; 
+
+			// Add a click event listener to the button
+			button.addEventListener('click', async () => {
+				button.innerHTML = "Resending OTP"
+				//resend otp
+				const mobileNumber = '<%= mobile %>'
+				const response = await fetch('/validateNumber', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ mobileNumber })
+				});
+			
+				const data = await response.json();
+				// alert(JSON.stringify(data)); 
+				if (data.status === 'success') { 
+					Toastify({
+						text: 'OTP Send',
+						className: "info",
+						style: {
+							background: "linear-gradient(to right, #0b7303, #24c9a3)",
+						}
+						}).showToast();
+				} else {
+					Toastify({
+						text: 'something went wrong',
+						className: "info",
+						style: {
+							background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+						}
+						}).showToast();
+				}
+			});
+
+			// Append the button to the container
+			counterElement.style.display = 'none';
+			const buttonContainer = document.getElementById('buttonContainer');
+			buttonContainer.appendChild(button);
+		}
+	}
+	window.onload = function(){
+		counter(60)
+	}
+
+
+	document.getElementById('otpValidateForm').addEventListener('submit', async (event) => {
+		event.preventDefault();
+		
+		const formData = new FormData(event.target);
+		const otp = formData.get('otp');
+		const mobileNumber = '<%= mobile %>'
+		
+		try {
+			const response = await fetch('/validateOtp', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ mobileNumber, otp })
+			});
+
+			const data = await response.json();
+			// alert(JSON.stringify(data)); 
+			const alertDiv = document.getElementById('alertResult');
+			
+			if (data.status === 'success') { 
+				Toastify({
+					text: data.msg,
+					className: "info",
+					style: {
+						background: "linear-gradient(to right, #0b7303, #24c9a3)",
+					}
+					}).showToast();
+				//page load
+				location.href = "/";
+			} else {
+				Toastify({
+					text: data.msg,
+					className: "info",
+					style: {
+						background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+					}
+					}).showToast();
+			}
+		}catch (error) {
+			Toastify({
+				text: data.msg,
+				className: "info",
+				style: {
+					background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+				}
+				}).showToast();
+		}
+	});
+
+</script>
+
+
+<script src="assets/js/validate.js"></script>
+<!-- include footer -->
+<%- include('./includes/footer') %>

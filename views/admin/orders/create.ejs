@@ -1,0 +1,67 @@
+<!--  Header End -->
+<div class="container-fluid"></div>
+    <div class="card">
+        <% if (locals.status === "success") { %>
+            <div class="alert alert-success" role="alert">
+                <%= locals.msg %>
+            </div>
+            <script>
+              setTimeout(()=>{
+                window.location.href = "http://127.0.0.1:3000/admin/category"; 
+              },800)
+            </script>
+        <% } if(locals.status === "error"){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= locals.msg %>
+            </div>
+            <script>
+            //   setTimeout(()=>{
+            //     window.location.href = "http://127.0.0.1:3000/admin/category"; 
+            //   },800)
+            // </script>
+        <% } %>
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4 float-start">Create Category</h5>
+            <button type="button" onclick="history.back(-1)" class="btn btn-outline-primary float-end">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 14l-4 -4l4 -4"></path>
+                    <path d="M5 10h11a4 4 0 1 1 0 8h-1"></path>
+                </svg>
+            </button>
+            <div class="card w-100">
+            <div class="card-body p-0">
+                <form action="/admin/savecategory" method="POST" onsubmit="return categoryValidate()">
+                    <div class="row">
+                        <div class="col-xl-6 text-dark">
+                          <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-dark" name="categoryName" id="categoryName" placeholder="category Name">
+                            <label for="categoryName" id="categoryLabel">category Name*</label>
+                          </div>
+                          <div class="gap-2 col-3 mx-auto d-flex justify-content-center text-center my-5">
+                              <!-- <button type="button" class="btn btn-danger float-start">Cancel</button>
+                              <button type="button" class="btn btn-primary gap-2">Reset</button> -->
+                              <button type="submit" class="btn btn-success float-end">Submit</button>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function categoryValidate(){
+        const categoryName = document.getElementsByName("categoryName")[0];
+        if (categoryName.value.trim() === "") {
+            const categoryLabel = document.getElementById("categoryLabel")
+            categoryLabel.innerHTML = "Category Required"
+            categoryLabel.style.color = "red"
+            categoryName.focus();
+            return false;
+        }
+        return true
+    }
+</script>

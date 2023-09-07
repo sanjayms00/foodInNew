@@ -1,0 +1,64 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .invoice-details {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .item-list {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .item-list th, .item-list td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Invoice</h1>
+    </div>
+    <div class="invoice-details">
+        <p>Order ID: <%= order._id %></p>
+        <p>Payment Method: <%= order.paymentMethod %></p>
+        <p>Date: <%= order.date %></p>
+        <!-- Add more order details here -->
+    </div>
+    <table class="item-list">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% order.items.forEach((item) => { %>
+            <tr>
+                <td><%= item.name %></td>
+                <td><%= item.quantity %></td>
+                <td>₹<%= item.price %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <div class="total">
+        Total: ₹<%= order.total %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<div class="col-lg-4">
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                alt="avatar" class="rounded-circle img-fluid" style="width: 70px;">
+            <h5 class="my-3"><%= userName ? userName : "user" %></h5>
+        </div>
+    </div>
+    <div class="card mb-4 mb-lg-0">
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+                <a href="/my-profile">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fas fa-globe fa-lg text-warning"></i>
+                        <p class="mb-0">My Profile</p>
+                    </li>
+                </a>
+                <a href="/address-book">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                        <p class="mb-0">Address Book</p>
+                    </li>
+                </a>
+                <a href="/orders">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                        <p class="mb-0 text-center">Orders</p>
+                    </li>
+                </a>
+                <a href="/track-order">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                        <p class="mb-0">Track Order</p>
+                    </li>
+                </a>
+                <a href="/wallet">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                        <p class="mb-0">Wallet</p>
+                    </li>
+                </a>
+                <a href="/logout">
+                    <li class="list-group-item d-flex align-items-center p-3">
+                        <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                        <p class="mb-0">Logout</p>
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>

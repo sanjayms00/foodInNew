@@ -1,0 +1,112 @@
+<!--  Header End -->
+<div class="container-fluid"></div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4 float-start">Create Coupon</h5>
+            <button type="button" onclick="history.back(-1)" class="btn btn-outline-primary float-end">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 14l-4 -4l4 -4"></path>
+                    <path d="M5 10h11a4 4 0 1 1 0 8h-1"></path>
+                </svg>
+            </button>
+            <div class="card w-100">
+            <div class="card-body p-0">
+                <form id="createcouponForm">
+                    <div class="row">
+                        <div class="col-xl-6 text-dark">
+                            <small>Generate or create your own coupon code</small>
+                            <div class="input-group form-floating mb-3">
+                                <input type="text" class="form-control border-dark" name="couponName" max="12" min="12" id="couponName" placeholder="coupon Name">
+                                <label for="couponName" id="couponLabel">Coupon Code*</label>
+                                <button class="btn btn-outline-danger" type="button" id="button-addon2" onclick="generateCoupon()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
+                                    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
+                                 </svg>
+                                </button>
+                            </div>
+                          <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-dark" name="discount" id="discount" placeholder="coupon Name">
+                            <label for="discount" id="discountLabel">Discount*</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-dark" name="minPurchase" id="minPurchase" placeholder="coupon Name">
+                            <label for="minPurchase" id="minPurchaseLabel">Minimum Purchase Amount*</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input type="text" class="form-control border-dark" name="maxAmount" id="maxAmount" placeholder="coupon Name">
+                            <label for="maxAmount" id="maxAmountLabel">Max Amount Limit*</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input type="date" class="form-control border-dark" name="validity" id="validity" placeholder="coupon Name">
+                            <label for="validity" id="validityLabel">validity*</label>
+                          </div>
+                          <div class="gap-2 col-md-12 mx-auto d-flex justify-content-center text-center my-5">
+                                <button type="reset" class="btn btn-primary gap-2">Reset</button>
+                                <button type="submit" class="btn btn-success float-end">Submit</button>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    //create coupon
+  document.getElementById('createcouponForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Check form validation
+    if (couponValidate()) {
+      const formData = new FormData(event.currentTarget);
+      const data = {
+        couponName : formData.get('couponName'),
+        discount : formData.get('discount'),
+        minPurchase : formData.get('minPurchase'),
+        maxAmount : formData.get('maxAmount'),
+        validity : formData.get('validity'),
+      }
+      try {
+        const response = await fetch("/admin/savecoupon", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #0b7303, #24c9a3)",
+            },
+          }).showToast();
+          setTimeout(() => {
+            location.href = '/admin/coupons';
+          }, 1000);
+        } else {
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            },
+          }).showToast();
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    }
+  });
+  
+</script>
+<script src="../assets/js/couponValidate.js"></script>

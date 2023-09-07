@@ -1,0 +1,265 @@
+<!--  Header End -->
+<div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4 float-start">Food</h5>
+        <a href="/admin/createFood"><button type="button" class="btn btn-primary float-end">Add Food</button></a>
+        <div class="card w-100">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped text-nowrap mb-0 align-middle text-center">
+                <thead class="fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0" style="min-width: 100px;">
+                      <h6 class="fw-semibold mb-0">Image</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Food Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Category</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Type</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Total Stoke</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Orginal Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Discount Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Desciption</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Ingredients</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  <% if(locals.data){ 
+                    let i = skip + 1;
+                    data.forEach((item)=>{
+                  %>
+                  <tr>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0"><%= i %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <% if(item.image){ %>
+                          <img src="/food/<%= item.image %>" class="img-fluid">
+                          <% }else{ %>
+                            <img src="/no-image.jpg" class="img-fluid">
+                        <% } %>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.foodName %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.category %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= (item.type === 1) ? "Veg" : "Non Veg" %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.totalStoke %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.orgPrice %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.discPrice %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#foodModal<%= i %>">
+                          <h6 class="fw-semibold mb-1">Description</h6>
+                        </button>
+                      </td>
+                      <td class="border-bottom-0">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#foodModalIngredients<%= i %>">
+                          <h6 class="fw-semibold mb-1">Ingredients</h6>
+                        </button>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">
+                          <% if (!item.status) { %>
+                              <button type="button" class="btn btn-danger w-100" onclick="changeStatus('<%= item._id %>', 'true')">Inactive</button>
+                          <% } else { %> 
+                              <button type="button" class="btn btn-success w-100" onclick="changeStatus('<%= item._id %>', 'false')">Active</button>
+                          <% } %>
+                          </h6>
+                      </td>
+                      <td class="border-bottom-0">
+                          <a href="/admin/editFood?id=<%= item._id %>"><button type="button" class="btn btn-primary w-100">Edit</button></a>
+                          <br><br>
+                          <a href="/admin/deleteFood?id=<%= item._id %>"><button type="button" class="btn btn-danger w-100" onclick="return confirm('Are you sure to Delete?')">Delete</button></a>
+                      </td>
+                  </tr>
+
+                  <div class="modal fade" id="foodModal<%= i %>" tabindex="-1" aria-labelledby="foodModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="foodModalLabel"><%= item.foodName %></h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><%= item.description %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="modal fade" id="foodModalIngredients<%= i %>" tabindex="-1" aria-labelledby="foodModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="foodModalLabel"><%= item.foodName %></h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><%= item.ingredients %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                  <% i++ }) }else{ %>
+                      <%= "No Products Available" %>
+                  <% } %>
+                </tbody>
+                <tfoot class="fs-4">
+                  <tr>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Id</h6>
+                    </th>
+                    <th class="border-bottom-0" style="min-width: 100px;">
+                      <h6 class="fw-semibold mb-0">Image</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Food Name</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Category</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Type</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Food Limit</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Orginal Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Discount Price</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Desciption</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Ingredients</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Status</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Action</h6>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+              <% if (totalSize > limit) { %>
+                <nav aria-label="Page navigation example mt-3">
+                    <ul class="pagination justify-content-center">
+                    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <a class="page-link" href="<%= currentPage > 1 ? '/admin/food?page=' + (currentPage - 1) : '#' %>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="/admin/food?page=<%= i %>"><%= i %></a>
+                        </li>
+                    <% } %>
+                    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                        <a class="page-link" href="<%= currentPage < totalPages ? '/admin/food?page=' + (currentPage + 1) : '#' %>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    </ul>
+                </nav>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  async function changeStatus(id, status){
+    try {
+      const response = await fetch('/admin/foodStatus', {
+        method: "PATCH", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id, status}),
+      })
+      
+      const data = await response.json();
+      if(data.status = 'success'){
+        Toastify({
+            text: data.msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #0b7303, #24c9a3)",
+            }
+        }).showToast();
+        setTimeout(()=>{
+            location.reload()
+        },800)
+      }
+      else{
+        Toastify({
+          text: data.msg,
+          className: "info",
+          style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+          }
+        }).showToast();
+      }
+    } catch (error) {
+      Toastify({
+        text: error.message,
+        className: "info",
+        style: {
+            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+        }
+      }).showToast();
+    }
+  }
+</script>

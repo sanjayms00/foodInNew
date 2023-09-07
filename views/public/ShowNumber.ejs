@@ -1,0 +1,87 @@
+
+<!-- include header -->
+<%- include('./includes/header') %>
+
+
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+  <div
+	class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+	<div class="d-flex align-items-center justify-content-center w-100">
+	  <div class="row justify-content-center w-100">
+		<div class="col-md-8 col-lg-6 col-xxl-3">
+		  <div class="card mb-0">
+			<div class="alert d-none" role="alert" id="alertResult">
+				<%= locals.msg %>
+			</div>
+			<div class="card-body">
+			  <h1 class="text-center">Verify Number</h1>
+			  <form class="login_form" method="post" id="mobileNumberValidateForm">
+				<div class="mb-3">
+					<label for="password" id="passwordLabel" class="form-label">Enter mobile number used to create account</label>
+					<input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number">				
+				</div>
+				<button class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Send OTP</button>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<script>
+	document.getElementById('mobileNumberValidateForm').addEventListener('submit', async (event) => {
+		event.preventDefault();
+		
+		const formData = new FormData(event.target);
+		const mobileNumber = formData.get('mobileNumber');
+		
+		try {
+			const response = await fetch('/validateNumber', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ mobileNumber })
+			});
+			
+			const data = await response.json();
+			// alert(JSON.stringify(data)); 
+			const alertDiv = document.getElementById('alertResult');
+			
+			if (data.status === 'success') { 
+				Toastify({
+					text: data.msg,
+					className: "info",
+					style: {
+						background: "linear-gradient(to right, #0b7303, #24c9a3)",
+					}
+					}).showToast();
+				//page load
+				window.location.href = `/verifyOtp?userMobileNumber=${mobileNumber}`;
+			} else {
+				Toastify({
+					text: data.msg,
+					className: "info",
+					style: {
+						background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+					}
+					}).showToast();
+			}
+		}catch (error) {
+			Toastify({
+				text: data.msg,
+				className: "info",
+				style: {
+					background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+				}
+				}).showToast();
+		}
+	});
+
+</script>
+
+<script src="assets/js/validate.js"></script>
+<!-- include footer -->
+<%- include('./includes/footer') %>

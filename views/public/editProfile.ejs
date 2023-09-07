@@ -1,0 +1,109 @@
+<!-- include header -->
+<%- include('./includes/header') %>
+
+    <section style="background-color: #eee;">
+        <div class="container profile-section">
+            <div class="row">
+                <%-include("./includes/profileLeft") %>
+                <div class="col-lg-8">
+                    <div class="card mb-4 profile-right">
+                        <div class="card-body">
+                            <div class="row py-3">
+                                <div class="col-sm-3">
+                                    <h3 class="mb-0">Basic info</h3>
+                                </div>
+                            </div>
+                            <hr>
+                            <br>
+                            <div class="alert d-none ml-5" role="alert" id="alertResult">
+                                <%= locals.msg %>
+                            </div>
+                            <form id="profileForm">
+                                <div class="form-floating mb-3">
+                                    <input type="hidden" class="form-control" id="userId" name="userId" value="<%= data._id %>">
+                                    <label for="floatingInput">user Id</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name" value="<%= data.firstName %>">
+                                    <label for="floatingInput">First Name</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name" value="<%= data.lastName %>">
+                                    <label for="floatingtext">Last Name</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="emailId" name="emailId" placeholder="Email"  value="<%= data.email %>" readonly>
+                                    <label for="floatingtext">email</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="<%= data.phone %>" readonly>
+                                    <label for="floatingPassword">Phone</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <button type="submit" class="btn btn-success float-end">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        document.getElementById('profileForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const userId = formData.get('userId');
+            const fName = formData.get('fName');
+            const lName = formData.get('lName');
+            const emailId = formData.get('emailId');
+            const phoneNumber = formData.get('phoneNumber');
+            // const message = `Food Name: ${foodname}\nFood ID: ${foodId}\nFood Type: ${foodType}\nPrice: ${price}`;
+            // alert(message);
+            try {
+                const response = await fetch('/update-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({fName, lName, emailId, phoneNumber, userId})
+                    });
+                    
+                    const data = await response.json();
+                    //alert(JSON.stringify(data)); 
+                    const alertDiv = document.getElementById('alertResult');
+                    
+                    if (data.status === 'success') { 
+                        alertDiv.classList.remove('alert-danger');
+                        alertDiv.classList.add('alert-success');
+                        alertDiv.classList.remove('d-none');
+                        alertDiv.innerText = data.msg;
+                        
+                        setTimeout(()=>{
+                            window.location = "http://localhost:3000/my-profile"
+                        },1000)
+                    } else {
+                        alertDiv.classList.remove('alert-success');
+                        alertDiv.classList.add('alert-danger');
+                        alertDiv.classList.remove('d-none');
+                        alertDiv.innerText = data.msg;
+                    }
+                
+            }catch (error) {
+                const alertDiv = document.getElementById('alertResult')
+                alertDiv.classList.add("alert-danger")
+                alertDiv.classList.remove("d-none")
+                alertDiv.innerText = 'An error occurred. Please try again later.';
+            }
+        });
+    
+    </script>
+
+
+
+
+<!-- include footer -->
+<%- include('./includes/footer') %>

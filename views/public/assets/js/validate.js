@@ -1,3 +1,4 @@
+//validate the sign up credentials
 function validateSignup() {
     const firstName = document.getElementsByName("firstName")[0];
     const lastName = document.getElementsByName("lastName")[0];
@@ -5,166 +6,140 @@ function validateSignup() {
     const mobile = document.getElementsByName("mobileNumber")[0];
     const signupPassword = document.getElementsByName("signupPassword")[0];
     const confirmPassword = document.getElementsByName("confirmPassword")[0];
-
-    if (firstName.value.trim() === "") {
-        const firstNameLabel = document.getElementById("firstNameLabel")
-        firstNameLabel.innerHTML = "first name Required"
-        firstNameLabel.style.color = "red"
-        firstName.focus();
-        return false;
-    }
-    if (lastName.value.trim() === "") {
-        const lastNameLabel = document.getElementById("lastNameLabel")
-        lastNameLabel.innerHTML = "Last name Required"
-        lastNameLabel.style.color = "red"
-        lastName.focus();
-        return false;
-    }
-    if (emailId.value.trim() === "") {
-        const emailLabel = document.getElementById("emailLabel")
-        emailLabel.innerHTML = "Email Id Required"
-        emailLabel.style.color = "red"
-        emailId.focus();
-        return false;
-    }
+    let msg = ""
+    let status = true
+    let field = null
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailId.value)) {
-        const emailIdLabel = document.getElementById("emailLabel")
-        emailIdLabel.innerHTML = "Please enter a valid email address"
-        emailIdLabel.style.color = "red"
-        emailId.focus();
-        return false;
-    }
     const mobilePattern = /^\d{10}$/;
-    if (!mobilePattern.test(mobile.value)) {
-        const mobileLabel = document.getElementById("mobileLabel")
-        mobileLabel.innerHTML = "Please enter a valid 10-digit mobile number."
-        mobileLabel.style.color = "red"
-        mobile.focus();
-        return false;
-    }
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    if (!passwordPattern.test(signupPassword.value)) {
-        const passowrdLabel = document.getElementById("passwordLabel")
-        passowrdLabel.innerHTML = "Please use a Strong Password."
-        passowrdLabel.style.color = "red"
-        signupPassword.focus();
-        return false;
+    if (firstName.value.trim() === "") {
+        status = false
+        msg = "first name Required"
+        field = firstName
     }
-    if (signupPassword.value.length < 6) {
-        const passowrdLabel = document.getElementById("passwordLabel")
-        passowrdLabel.innerHTML = "Password should be at least 6 characters long."
-        passowrdLabel.style.color = "red"
-        signupPassword.focus();
-        return false;
+    else if (lastName.value.trim() === "") {
+        status = false
+        msg = "first name Required"
+        field = lastName
     }
-    if(signupPassword.value !== confirmPassword.value){
-        const confirmPasswordLabel = document.getElementById("confirmPasswordLabel")
-        confirmPasswordLabel.innerHTML = "Password not match"
-        confirmPasswordLabel.style.color = "red"
-        confirmPassword.focus();
-        return false;
+    else if (emailId.value.trim() === "") {
+        status = false
+        msg = "Email Id Required"
+        field = emailId
     }
-    return true;
+    else if (!emailPattern.test(emailId.value)) {
+        status = false
+        msg = "Please enter a valid email address"
+        field = emailId
+    }
+    else if (!mobilePattern.test(mobile.value)) {
+        status = false
+        msg = "Please enter a valid 10-digit mobile number."
+        field = mobile
+    }
+    else if (!passwordPattern.test(signupPassword.value)) {
+        status = false
+        msg = "Please use a Strong Password."
+        field = signupPassword
+    }
+    else if (signupPassword.value.length < 6) {
+        status = false
+        msg = "Password should be at least 6 characters long."
+        field = signupPassword
+    }
+    else if(signupPassword.value !== confirmPassword.value){
+        status = false
+        msg = "Password not match"
+        field = confirmPassword
+    }
+    
+    if(status)
+    {
+        return true;
+    }
+    else{
+        Toastify({
+            text: msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
+        // field.style.borderColor  = "red"
+        field.focus();
+        return false
+    }
 }
 
+//validate the login credentials
 function validateLogin() {
-    const emailId = document.getElementsByName("emailId")[0];
-    const loginPassword = document.getElementsByName("loginPassword")[0];
-    
-    if (emailId.value.trim() === "") {
-        const emailLabel = document.getElementById("emailLabel")
-        emailLabel.innerHTML = "Email Id Required"
-        emailLabel.style.color = "red"
-        emailId.focus();
-        return false;
-    }
+    const emailId = document.getElementById("emailId");
+    const loginPassword = document.getElementById("loginPassword");
+    let msg = ""
+    let status = true
+    let field = null
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailId.value)) {
-        const emailIdLabel = document.getElementById("emailLabel")
-        emailIdLabel.innerHTML = "Please enter a valid email address"
-        emailIdLabel.style.color = "red"
-        emailId.focus();
-        return false;
+    if (emailId.value.trim() === "") {
+        status = false
+        msg = "Email Id Required"
+        field = emailId
     }
-    if (loginPassword.value.trim() === "") {
-        const passowrdLabel = document.getElementById("passwordLabel")
-        passowrdLabel.innerHTML = "Password Required"
-        passowrdLabel.style.color = "red"
-        loginPassword.focus();
-        return false;
+    else if (!emailPattern.test(emailId.value)) {
+        status = false
+        msg = "Please enter a valid email address"
+        field = emailId
     }
-    return true;
+    else if (loginPassword.value.trim() === "") {
+        status = false
+        msg = "Password Required"
+        field = loginPassword
+    }
+    if(status)
+    {
+        return true;
+    }
+    else{
+        Toastify({
+            text: msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
+        // field.style.borderColor  = "red"
+        field.focus();
+        return false
+    }
 }
 
+//validate mobile Number
 function validateMobileNumber() {
-    const mobileNumber = document.getElementsByName("mobileNumber")[0];
-    
+    const mobileNumber = document.getElementById("mobileNumber");
+    let msg = ""
+    let status = true
+    let field = null
     if (mobileNumber.value.trim() === "") {
-        const mobileNumberLabel = document.getElementById("mobileNumberLabel")
-        mobileNumberLabel.innerHTML = "Mobile Number Required"
-        mobileNumberLabel.style.color = "red"
-        mobileNumber.focus();
-        return false;
+        status = false
+        msg = "Mobile Number Required"
+        field = mobileNumber
     }
-    
-    
-    return true;
+    if(status)
+    {
+        return true;
+    }
+    else{
+        Toastify({
+            text: msg,
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
+        // field.style.borderColor  = "red"
+        field.focus();
+        return false
+    }
 }
-
-//normal login
-document.getElementById('loginForm').addEventListener('submit', async (event)=>{
-    event.preventDefault();
-
-    if(validateLogin()){
-        
-        const form = document.getElementById('loginForm');
-        const formData = new FormData(form);
-
-        const emailId = formData.get('emailId');
-        const loginPassword = formData.get('loginPassword');
-
-        const data ={
-            emailId,
-            loginPassword
-        }
-        try {
-            
-        } catch (error) {
-            
-        }
-        const response = await fetch("/loginAuthenticate", {
-        method: "POST", // or 'PUT'
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-        if(result.status === "success"){
-            Toastify({
-                text: result.msg,
-                className: "info",
-                style: {
-                    background: "linear-gradient(to right, #0b7303, #24c9a3)",
-                }
-                }).showToast();
-            setTimeout(() => {
-                window.location.href = "/"
-            }, 800);
-        }else{
-            Toastify({
-                text: result.msg,
-                className: "info",
-                style: {
-                    background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-                }
-                }).showToast();
-        }
-    }
-
-})
 
 //otp login
 document.getElementById('mobileNumberValidateForm').addEventListener('submit', async (event) => {
@@ -218,4 +193,46 @@ document.getElementById('mobileNumberValidateForm').addEventListener('submit', a
     
 });
 
+
+// js validator for all fields , bootrsap validator
+function checkForm() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        }, false)
+    })
+}
+
+
+
+
+//only accept numbers
+function validateNumber(input) {
+    const inputValue = input.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    const maxLength = 10; // Define the maximum length
+
+    if (inputValue.length > maxLength) {
+        input.value = inputValue.slice(0, maxLength); // Truncate to 10 digits
+    } else {
+        input.value = inputValue; // Keep the input as is
+    }
+
+    const mobileNumberError = document.getElementById('mobileNumberLabel');
+    if (input.value.length !== maxLength) {
+        mobileNumberError.textContent = 'Mobile number must be 10 digits long';
+    } else {
+        mobileNumberError.textContent = '';
+    }
+}
 

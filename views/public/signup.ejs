@@ -1,67 +1,154 @@
 <!-- include header -->
 <%- include('./includes/header') %>
 
-    
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-            <div class="d-flex align-items-center justify-content-center w-100">
-                <div class="row justify-content-center w-100 padd-top">
-                    <div class="col-md-8 col-lg-6 col-xxl-3">
-                        <% if (locals.status === "success") { %>
-                            <div class="alert alert-success" role="alert">
-                                <%= locals.msg %>
-                                <p>Login</p>
-                            </div>
-                            <script>
-                                setTimeout(()=>{
-                                  window.location.href = "http://127.0.0.1:3000/login"; 
-                                },800)
-                            </script>
-                        <% } if(locals.status === "error"){ %>
-                            <div class="alert alert-danger" role="alert">
-                                <%= locals.msg %>
-                            </div>
-                        <% } %>
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <h1 class="text-center">Signup</h1>
-                                <form class="login_form" action="/signupAuthenticate" method="post" id="signupForm" onsubmit="return validateSignup()">
-                                <div class="mb-2">
-                                    <label for="firstName" id="firstNameLabel" class="form-label">First Name</label>
-                                    <input type="text" class="form-control m-0" id="firstName" name="firstName" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'">				
-                                </div>
-                                <div class="mb-2">
-                                    <label for="lastName" id="lastNameLabel" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control m-0" id="lastName" name="lastName" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'">				
-                                </div>
-                                <div class="mb-2">
-                                    <label for="Email" id="emailLabel" class="form-label">Email Id</label>
-                                    <input type="email" class="form-control m-0" id="emailId" name="emailId" placeholder="Email Id" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Id'">				
-                                </div>
-                                <div class="mb-2">
-                                    <label for="mobile" id="mobileLabel" class="form-label">Mobile</label>
-                                    <input type="text" class="form-control m-0" id="mobileNumber" name="mobileNumber" placeholder="mobile" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mobile'">				
-                                </div>
-                                <div class="mb-2">
-                                    <label for="password" id="passwordLabel" class="form-label">Password</label>
-                                    <input type="password" class="form-control m-0" id="signupPassword" name="signupPassword" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">				
-                                </div>
-                                <div class="mb-2">
-                                    <label for="confirmPassword" id="confirmPasswordLabel" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control m-0" id="confirmPassword" name="confirmPassword" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">				
-                                </div>
-                                <button class="btn btn-warning w-100 py-8 fs-4 mb-4 rounded-2">Submit</button>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <a href="/login" class="fw-bold">login</a>
-                                </div>
-                                </form>
+    <div class="container-fluid padd-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-12 signup-width">
+                    <h2 class="text-center">Sign Up</h2>
+                    <hr>
+                    <form class="row g-3 needs-validation" novalidate id="signupForm">
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">First Name</label>
+                            <input type="text" class="form-control " id="validationCustom02" name="firstName" id="firstName" required>
+                            <div class="invalid-feedback" id="firstNameLabel">
+                              Please provide first Name.
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                            <label for="validationCustom03" class="form-label">Last Name</label>
+                            <input type="text" class="form-control " id="validationCustom03" name="lastName" id="lastName" required>
+                            <div class="invalid-feedback" id="lastNameLabel">
+                                Please provide Last Name.
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                          <label for="validationCustomUsername" class="form-label">Email Id</label>
+                          <div class="input-group has-validation">
+                            <input type="email" class="form-control " id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="emailId" id="emailId" required>
+                            <div class="invalid-feedback" id="emailLabel">
+                              Please provide Email Id.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <label for="validationCustom03" class="form-label">Mobile Number</label>
+                          <input type="text" class="form-control " id="validationCustom03" name="mobileNumber" id="mobileNumber" required oninput="validateNumber(this)">
+                          <div class="invalid-feedback" id="mobileLabel">
+                            Please provide Mobile Number.
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom05" class="form-label">Password</label>
+                            <input type="password" class="form-control " id="validationCustom05" name="signupPassword" id="signupPassword" required>
+                            <div class="invalid-feedback" id="passwordLabel">
+                                Please provide Password.
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label for="validationCustom06" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control " id="validationCustom06" name="confirmPassword" id="confirmPassword" required>
+                                <button class="btn btn-primary" type="button" id="showConfirmPasswordButton">
+                                    <i class="bi bi-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback" id="confirmPasswordLabel">
+                                Please provide confirm Password.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                          <button class="btn btn-primary" type="submit">Submit form</button>
+                        </div>
+                      </form>
                 </div>
             </div>
         </div>
     </div>
-<script src="assets/js/validate.js"></script>
+
+    <script src="assets/js/validate.js"></script>
+    <script>
+        // eye button implementation
+        var confirmPasswordInput = document.getElementById('validationCustom06');
+        var showConfirmPasswordButton = document.getElementById('showConfirmPasswordButton');
+
+        showConfirmPasswordButton.addEventListener('click', function () {
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+            } else {
+                confirmPasswordInput.type = 'password';
+            }
+        });
+
+        //normal signup
+        document.getElementById('signupForm').addEventListener('submit', async (event)=>{
+            event.preventDefault();
+            checkForm()
+            if(validateSignup()){
+                alert("in")
+                const form = document.getElementById('signupForm');
+                const formData = new FormData(form);
+
+                const firstName = formData.get('firstName');
+                const lastName = formData.get('lastName');
+                const emailId = formData.get('emailId');
+                const mobileNumber = formData.get('mobileNumber');
+                const signupPassword = formData.get('signupPassword');
+                const confirmPassword = formData.get('confirmPassword');
+
+                const data ={
+                    firstName,
+                    lastName,
+                    emailId,
+                    mobileNumber,
+                    signupPassword,
+                    confirmPassword
+                }
+                alert(JSON.stringify(data))
+                try {
+                    const response = await fetch("/signupAuthenticate", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                        });
+                
+                        const result = await response.json();
+                        if(result.status === "success"){
+                            Toastify({
+                                text: result.msg,
+                                className: "info",
+                                style: {
+                                    background: "linear-gradient(to right, #0b7303, #24c9a3)",
+                                }
+                                }).showToast();
+                            setTimeout(() => {
+                                window.location.href = "/login"
+                            }, 800);
+                        }else{
+                            Toastify({
+                                text: result.msg,
+                                className: "info",
+                                style: {
+                                    background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                                }
+                                }).showToast();
+                        }
+                } catch (error) {
+                    Toastify({
+                        text: error.message,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                        }
+                    }).showToast();
+                }
+            }
+
+        })
+    </script>
+
 <!-- include footer -->
 <%- include('./includes/footer') %>

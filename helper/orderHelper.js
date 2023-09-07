@@ -82,6 +82,7 @@ const makeOrder = (data) => {
             discountedPrice : data.discountedPrice ? data.discountedPrice : '',
             couponCode : data.couponCode ? data.couponCode : '',
             walletAmount : data.walletAmount ? data.walletAmount : '',
+            rated : false
         }
         const orderData = new Orders(orderDetails);
         //save the order

@@ -31,7 +31,8 @@ const orderController = require("../../controller/public/orderController")
 const cartController = require("../../controller/public/cartContoller")
 const checkoutController = require("../../controller/public/checkoutController")
 const walletController = require("../../controller/public/walletController")
-const wishlistController = require("../../controller/public/wishlistController")
+const wishlistController = require("../../controller/public/wishlistController") 
+const ratingController = require("../../controller/public/ratingController") 
 
 //include middleware
 const userMiddleWare = require("../../middleware/public/userMiddleware")
@@ -116,9 +117,8 @@ publicRoute.get("/failed",userMiddleWare.isBlocked, checkoutController.failed)
 //invoice route
 publicRoute.get("/generate-pdf/:orderId",userMiddleWare.isBlocked, orderController.downloadInvoice)
 
-
-
-
+//rating route
+publicRoute.put("/rate-order",userMiddleWare.isBlocked, ratingController.rate)
 
 
 

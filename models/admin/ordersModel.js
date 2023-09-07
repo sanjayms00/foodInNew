@@ -62,6 +62,10 @@ const orderSchema = new Schema({
     walletAmount: {
         type : Number,
     },
+    rated : {
+        type : Boolean,
+        required : true
+    },
     subTotal: {
         default: 0,
         type: Number,

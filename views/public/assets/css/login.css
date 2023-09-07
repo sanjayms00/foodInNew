@@ -38,6 +38,7 @@
   z-index: -999;
 }
 
+
 #slideBox {
   width: 50%;
   max-height: 100%;
@@ -72,11 +73,11 @@
 }
 
 .content {
-  width: 250px;
+  width: 373px;
   margin: 0 auto;
-  top: 28%;
+  top: 27%;
   position: absolute;
-  left: 50%;
+  left: 44%;
   margin-left: -125px;
 }
 
@@ -133,6 +134,5 @@
   font-size: 14px;
   color: #959595;
   padding: 8px 0;
-  margin-top: 20px;
 }
 

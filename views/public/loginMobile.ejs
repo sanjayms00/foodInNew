@@ -1,4 +1,7 @@
     <%- include('./includes/header') %>
+
+
+
     <div class="container-fluid p-0 login-mobile">
         <div class="row">
             <div class="col-md-12">
@@ -6,19 +9,15 @@
                     <div class="backRight"></div>
                     <div class="backLeft"></div>
                 </div>
-            
                 <div id="slideBox">
                     <div class="topLayer">
                         <div class="left">
                             <div class="content">
                                 <h2>OTP Login</h2>
-                                <form class="row g-3 mobile-validation" id="mobileNumberValidateForm">
+                                <form class="row g-3" id="mobileNumberValidateForm">
                                     <div class="col-md-12">
-                                        <label for="validationCustom05" class="form-label">Email Id</label>
-                                        <input type="text" class="form-control" id="validationCustom05" name="mobileNumber" placeholder="Mobile Number" oninput="validateNumber(this)">
-                                        <div class="invalid-feedback" id="mobileNumberLabel">
-                                          Mobile Number Required!
-                                        </div>
+                                        <label for="validationCustom" class="form-label">Email Id</label>
+                                        <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number" oninput="validateNumber(this)">
                                     </div>
                                     <div class="col-12">
                                         <button id="mobilelogin" class="w-100" type="submit">Login</button>
@@ -27,24 +26,27 @@
                                 <button id="goLeft" class="mt-0 w-100">Login >>></button>
                             </div>
                         </div>
+
                         <div class="right">
                             <div class="content">
                                 <h2>Login</h2>
-                                <form class="row g-3 needs-validation" novalidate id="loginForm">
-                                    <div class="col-md-12">
-                                        <label for="validationCustom05" class="form-label">Email Id</label>
-                                        <input type="email" class="form-control mt-0" id="validationCustom05" name="emailId" required>
-                                        <div class="invalid-feedback" id="emailLabel">
-                                          Email id Required!
+                                <form class="row g-3" novalidate id="loginForm">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Email Id</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control px-2" id="emailId" name="emailId" required>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-12">
-                                        <label for="validationCustom04" class="form-label">Password</label>
-                                        <input type="password" class="form-control mt-0" id="validationCustom04" name="loginPassword" required>
-                                        <div class="invalid-feedback" id="passwordLabel">
-                                          Password Required
+                                        <label class="form-label">Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control px-2" id="loginPassword" name="loginPassword" required>
+                                            <button class="btn btn-secondary m-0 rounded-right" type="button" id="showPasswordButton">
+                                                <i class="bi bi-eye" aria-hidden="true"></i>
+                                            </button>
                                         </div>
-                                      </div>
+                                    </div>
                                     <div class="col-12">
                                         <button id="login" class="w-100" type="submit">Login</button>
                                     </div>
@@ -64,46 +66,70 @@
 
 
     <script>
-        (function () {
-        'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation, .mobile-validation')
-            
-            // Loop over them and prevent submission
-            var loginForm = document.querySelector('.needs-validation');
-            loginForm.addEventListener('submit', function (event) {
-                if (!loginForm.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                loginForm.classList.add('was-validated');
-            });
-
-            var mobileOTPForm = document.querySelector('.mobile-validation');
-            mobileOTPForm.addEventListener('submit', function (event) {
-                if (!mobileOTPForm.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                alert(mobileOTPForm.classList)
-                mobileOTPForm.classList.add('was-validated');
-            });
-
-        })()
-
-        function validateNumber(input) {
-            const mobileNumber = input.value.trim();
-            const mobileNumberLabel = document.getElementById("mobileNumberLabel");
-
-            if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
-                mobileNumberLabel.style.display = "block"; // Show the error message
-                input.classList.add("is-invalid"); // Add Bootstrap's 'is-invalid' class
+        var passwordInput = document.getElementById('validationCustom04');
+        var showPasswordButton = document.getElementById('showPasswordButton');
+    
+        showPasswordButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
             } else {
-                mobileNumberLabel.style.display = "none"; // Hide the error message
-                input.classList.remove("is-invalid"); // Remove Bootstrap's 'is-invalid' class
+                passwordInput.type = 'password';
             }
-        }
+        });
+
+        //normal login
+        document.getElementById('loginForm').addEventListener('submit', async (event)=>{
+            event.preventDefault();
+            if(validateLogin()){
+                
+                const form = document.getElementById('loginForm');
+                const formData = new FormData(form);
+
+                const emailId = formData.get('emailId');
+                const loginPassword = formData.get('loginPassword');
+
+                const data ={
+                    emailId,
+                    loginPassword
+                }
+                try {
+                    
+                } catch (error) {
+                    
+                }
+                const response = await fetch("/loginAuthenticate", {
+                method: "POST", // or 'PUT'
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                if(result.status === "success"){
+                    Toastify({
+                        text: result.msg,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #0b7303, #24c9a3)",
+                        }
+                        }).showToast();
+                    setTimeout(() => {
+                        window.location.href = "/"
+                    }, 800);
+                }else{
+                    Toastify({
+                        text: result.msg,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                        }
+                        }).showToast();
+                }
+            }
+
+        })
+
     </script>
     <script src="assets/js/validate.js"></script>
     <%- include('./includes/footer') %>

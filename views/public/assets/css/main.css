@@ -18,6 +18,17 @@ body {
   display: none;
 }
 
+.button-color{
+  background-color: #03A9F4;
+  color: white;
+}
+
+.button-color:hover{
+  background-color: #0086c5;
+  color: white;
+}
+
+
 a {
   color: var(--color-links);
   text-decoration: none;
@@ -25,7 +36,10 @@ a {
 .padd-top{
   padding: 130px 0 70px 0;
 }
-
+.signup-width{
+  width: 50%;
+  margin: 0 auto;
+}
 .header-color {
   background-color: #001a4a;
 }

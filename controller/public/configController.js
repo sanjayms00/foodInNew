@@ -277,60 +277,37 @@ const signup = async (req, res) => {
 //signup authenticate
 const signupAuthenticate = async (req, res) => {
     try {
+        console.log(req.body);
         const { firstName, lastName, emailId, mobileNumber, signupPassword, confirmPassword } = req.body
-        //validate all fields
-        if (!firstName) {
-            return res.status(400).render("public/signup", {status : "error", msg : "first name Required"});
-        } 
-        else if(!lastName){
-            return res.status(400).render("public/signup", {status : "error", msg : "Last name Required"});
-        }
-        else if(!emailId){
-            return res.status(400).render("public/signup", {status : "error", msg : "Email Required"});
-        }
-        else if(!mobileNumber){
-            return res.status(400).render("public/signup", {status : "error", msg : "Mobile Number Required"});
-        }
-        else if(!signupPassword){
-            return res.status(400).render("public/signup", {status : "error", msg : "Password Required"});
-        }
-        else if(!confirmPassword){
-            return res.status(400).render("public/signup", {status : "error", msg : "Confirm Password Required"});
-        }
-        else 
-        {
-            const checkUser = await Users.findOne({$or : [{email : emailId}, {phone : mobileNumber}]})
-            if(checkUser){
-                return res.status(409).render("public/signup", { status : "error", msg : "User already exist, login to your account" });
-            }else{
-                if (signupPassword === confirmPassword) {
-                    const strongPassword = await bcrypt.hash(signupPassword, 12)
-                    const newUser = new Users({
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: emailId,
-                        phone: mobileNumber,
-                        password: strongPassword,
-                        isVarified: false,
-                        blocked : false,
-                        wallet : 0
-                    })
-                    await newUser.save()
-                    .then(() => {
-                        // req.session.isAuth = true
-                        res.status(200).render("public/signup", {status : "success", msg : "Registation SuccessFull"})
-                    }).catch((err) => {
-                        console.log(err.message)
-                        res.status(500).render("public/signup", {status : "error", msg : "Can't resgister at the moment"})
-                    })
-                } else {
-                    return res.status(400).render("public/signup", {status : "error", msg : "Password does not match"});
-                }
+        //check the user exist or not
+        const checkUser = await Users.findOne({$or : [{email : emailId}, {phone : mobileNumber}]})
+        if(checkUser){
+            return res.status(409).json({ status : "error", msg : "User already exist, login to your account"});
+        }else{
+            if (signupPassword === confirmPassword) {
+                const strongPassword = await bcrypt.hash(signupPassword, 12)
+                const newUser = new Users({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: emailId,
+                    phone: mobileNumber,
+                    password: strongPassword,
+                    isVarified: false,
+                    blocked : false,
+                    wallet : 0
+                })
+                await newUser.save()
+                .then(() => {
+                    res.status(200).json({status : "success", msg : "Registation SuccessFull"})
+                })
+            } else {
+                return res.status(400).render({status : "error", msg : "Password does not match"});
             }
         }
+       
     } catch (error) {
         console.log(error.message)
-        res.status(500).render("public/signup", {status : "error", msg : "internal server error"})
+        res.status(500).json({status : "error", msg : "internal server error"})
     }
 }
 

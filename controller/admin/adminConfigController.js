@@ -52,7 +52,8 @@ const logout  = (req,res) => {
             if(err){
                 console.error('Error destroying session:', err);
             }else{
-                res.render("admin/adminLogin", {layout : false, status : "success" , msg : "Logout successfull"})
+                res.redirect('/admin/login')
+                //res.render("admin/adminLogin.ejs", {layout : false, status : "success" , msg : "Logout successfull"})
                 // res.render("admin/adminlogin",{layout : false})
             }
         })

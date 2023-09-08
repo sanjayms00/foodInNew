@@ -9,7 +9,7 @@ const admin = (req,res) => {
             res.redirect("/admin/login")
         }
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
@@ -23,7 +23,7 @@ const login = (req,res) => {
         }
         
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
@@ -42,7 +42,7 @@ const auth = async(req,res) => {
         req.session.adminUser = true;
         res.redirect("/admin/dashboard")
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
@@ -53,10 +53,11 @@ const logout  = (req,res) => {
                 console.error('Error destroying session:', err);
             }else{
                 res.render("admin/adminLogin", {layout : false, status : "success" , msg : "Logout successfull"})
+                // res.render("admin/adminlogin",{layout : false})
             }
         })
     } catch (error) {
-        
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 

@@ -89,7 +89,8 @@ const saveFood = async (req, res) => {
         description: foodDescription,
         ingredients: foodIngredients,
         status: true,
-        createdAt: new Date()
+        createdAt: new Date(),
+        rating : []
       });
   
       const saveData = await newFood.save();

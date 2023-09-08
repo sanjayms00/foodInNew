@@ -66,28 +66,59 @@ const showAllFoods = async (req, res) =>{
         }
         else if(req.query.category){
             let category = req.query.category
-            console.log(category)
             query.category = category
         }
-        console.log(query)
+        else if(req.query.rating){
+            var rating = parseInt( req.query.rating)
+            query.rating = rating
+        }
+        
         const limit = 8
 
         const skip = (page - 1) * limit
-        
+        console.log(query)
         const totalSize = await Food.find({status : true}).count()
         const totalPages = Math.ceil(totalSize / limit)
         //main query for pagination
-        const foodData =  Food.find(query).sort(sortCriteria).skip(skip).limit(limit)
+        if(!req.query.rating){
+            var foodData =  Food.find(query).sort(sortCriteria).skip(skip).limit(limit)
+        }  
+        else{
+            var foodData = Food.aggregate([
+                { $unwind: '$rating' },
+                {
+                    $match: {
+                      'rating.value': rating, // Match the specific rating
+                    },
+                },
+                {
+                    $group: {
+                    _id: '$_id',
+                    foodData: { $first: '$$ROOT' },
+                    },
+                },
+                {
+                    $addFields: {
+                    averageRating: '$averageRating', // Add averageRating to the root level
+                    },
+                },
+                { $replaceRoot: { newRoot: '$foodData' } }, 
+              ]);
+              
+        }
+
         const categories =  categoryController.categoryData()
         Promise.all([foodData, categories])
         .then((values) => {
-            
+            console.log(values[0])
             res.status(200).render("public/allFoods", {food : values[0], categories : values[1], currentPage : page, totalPages, totalSize,  limit, query: req.query } )
         })
         .catch((err)=>{
+            // console.log(err.message)
             res.status(500).render("public/errorPage", {status : "error", msg : "Issue loading the page"})
         });
     } catch (error) {
+        
         res.status(500).render("public/errorPage", {status : "error", msg : "Unable to show food"})
     }
 }

@@ -1,51 +1,28 @@
 <%- include("includes/header") %>
 
+
 <style>
-    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+/* Initial star color */
+.bi-star-fill {
+    color: gray;
+}
 
-    fieldset, label { margin: 0; padding: 0; }
-    body{ margin: 20px; }
-    h1 { font-size: 1.5em; margin: 10px; }
-
-
-    /****** Style Star Rating Widget *****/
-
-    .rating { 
-    border: none;
-    float: left;
+/* Define a blinking animation */
+@keyframes blink {
+    0%, 100% {
+        color: yellow;
     }
-
-    .rating > input { display: none; } 
-    .rating > label:before { 
-    margin: 5px;
-    font-size: 1.25em;
-    font-family: FontAwesome;
-    display: inline-block;
-    content: "\f005";
+    50% {
+        color: gray;
     }
+}
 
-    .rating > .half:before { 
-    content: "\f089";
-    position: absolute;
-    }
-
-    .rating > label { 
-    color: #ddd; 
-    float: right; 
-    }
-
-    /***** CSS Magic to Highlight Stars on Hover *****/
-
-    .rating > input:checked ~ label, /* show gold star when clicked */
-    .rating:not(:checked) > label:hover, /* hover current star */
-    .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
-
-    .rating > input:checked + label:hover, /* hover current star when changing rating */
-    .rating > input:checked ~ label:hover,
-    .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
-    .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+/* Apply the animation on hover and to previous stars */
+.bi-star-fill:hover,
+.bi-star-fill:hover ~ a .bi-star-fill {
+    animation: blink 1s infinite; /* Blinking animation */
+}
 </style>
-
 
     <div class="container padd-top">
         <div class="row">
@@ -61,8 +38,6 @@
                                 </h2>
                                 <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
-                                        
-                                            
                                             <div class="form-check">
                                                 <label class="form-check-label" for="lowToHigh">
                                                     <p>
@@ -177,15 +152,12 @@
                                 </div>
                             </div>
                             <div class="px-4 py-3">
-                                <fieldset class="rating pb-2">
-                                    <input type="radio" onclick="filter(this)" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-                                    <input type="radio" onclick="filter(this)" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-                                    <input type="radio" onclick="filter(this)" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-                                    <input type="radio" onclick="filter(this)" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-                                    <input type="radio" onclick="filter(this)" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-                                </fieldset>
-                            </div>
-                            
+                                <a href="/foods?page=1&rating=1"><i class="bi bi-star-fill px-2"></i></a>
+                                <a href="/foods?page=1&rating=2"><i class="bi bi-star-fill px-2"></i></a>
+                                <a href="/foods?page=1&rating=3"><i class="bi bi-star-fill px-2"></i></a>
+                                <a href="/foods?page=1&rating=4"><i class="bi bi-star-fill px-2"></i></a>
+                                <a href="/foods?page=1&rating=5"><i class="bi bi-star-fill px-2"></i></a>
+                            </div>               
                         </div>
                     </article>
                 </div> 
@@ -260,12 +232,22 @@
     <% return Object.keys(query).map(key => key + '=' + encodeURIComponent(query[key])).join('&'); %>
     <% } %>
 
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll(".bi-star-fill");
 
-<script>
-    function filter(btn, id){
-        alert(btn.value)
-    }
-</script>
+    stars.forEach((star) => {
+        star.addEventListener("click", function () {
+            stars.forEach((s) => s.classList.remove("selected"));
+            this.classList.add("selected");
+        });
+    });
+});
+    
+    </script>
+
+
 
 <script src="../assets/js/cart.js"></script>
 

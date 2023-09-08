@@ -1,6 +1,30 @@
 <!-- include header -->
 <%- include('./includes/header') %>
 
+<style>
+    .float-end {
+        text-align: right;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    label {
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    label:before {
+        content: '\2605'; /* Unicode star character */
+        color: #f7d63c; /* Star color */
+    }
+
+    input[type="radio"]:checked + label:before {
+        color: #ffac00; /* Checked star color */
+    }
+
+</style>
 
     <section style="background-color: #eee;">
         <div class="container profile-section">
@@ -40,7 +64,7 @@
                                         <button type="button" class="btn btn-danger float-end m-1" onclick="cancelOrder('<%= item._id %>')">Cancel Order</button>
                                         <% } %>
                                         <button type="button" class="btn btn-primary float-end m-1" data-bs-toggle="modal" data-bs-target="#reviewModal<%= i %>" <%= item.rated === false ? '' : 'disabled' %> >
-                                            Add Rating
+                                            <%= item.rated === false ? 'Add Rating' : 'Rating Added' %>
                                         </button>
 
                                         <div class="modal fade" id="reviewModal<%= i %>" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
@@ -53,16 +77,20 @@
                                                     <form id="rating" onsubmit="submitRatings(event)">
                                                         <input type="hidden" name="orderId" value="<%= item._id %>">
                                                         <div class="modal-body">
-                                                            <% item.items.forEach((element) => { %>
-                                                                <h6 class="mb-0 px-3">
+                                                            <% item.items.forEach((element, index) => { %>
+                                                                <h6 class="mb-0 p-3">
                                                                     <span><%= element.carted[0].foodName %></span>
-                                                                    
                                                                     <div class="float-end">
-                                                                        <input type="radio" name="<%= element.item %>" value="1" />
-                                                                        <input type="radio" name="<%= element.item %>" value="2" />
-                                                                        <input type="radio" name="<%= element.item %>" value="3" />
-                                                                        <input type="radio" name="<%= element.item %>" value="4" />
-                                                                        <input type="radio" name="<%= element.item %>" value="5" />
+                                                                        <input type="radio" id="star1_<%= index %>" name="<%= element.item %>" value="1" />
+                                                                        <label for="star1_<%= index %>"></label>
+                                                                        <input type="radio" id="star2_<%= index %>" name="<%= element.item %>" value="2" />
+                                                                        <label for="star2_<%= index %>"></label>
+                                                                        <input type="radio" id="star3_<%= index %>" name="<%= element.item %>" value="3" />
+                                                                        <label for="star3_<%= index %>"></label>
+                                                                        <input type="radio" id="star4_<%= index %>" name="<%= element.item %>" value="4" />
+                                                                        <label for="star4_<%= index %>"></label>
+                                                                        <input type="radio" id="star5_<%= index %>" name="<%= element.item %>" value="5" />
+                                                                        <label for="star5_<%= index %>"></label>
                                                                     </div>
                                                                 </h6>
                                                             <% }) %>
@@ -114,7 +142,7 @@
         event.preventDefault(); 
 
         const formData = new FormData(event.target); // Create a FormData object from the form
-        const orderId =  formData.get("orderId")
+       
         let rating = {}
         // Iterate through each element in the form
         for (const [name, value] of formData) {
@@ -127,7 +155,7 @@
                     headers: {
                     "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({rating, orderId}),
+                    body: JSON.stringify({rating}),
                 });
 
                 const result = await response.json()

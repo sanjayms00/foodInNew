@@ -47,8 +47,11 @@ const foodSchema = new  mongoose.Schema({
     },
     rating: [
         {
-          userId: { type: mongoose.Schema.Types.ObjectId, },
-          value: { type: Number, required: true, min: 1, max: 5 }
+          userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users', 
+          },
+          value: Number, 
         }
       ],
     createdAt : {

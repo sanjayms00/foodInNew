@@ -105,7 +105,7 @@
                       <td class="border-bottom-0">
                           <a href="/admin/editFood?id=<%= item._id %>"><button type="button" class="btn btn-primary w-100">Edit</button></a>
                           <br><br>
-                          <a href="/admin/deleteFood?id=<%= item._id %>"><button type="button" class="btn btn-danger w-100" onclick="return confirm('Are you sure to Delete?')">Delete</button></a>
+                          <button type="button" class="btn btn-danger w-100" onclick="deleteBanner('<%= item._id %>', '<%= item.image %>')">Delete</button>
                       </td>
                   </tr>
 
@@ -262,4 +262,64 @@
       }).showToast();
     }
   }
+  
+  function deleteBanner(id, image) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await fetch('/admin/delete-food', {
+              method: 'DELETE',
+              headers: {
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({ id, image })
+            });
+            const result = await response.json();
+            if (result.status === 'success') {
+              Toastify({
+                    text: result.msg,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #0b7303, #24c9a3)",
+                    }
+                    }).showToast();
+              // Refresh the page
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            } 
+            else {
+              Toastify({
+                text: result.msg,
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                }
+              }).showToast();
+            }
+          } catch (error) {
+            Toastify({
+                text: error.message,
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                }
+              }).showToast();
+          }
+        }
+      })
+    }
+  
+
+
+
+
 </script>

@@ -76,7 +76,7 @@ adminRoute.get("/createFood",adminMiddleware.adminSessionCheck, foodController.c
 adminRoute.post("/save-food", uploads.single('file_photo'), foodController.saveFood)
 adminRoute.post("/updateFood", uploads.single('file_photo'), foodController.updateFood)
 adminRoute.get("/editFood",adminMiddleware.adminSessionCheck, foodController.editFood)
-adminRoute.get("/deleteFood",adminMiddleware.adminSessionCheck, foodController.deleteFood)
+adminRoute.delete("/delete-food",adminMiddleware.adminSessionCheck, foodController.deleteFood)
 adminRoute.patch("/foodStatus", adminMiddleware.adminSessionCheck, foodController.foodStatus)
 
 //category routes

@@ -225,13 +225,10 @@ const updateFood = async (req, res) => {
 
 const deleteFood = async (req,res)=>{
     try {
-        const deleteUserData = await Foods.deleteOne({_id : req.query.id})
-        if(!deleteUserData){
-            return res.status(400).render("admin/food/index", {msg : "Can not delete food"})
-        }
-        res.redirect("/admin/food")
+        await Foods.deleteOne({_id : req.query.id})
+        res.status(200).json({status : "success", msg : "Deleted successfully"});
     } catch (error) {
-        console.log(error.message)
+        res.send(500).json("public/errorPage", {msg : error.message})
     }
 }
 

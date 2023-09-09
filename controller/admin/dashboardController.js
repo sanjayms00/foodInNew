@@ -27,7 +27,7 @@ const dashboard = async (req, res) => {
                 }
             }
         ])
-        console.log(todaysaleData)
+        // console.log(todaysaleData)
         const canceledOrders = await Orders.find({
             time : { 
                 $gte: new Date(currentYear, currentMonth - 1, currentDay), 
@@ -57,7 +57,6 @@ const getSaleData = async (req, res) => {
         let nextYear = currentYear;
         let nextMonth = currentMonth + 1;
 
-        console.log(currentMonth, nextMonth)
         if (nextMonth > 12) {
             nextMonth = 1;
             nextYear++;
@@ -137,7 +136,7 @@ async function getOrderReport(stat){
                 status: 'delivered'
             }
         }
-        console.log(match)
+        //console.log(match)
         const orderReport = await Orders.aggregate([
             {
                 $match: match

@@ -79,7 +79,7 @@
                 <select id="select-state" placeholder="Pick a Product*" class="mb-3" name="productUrl">
                   <option value="">Select a Product...</option>
                   <% food.forEach(element => { %>
-                    <option value="http://127.0.0.1:3000/foodDetail/<%= element.slug %>" <%= banner[0].url === 'http://127.0.0.1:3000/foodDetail/'+element.slug ? 'selected' : '' %>><%= element.foodName %></option>
+                    <option value="/foodDetail/<%= element.slug %>" <%= banner[0].url === '/foodDetail/'+element.slug ? 'selected' : '' %>><%= element.foodName %></option>
                   <% }) %>
                 </select>
                 <div class="form-floating mb-3">

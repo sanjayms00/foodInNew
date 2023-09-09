@@ -33,11 +33,11 @@ const auth = async(req,res) => {
         const {adminEmail, adminPassword } = req.body 
         const checkAdmin = await AdminUsers.findOne({email : adminEmail})
         if(!checkAdmin){
-            return res.render("admin/adminLogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
+            return res.render("admin/adminlogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
         }
         const checkPassword = await bcrypt.compare(adminPassword, checkAdmin.password)
         if(!checkPassword){
-            return res.render("admin/adminLogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
+            return res.render("admin/adminlogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
         }
         req.session.adminUser = true;
         res.redirect("/admin/dashboard")
@@ -52,9 +52,7 @@ const logout  = (req,res) => {
             if(err){
                 console.error('Error destroying session:', err);
             }else{
-                res.redirect('/admin/login')
-                //res.render("admin/adminLogin.ejs", {layout : false, status : "success" , msg : "Logout successfull"})
-                // res.render("admin/adminlogin",{layout : false})
+                res.render("admin/adminlogin.ejs", {layout : false, status : "success" , msg : "Logout successfull"})
             }
         })
     } catch (error) {

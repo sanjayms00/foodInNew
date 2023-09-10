@@ -13,7 +13,16 @@ body {
   background-color: transparent;
   border: none;
 }
-
+.helpFormContainer{
+  max-width: 750px;
+  margin: 0 auto;
+}
+#helpForm textarea{
+  height: 200px;
+}
+#helpForm button{
+  width: 100px;
+}
 .dropdown-toggle::after {
   display: none;
 }

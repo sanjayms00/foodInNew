@@ -36,8 +36,10 @@ const ratingController = require("../../controller/public/ratingController")
 
 //include middleware
 const userMiddleWare = require("../../middleware/public/userMiddleware")
-
+const categoryMiddleware = require("../../middleware/public/CategoryMiddleware")
 publicRoute.use(userMiddleWare.sessionCheck)
+
+publicRoute.use(categoryMiddleware.getCategoryData)
 
 //home route
 publicRoute.get("/",homeController.home)
@@ -120,11 +122,14 @@ publicRoute.get("/generate-pdf/:orderId",userMiddleWare.isBlocked, orderControll
 //rating route
 publicRoute.put("/rate-order",userMiddleWare.isBlocked, ratingController.rate)
 
+//hep route
+const helpRoute = require('./HelpRoute')
+publicRoute.use('/help', helpRoute)
 
-
-
-
-
+//error handling middleware
+publicRoute.use((err, req, res, next) => {
+    res.status(500).render("public/errorPage", {layout : false, msg : err.message})
+  })
 
 //export publicRoute
 module.exports = publicRoute;

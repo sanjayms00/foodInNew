@@ -1,50 +1,32 @@
 //admin form validate
-function adminloginValidate(data){
-    const email = data.adminEmail;
-    const password = data.adminPassword;
-    let status = true;
-    let msg, field;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email.trim() === '') {
-        msg = 'Email Required'
-        status = false;
-        field = 'adminEmail'
-    }
-    else if (!emailPattern.test(email)) {
-        msg = "Please enter a valid email address"
-        status = false
-        field = 'adminEmail'
-    }
-    else if (password.trim() === '') {
-        msg = 'Password Required'
-        status = false;
-        field = 'adminPassword'
-    }
-    if(status === false){
+function helpValidate(data){
+    const issue = data.issue;
+    if (issue.trim() === '') {
         Toastify({
-            text: msg,
+            text: "Describe your issue...",
             className: "info",
             style: {
                 background: "linear-gradient(to right, #ff0000, #dd2a7f)",
             }
         }).showToast();
-        document.getElementById(field).focus();
-        return status
+        document.getElementById("floatingTextarea2").focus();
+        return false
     }
-    return status
+    return true
 }
 
-// admin form submit
+//help form submit
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('#adminLogin');
+    const form = document.querySelector('#helpForm');
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(form);
         //get the form field and data
         let data = Object.fromEntries(formData)
-        if(adminloginValidate(data)){
+        //validate 
+        if(helpValidate(data)){
             //pass the data 
-            const response  = await fetch('/admin/auth', {
+            const response  = await fetch('/help/send-issue', {
                 method : "POST",
                 headers : {
                     'Content-Type' : 'application/json',
@@ -63,10 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             background: "linear-gradient(to right, #0b7303, #24c9a3)",
                         }
                     }).showToast();
+                    form.reset()
+                }
+                else if(response.status === "login"){
+                    Toastify({
+                        text: response.msg,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                        }
+                    }).showToast();
                     setTimeout(() => {
-                        location.href = '/admin/dashboard'
+                        location.href = '/login'
                     }, 800);
-                }else{
+                }
+                else{
                     Toastify({
                         text: response.msg,
                         className: "info",

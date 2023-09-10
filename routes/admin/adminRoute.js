@@ -103,5 +103,16 @@ adminRoute.get("/orders", adminMiddleware.adminSessionCheck, ordersController.sh
 adminRoute.patch("/cancel-order", adminMiddleware.adminSessionCheck, ordersController.cancelOrder)
 adminRoute.post("/change-status", adminMiddleware.adminSessionCheck, ordersController.changeStatus)
 
+//help route
+const help = require("../../routes/admin/HelpRoute")
+adminRoute.use("/help-support", help)
+
+
+//error handling middleware
+adminRoute.use((err, req, res, next) => {
+  res.status(500).render("admin/errorPage", {msg : err.message})
+})
+
+
 //export adminRoute
 module.exports = adminRoute

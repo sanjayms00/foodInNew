@@ -27,22 +27,28 @@ const login = (req,res) => {
     }
 }
 
+//authenticate the admin user credentials
 const auth = async(req,res) => {
     try {
-        //logic
+        //get admin data
         const {adminEmail, adminPassword } = req.body 
+        //check the user
         const checkAdmin = await AdminUsers.findOne({email : adminEmail})
         if(!checkAdmin){
-            return res.render("admin/adminlogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
+            // res.status(400).json({status : "error" , msg : "Wrong Email or Password"})
+            throw new Error('Wrong Email or Password')
         }
         const checkPassword = await bcrypt.compare(adminPassword, checkAdmin.password)
         if(!checkPassword){
-            return res.render("admin/adminlogin", {layout : false, status : "error" , msg : "Email id or password is incorrect"})
+            throw new Error('Wrong Email or Password')
+            //return res.status(400).json({status : "error" , msg : "Wrong Email or Password"})
         }
         req.session.adminUser = true;
-        res.redirect("/admin/dashboard")
-    } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.status(200).json({status : "success", msg : "Login Successful"})
+    } 
+    catch (error) {
+        // res.status(500).json({msg : error.message})
+        res.json({status : "error", msg : error.message})
     }
 }
 

@@ -69,11 +69,11 @@
             <div class="p-2 bd-highlight">
               <a href="tel:+91 1234567890" class="mx-2"><i class="bi bi-telephone-outbound-fill"></i>&nbsp;+91 1234567890</a>
             </div>
-            <div class="p-2 bd-highlight">
+            <!-- <div class="p-2 bd-highlight">
               <a href="#" class="mx-3"><i class="bi bi-geo-alt-fill"></i>&nbsp;access your location</a>
-            </div>
+            </div> -->
             <div class="p-2 bd-highlight">
-              <a href="/contact" class="mx-3"><i class="bi bi-info-circle-fill"></i>&nbsp;Help</a>
+              <a href="/help" class="mx-3"><i class="bi bi-info-circle-fill"></i>&nbsp;Help</a>
             </div>
           </div>
         </div>
@@ -95,8 +95,8 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <% 
-                      if (locals.categories) { 
-                        categories.forEach((item)=>{
+                      if (locals.category) { 
+                        category.forEach((item)=>{
                     %>
                       <li><a href="/foods?page=1&category=<%= item.categoryName %>" class="dropdown-item"> <%= item.categoryName %></a></li>
                     <% }) }else{ %>

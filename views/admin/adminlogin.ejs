@@ -7,14 +7,13 @@
   <title>foodin Admin Panel</title>
   <link rel="shortcut icon" type="image/png" href="../assets/img/logo.png" />
   <link rel="stylesheet" href="../assets/css/styles.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
   <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
       <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100">
           <div class="col-md-8 col-lg-6 col-xxl-3">
@@ -23,26 +22,8 @@
                 <a href="/" class="text-nowrap logo-img text-center d-block py-3 w-100">
                   <img src="/assets/img/logo.png" width="80" style="border-radius: 50%;"  alt="logo">
                 </a>
-                <% if (locals.status === "success") { %>
-                    <div class="alert alert-success" role="alert">
-                        <%= locals.msg %>
-                    </div>
-                    <script>
-                      setTimeout(()=>{
-                        window.location.href = "http://127.0.0.1:3000/admin/users"; 
-                      },800)
-                    </script>
-                <% } if(locals.status === "error"){ %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= locals.msg %>
-                    </div>
-                    <script>
-                      setTimeout(()=>{
-                        window.location.href = "http://127.0.0.1:3000/admin/users"; 
-                      },800)
-                    </script>
-                <% } %>
-                <form action="/admin/auth" method="POST" onsubmit="return admnloginValidate()">
+                <!-- form starts -->
+                <form id="adminLogin" novalidate>
                   <div class="mb-3">
                     <label for="adminEmail" id="adminEmailLabel" class="form-label">Email Id</label>
                     <input type="email" name="adminEmail" class="form-control" id="adminEmail" aria-describedby="emailHelp">
@@ -58,6 +39,7 @@
                   <div class="d-flex align-items-center justify-content-center">
                   </div>
                 </form>
+                <!-- form ends -->
               </div>
             </div>
           </div>
@@ -66,6 +48,7 @@
     </div>
   </div>
 </body>
-
+<!-- validation -->
 <script src="/assets/js/adminValidate.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </html>

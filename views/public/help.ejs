@@ -1,0 +1,24 @@
+<%- include('includes/header') %>
+<div class="container padd-top">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="helpFormContainer">
+                <h4>Help</h4>
+                <p>
+                    If you have any questions or need assistance, feel free to reach out to us.
+                </p>
+                <form id="helpForm">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="issue...." name="issue" id="floatingTextarea2"></textarea>
+                        <label for="floatingTextarea2">Describe your issue</label>
+                    </div>
+                    <div class="float-end my-2">
+                        <button type="submit" class="btn btn-success">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/js/helpValidate.js"></script>
+<%- include('includes/footer') %>

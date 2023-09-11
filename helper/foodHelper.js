@@ -46,6 +46,7 @@ const checkStock = (cartItems) => {
     })
 }
 
+
 module.exports = {
     checkStock,
     changeStock

@@ -84,7 +84,7 @@ adminRoute.get("/category", adminMiddleware.adminSessionCheck, categoryControlle
 adminRoute.get("/createCategory",adminMiddleware.adminSessionCheck, categoryController.createCategory)
 adminRoute.post("/saveCategory",adminMiddleware.adminSessionCheck, categoryController.saveCategory)
 adminRoute.get("/editCategory",adminMiddleware.adminSessionCheck, categoryController.editCategory)
-adminRoute.post("/updatecategory",adminMiddleware.adminSessionCheck, categoryController.updateCategory)
+adminRoute.post("/update-category",adminMiddleware.adminSessionCheck, categoryController.updateCategory)
 adminRoute.delete("/deleteCategory",adminMiddleware.adminSessionCheck, categoryController.deleteCategory)
 adminRoute.post("/categoryStatus",adminMiddleware.adminSessionCheck, categoryController.categoryStatus)
 

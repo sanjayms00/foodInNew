@@ -19,7 +19,8 @@
                         <div class="row">
                             <div class="col-xl-6 text-dark">
                             <div class="form-floating mb-3">
-                                <input type="hidden" class="form-control border-dark" name="categoryId" id="categoryId" placeholder="category Id" value="<%= category._id %>">
+                                <input type="hidden" class="form-control border-dark" name="categoryId" id="categoryId" value="<%= category._id %>">
+                                <input type="hidden" class="form-control border-dark" name="oldCategory" id="oldCategory" value="<%= category.categoryName %>">
                                 <input type="text" class="form-control border-dark" name="updateCategoryName" id="updateCategoryName" placeholder="category Name" value="<%= category.categoryName %>">
                                 <label for="categoryName" id="categoryLabel">Category Name*</label>
                             </div>
@@ -38,69 +39,4 @@
     </div>
 </div>
 
-<script>
-    function categoryValidate(){
-        const updateCategoryName = document.getElementsByName("updateCategoryName")[0];
-        if (updateCategoryName.value.trim() === "") {
-            const categoryLabel = document.getElementById("categoryLabel")
-            categoryLabel.innerHTML = "Category Required"
-            categoryLabel.style.color = "red"
-            updateCategoryName.focus();
-            return false;
-        }
-        return true
-    }
-
-    document.getElementById('editCategoryForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (categoryValidate()) {
-
-          const formData = new FormData(event.target);
-          const updateCategoryName = formData.get('updateCategoryName');
-          const categoryId = formData.get('categoryId');
-          try {
-            const response = await fetch('/admin/updatecategory', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updateCategoryName, categoryId })
-          });
-          
-          const data = await response.json();
-          //const alertDiv = document.getElementById('alertResult');
-          
-          if (data.status === 'success') { 
-            Swal.fire(
-            data.status,
-            data.msg,
-            'success'
-            )
-            setTimeout(() => {
-                window.location.href = "/admin/category"
-            }, 2000);
-            
-          } else {
-            Toastify({
-            text: data.msg,
-            className: "info",
-            style: {
-                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-            }
-            }).showToast();
-            
-          }
-        }catch (error) {
-            Toastify({
-            text: data.msg,
-            className: "info",
-            style: {
-                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-            }
-            }).showToast();
-        }
-      }
-    });
-
-
-</script>
+<script src="../assets/js/validateCategory.js"></script>

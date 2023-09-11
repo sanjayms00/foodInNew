@@ -68,7 +68,7 @@
                     <option selected value=" ">Select Categories*</option>
                     <% if (locals.category) { category.forEach((item)=> {
                       %>
-                      <option value="<%= item.categoryName %>">
+                      <option value="<%= item._id %>">
                         <%= item.categoryName %>
                       </option>
                       <% }) } %>
@@ -238,7 +238,7 @@
             }).showToast();
             setTimeout(() => {
               location.href = '/admin/food'
-            }, 1000);
+            }, 200);
 
         
       }else{
@@ -260,4 +260,3 @@
 
 
 <script src="/assets/js/validateFood.js"></script>
-<script src="/assets/js/filePreview.js"></script>

@@ -1,22 +1,30 @@
 const Category = require("../../models/admin/categoryModel")
-
+const Foods = require("../../models/admin/foodModel")
+const mongoose = require("mongoose")
+//load category page
 const showCategory = async (req,res)=>{
     try {
         const categoryData = await Category.find({}).sort({_id : -1})
         res.status(200).render("admin/category/index", {data : categoryData})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
 
+//-----------------------------------------------------------------------------
+
+//load create page
 const createCategory = async (req,res)=>{
     try {
         res.status(200).render("admin/category/create")
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
 
+//-----------------------------------------------------------------------------
+
+//load edit page
 const editCategory = async (req,res)=>{
     try {
         const getCategoryData = await Category.findOne({_id : req.query.id})
@@ -25,10 +33,13 @@ const editCategory = async (req,res)=>{
         }
         res.status(200).render("admin/category/edit", {category : getCategoryData})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
 
+//-----------------------------------------------------------------------------
+
+//update category
 const updateCategory = async (req,res)=>{
     try {
         let {updateCategoryName, categoryId} = req.body
@@ -41,7 +52,6 @@ const updateCategory = async (req,res)=>{
         }
         const isExisting = await Category.findOne({categoryName : updateCategoryName})
         if(isExisting){
-            
             return res.status(400).json({status : "error", msg : "Category already exist"})
         }
         const categoryUpdateResult = await Category.updateOne(
@@ -57,18 +67,29 @@ const updateCategory = async (req,res)=>{
     }
 }
 
+//-----------------------------------------------------------------------------
+
+//delete category
 const deleteCategory = async (req,res)=>{
     try {
-        const{ orderId } = req.body
+        const orderId = req.body.orderId
+        //check food exist in this category
+        // const getCategory = await Category.find({_id : orderId})
+        //const categoryName = getCategory[0].categoryName
+        const checkCategory = await Foods.find({category : orderId}).count()
+        if(checkCategory > 0){
+            return res.status(200).json({status : "error", msg : "Foods are present under the category, Unable to delete"})
+        }
         await Category.deleteOne({_id : orderId})
-        .then((response)=>{
-            return res.status(200).json({status : "success", msg : "Category Deleted"})
-        })
+        res.status(200).json({status : "success", msg : "Category Deleted"})
     } catch (error) {
         return res.status(500).json({status : "error", msg : "Cannot delete category"})
     }
 }
 
+//-----------------------------------------------------------------------------
+
+//save category
 const saveCategory = async (req,res)=>{
     try {
         let {categoryName} = req.body
@@ -94,7 +115,9 @@ const saveCategory = async (req,res)=>{
     }
 }
 
+//-----------------------------------------------------------------------------
 
+//chnage category status
 const categoryStatus = async (req,res)=>{
     try {
         const {status, orderId} = req.body
@@ -107,8 +130,9 @@ const categoryStatus = async (req,res)=>{
     }
 }
 
+//-----------------------------------------------------------------------------
 
-
+//export functions
 module.exports = {
     showCategory,
     createCategory,

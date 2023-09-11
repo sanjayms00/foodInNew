@@ -3,7 +3,6 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title fw-semibold mb-4 float-start">Category</h5>
-        <a href="/admin/createcategory"><button type="button" class="btn btn-primary float-end">Add category</button></a>
         <div class="card w-100">
           <div class="card-body p-0">
             <div class="table-responsive">
@@ -11,13 +10,16 @@
                 <thead class="text-dark fs-4">
                   <tr>
                     <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0">Id</h6>
+                      <h6 class="fw-semibold mb-0">#</h6>
                     </th>
                     <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0">category Name</h6>
+                      <h6 class="fw-semibold mb-0">Issue</h6>
                     </th>
                     <th class="border-bottom-0">
-                      <h6 class="fw-semibold mb-0">Status</h6>
+                      <h6 class="fw-semibold mb-0">User</h6>
+                    </th>
+                    <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Replayed status</h6>
                     </th>
                     <th class="border-bottom-0">
                       <h6 class="fw-semibold mb-0">Action</h6>
@@ -34,21 +36,20 @@
                         <h6 class="fw-semibold mb-0"><%= i %></h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.categoryName %></h6>
+                        <h6 class="fw-semibold mb-1"><%= item.issue %></h6>
                       </td>
                       <td class="border-bottom-0">
                         <h6 class="fw-semibold mb-1">
-                          <% if (!item.status) { %>
-                            <button type="button" onclick="changeStatus('<%= item._id %>', true, this)" class="btn btn-success w-50">Active</button>
-                            <% } else { %> 
-                              <button type="button" onclick="changeStatus('<%= item._id %>', false, this)" class="btn btn-danger w-50">Inactive</button>
-                          <% } %>
+                          <h6 class="fw-semibold mb-1"><%= item.userId %></h6>
                         </h6>
                       </td>
                       <td class="border-bottom-0">
-                          <a href="/admin/editCategory?id=<%= item._id %>"><button type="button" class="btn btn-primary w-50">Edit</button></a>
-                          <br><br>
-                          <button type="button" onclick="deleteCategory('<%= item._id %>')" class="btn btn-danger w-50">Delete</button>
+                        <h6 class="fw-semibold mb-1">
+                          <h6 class="fw-semibold mb-1"><%= item.replayed %></h6>
+                        </h6>
+                      </td>
+                      <td class="border-bottom-0">
+                          <a href="mailto: sanjay@gmail.com"><button type="button" class="btn btn-primary w-100">mail</button></a>
                       </td>
                   </tr>
                   <% i++ }) }else{ %>

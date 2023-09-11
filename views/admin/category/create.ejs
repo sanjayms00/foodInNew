@@ -65,11 +65,13 @@
           //const alertDiv = document.getElementById('alertResult');
           
           if (data.status === 'success') { 
-            Swal.fire(
-            data.status,
-            data.msg,
-            'success'
-            )
+            Toastify({
+                text: data.msg,
+                className: "info",
+                style: {
+                    background: "linear-gradient(to right, #0b7303, #24c9a3)",
+                }
+            }).showToast();
             setTimeout(() => {
                 window.location.href = "/admin/category"
             }, 1000);

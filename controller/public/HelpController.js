@@ -1,4 +1,5 @@
 const helpSupport = require("../../models/public/HelpSupportModel")
+const Users = require("../../models/public/userModel")
 
 const loadPage = (req, res) => {
     try {
@@ -10,13 +11,11 @@ const loadPage = (req, res) => {
 
 const saveIssue = async (req, res) => {
     try {
-        console.log(req.body)
         const {issue} = req.body;
         const userId = req.session.isauth
         if(userId === undefined){
             return res.status(200).json({status : 'login', msg : "Please Login"})
         }
-        console.log(userId)
         const data = new helpSupport({
             issue : issue,
             userId : userId

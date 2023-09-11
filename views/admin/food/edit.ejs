@@ -70,7 +70,7 @@
                           <% if (locals.category) { 
                               category.forEach((item) => { 
                           %>
-                            <option value="<%= item.categoryName %>" <%= (item.categoryName === food.category) ? "selected" : " " %> ><%= item.categoryName %></option>
+                            <option value="<%= item._id %>" <%= (item._id === food.category) ? "selected" : " " %> ><%= item.categoryName %></option>
                           <% }) } %>
                         </select>
                         <label for="Categories" id="categoriesLabel">Categories*</label>
@@ -152,7 +152,20 @@
     tempFilename,
     rawImg,
     imageId;
+    
   function readFile(input) {
+    const filePath = input.value
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)/i
+    if(!allowedExtensions.exec(filePath)){
+      Toastify({
+          text: "Image Format not Supported",
+          className: "info",
+          style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+          }
+          }).showToast();
+      return 
+    }
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
@@ -224,9 +237,9 @@
                 background: "linear-gradient(to right, #0b7303, #24c9a3)",
             }
             }).showToast();
-            setTimeout(() => {
-              location.href = '/admin/food'
-            }, 1000);
+          setTimeout(() => {
+            location.href = '/admin/food'
+          }, 200);
 
         
       }else{
@@ -256,4 +269,3 @@
 
 
 <script src="/assets/js/validateFood.js"></script>
-// <script src="/assets/js/filePreview.js"></script>

@@ -6,7 +6,9 @@ const path = require('path')
 const { v4: uuidv4 } = require('uuid');
 const mongoose = require('mongoose')
 
-//banner page showing
+//---------------------------------------------------------------------------------
+
+//loda the banner page
 const showBanner = async (req, res) => {
     //get banner data
     await Banner.find({}).sort({position : 1})
@@ -14,11 +16,14 @@ const showBanner = async (req, res) => {
         res.render('admin/banner/index', {banner : data})
     })
     .catch((err)=>{
-        res.render('public/errorPage', {msg : "Something went Wrong"})
+        res.render('admin/errorPage', {msg : "Something went Wrong"})
     })
 }
 
-//banner creation
+
+//---------------------------------------------------------------------------------
+
+//load create banner
 const createBanner = async (req, res) => {
     //get banner data
     await Food.find({status : true},{foodName : 1, slug : 1, })
@@ -26,12 +31,14 @@ const createBanner = async (req, res) => {
         res.render('admin/banner/create', {food : data})
     })
     .catch((err)=>{
-        // res.render('public/errorPage', {msg : err.message})
-        res.render('public/errorPage', {msg : "Something went Wrong"})
+        res.render('admin/errorPage', {msg : "Something went Wrong"})
     })
 }
 
-//banner creation
+
+//---------------------------------------------------------------------------------
+
+//edit banner
 const editBanner = async (req, res) => {
     //get banner data
     const id = new mongoose.Types.ObjectId(req.query.id);
@@ -45,6 +52,9 @@ const editBanner = async (req, res) => {
     })
 }
 
+//---------------------------------------------------------------------------------
+
+//save banner
 const saveBanner = async (req, res) => {
     try {
         const {bannerDescription, productUrl, bannerName} = req.body;
@@ -84,6 +94,9 @@ const saveBanner = async (req, res) => {
       }
 }
 
+
+//---------------------------------------------------------------------------------
+
 //update Banner
 const updateBanner = async (req, res) => {
   try {
@@ -122,7 +135,6 @@ const updateBanner = async (req, res) => {
       {
           // Delete the file
           fs.unlinkSync(prevImagePath);
-          //console.log(`Image ${prevImage} deleted successfully.`);
       } else {
           return res.status(404).json({status : "error", msg : 'Image not found'});
       }
@@ -139,12 +151,14 @@ const updateBanner = async (req, res) => {
     .then((response)=>{
       res.status(200).json({ status: "success", msg: "updated Banner Successfully" });
     })
-
   } 
   catch (error) {
     res.status(500).json({ status: "error", msg: "Banner creation failed" });
   }
 }
+
+
+//---------------------------------------------------------------------------------
 
 //delete Banner
 const deleteBanner = async (req,res)=>{
@@ -164,7 +178,6 @@ const deleteBanner = async (req,res)=>{
           // Delete the file
           fs.unlinkSync(prevImagePath);
           return res.status(200).json({status : "success", msg : "Banner Deleted"})
-          //console.log(`Image ${prevImage} deleted successfully.`);
       }
     })
   } 
@@ -173,7 +186,9 @@ const deleteBanner = async (req,res)=>{
   }
 }
 
-//chnage status
+//---------------------------------------------------------------------------------
+
+//chage banner status
 const changeStatus = async (req, res) => {
   try {
     const {orderId, status} = req.body
@@ -186,7 +201,9 @@ const changeStatus = async (req, res) => {
   }
 }
 
-//chnage status
+//---------------------------------------------------------------------------------
+
+//chnage banner position
 const changePosition = async (req, res) => {
   try {
     const {id, value} = req.body
@@ -199,7 +216,9 @@ const changePosition = async (req, res) => {
   }
 }
 
+//---------------------------------------------------------------------------------
 
+//exporting the functions
 module.exports = {
     showBanner,
     createBanner,

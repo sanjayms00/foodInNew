@@ -20,7 +20,7 @@ document.getElementById('addressBook').addEventListener('submit', async (event) 
         });
         
         const data = await response.json();
-        //alert(JSON.stringify(data))
+        
         if (data.status === 'success') { 
             Toastify({
                 text: data.msg,
@@ -69,7 +69,7 @@ deleteCartItem.forEach(element => {
                 body: address
                 })
                 const data = await response.json();
-                // alert(JSON.stringify(data)); 
+                
                 if (data.status === 'success') {
                     Toastify({
                         text: data.msg,
@@ -112,7 +112,7 @@ async function setDefault(addressId){
             body: JSON.stringify({addressId})
             })
             const data = await response.json();
-            //alert(JSON.stringify(data)); 
+            
             if (data.status === 'success') {
                 const addressModal = document.getElementById("exampleModal");
                 if(addressModal){

@@ -1,5 +1,9 @@
 const Food = require("../../models/admin/foodModel")
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load detail page
 const detail = async (req,res)=>{
     try {
         const slug = req.params.slug
@@ -10,12 +14,14 @@ const detail = async (req,res)=>{
         const relatedDishes = await Food.find({category : foodData.category})
         res.render("public/detailPage", {data : foodData, related : relatedDishes})
     } catch (error) {
-        console.log("error.message")
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
 
-//export all functions like objects
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     detail
 }

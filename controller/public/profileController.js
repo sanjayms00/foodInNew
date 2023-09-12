@@ -1,6 +1,9 @@
 const Users = require("../../models/public/userModel")
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//load the profile page
 const myProfile = async (req, res) => {
     try {
         const userId = req.session.isauth
@@ -18,6 +21,10 @@ const myProfile = async (req, res) => {
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//edit profile
 const editProfile = async (req, res) => {
     try {
         const userId = req.session.isauth
@@ -31,10 +38,14 @@ const editProfile = async (req, res) => {
             res.render("public/editProfile", {data : userData})
         }
     } catch (error) {
-        
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//update profile
 const updateProfile = async (req, res) => {
     try {
         const {fName, lName, emailId, phoneNumber, userId} = req.body;
@@ -47,10 +58,14 @@ const updateProfile = async (req, res) => {
         }
     }
     catch (error) {
-            
+        res.json({status : "error", msg : error.message})
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     myProfile,
     editProfile,

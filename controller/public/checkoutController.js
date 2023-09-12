@@ -9,6 +9,9 @@ const cartHelper = require("../../helper/cartHelper")
 const addressHelper = require("../../helper/addressHelper")
 const foodHelper = require("../../helper/foodHelper")
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //load checkout page
 const checkout = async (req,res)=>{
     try {
@@ -33,8 +36,6 @@ const checkout = async (req,res)=>{
             status: true
         });
 
-        // console.log(amount , coupons)
-        // console.log(cartTotal, cartItems, defAddress)
         if(cartItems.length < 1){
           res.render("public/errorPage", {status : "eroor", msg : "No items in the Cart"})
         }else if(cartTotal < 1){
@@ -47,12 +48,14 @@ const checkout = async (req,res)=>{
     
 }
 
+//-----------------------------------------------------------------------------------------------------
+
+//authenticate the checkout
 const authCheckout = async (req,res)=>{
     try {
       const userId = new mongoose.Types.ObjectId(req.session.isauth);
       let { address, cartItems, price, totalPrice, paymentOption, discount, discountedPrice, couponCode } = req.body
-      // console.log(address, cartItems, price, totalPrice, paymentOption, discount, discountedPrice, couponCode)
-      // return
+      
       //check the stock
       const checkStock = foodHelper.checkStock(cartItems)
       const changeStock = foodHelper.changeStock(cartItems)
@@ -79,7 +82,7 @@ const authCheckout = async (req,res)=>{
               paymentOption,
               price
             }
-            console.log(data)
+            
             if(discount && discountedPrice && couponCode)
             {
               data.discount = discount;
@@ -114,7 +117,7 @@ const authCheckout = async (req,res)=>{
             const updateWallet = orderHelper.updateWallet(userId, walletAmount, saveOrder)
             Promise.all([deleteCart, updateWallet]).then(async (values)=>{
               const razorpayOrder = await PaymentHelper.generateRazorPay(saveOrder, totalPrice)
-              // console.log(razorpayOrder)
+             
               return res.status(200).json({status : "success", msg : "Order Placed", paymentMethod : paymentOption, razorpayOrder  })  
             })
           }
@@ -151,6 +154,8 @@ const authCheckout = async (req,res)=>{
 }
 
 
+//-----------------------------------------------------------------------------------------------------
+
 //payment verificatiion
 const verifyPayment = async (req,res) => {
     try {
@@ -177,15 +182,25 @@ const verifyPayment = async (req,res) => {
 }
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//load the success page
 const success = (req, res) =>{
   res.render("public/orderPlaced")
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load the failed page
 const failed = (req, res) =>{
-  res.render("public/errorPage", {status : 'error', msg : "Payment Failed"})
+  res.render("public/errorPage", {msg : "Payment Failed"})
 }
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     checkout,
     verifyPayment,

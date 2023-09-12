@@ -2,6 +2,8 @@ const Orders = require("../../models/admin/ordersModel")
 const orderHelper = require('../../helper/orderHelper')
 const mongoose = require("mongoose")
 
+//----------------------------------------------------------------------------------------
+
 //show order page
 const showOrders = async (req,res)=>{
     try {
@@ -48,9 +50,12 @@ const showOrders = async (req,res)=>{
         ]) 
         res.status(200).render("admin/orders/index", {data : orders})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
+
+
+//----------------------------------------------------------------------------------------
 
 //cancel the order
 const cancelOrder = async (req, res) => {
@@ -59,26 +64,35 @@ const cancelOrder = async (req, res) => {
         if(!orderId){
             return res.status(404).json({status : "error", msg : "order not Found"})
         }
-        await orderHelper.cancelOrder(orderId)
-        .then((response)=>{
-            res.status(200).json({status : "success", msg : response})
-        }) 
+        const validateOrder = await Orders.find({_id : orderId}, {status : 1, _id : 0})
+        if(validateOrder[0].status !== 'canceled')
+        {
+            await orderHelper.cancelOrder(orderId)
+            .then((response)=>{
+                res.status(200).json({status : "success", msg : response})
+            }) 
+        }else{
+            res.status(400).json({status : "canceled", msg : "Order is already canceled"})
+        }
     } catch (error) {
         return res.status(400).json({status : "error", msg : error.message})
     }
 }
 
-//status change
+
+//----------------------------------------------------------------------------------------
+
+//change the order status
 const changeStatus = async (req, res) => {
     try {
-        // console.log(req.body.id)
+       
         const orderId = new mongoose.Types.ObjectId(req.body.id)
         const status = req.body.status
         if(!orderId){
             return res.status(404).json({status : "error", msg : "order not Found"})
         }
         if(status === "delivered"){
-            console.log("deliverd")
+            
             var updateStatus = await Orders.updateOne({_id : orderId}, {$set : {status : status, paymentStatus : 'recieved', deliveredTime : new Date()}})
         }else{
             var updateStatus = await Orders.updateOne({_id : orderId}, {$set : {status : status}})
@@ -92,11 +106,12 @@ const changeStatus = async (req, res) => {
     }
 }
 
-//export all functions like objects
+
+//----------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     showOrders,
     cancelOrder,
     changeStatus
-    
-
 }

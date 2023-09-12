@@ -1,6 +1,9 @@
 const Category = require("../../models/admin/categoryModel")
 const Foods = require("../../models/admin/foodModel")
 const mongoose = require("mongoose")
+
+//---------------------------------------------------------------------------------
+
 //load category page
 const showCategory = async (req,res)=>{
     try {
@@ -10,6 +13,7 @@ const showCategory = async (req,res)=>{
         res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
+
 
 //-----------------------------------------------------------------------------
 
@@ -21,6 +25,7 @@ const createCategory = async (req,res)=>{
         res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
+
 
 //-----------------------------------------------------------------------------
 
@@ -36,6 +41,7 @@ const editCategory = async (req,res)=>{
         res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
     }
 }
+
 
 //-----------------------------------------------------------------------------
 
@@ -67,6 +73,7 @@ const updateCategory = async (req,res)=>{
     }
 }
 
+
 //-----------------------------------------------------------------------------
 
 //delete category
@@ -86,6 +93,7 @@ const deleteCategory = async (req,res)=>{
         return res.status(500).json({status : "error", msg : "Cannot delete category"})
     }
 }
+
 
 //-----------------------------------------------------------------------------
 
@@ -115,6 +123,7 @@ const saveCategory = async (req,res)=>{
     }
 }
 
+
 //-----------------------------------------------------------------------------
 
 //chnage category status
@@ -129,6 +138,7 @@ const categoryStatus = async (req,res)=>{
         return res.status(400).json({status : "error", msg : "can't change status"})
     }
 }
+
 
 //-----------------------------------------------------------------------------
 

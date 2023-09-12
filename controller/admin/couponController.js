@@ -1,34 +1,50 @@
 const Coupon = require("../../models/admin/couponModel")
 const mongoose = require('mongoose')
+
+//----------------------------------------------------------------------------------------
+
+//load coupon page
 const showcoupon = async (req,res)=>{
     try {
         const couponData = await Coupon.find({}).sort({_id : -1})
         res.status(200).render("admin/coupon/index", {data : couponData})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : error.message})
     }
 }
 
+//----------------------------------------------------------------------------------------
+
+//load create coupon
 const createcoupon = async (req,res)=>{
     try {
         res.status(200).render("admin/coupon/create")
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : error.message})
     }
 }
 
+
+//----------------------------------------------------------------------------------------
+
+//load edit coupon
 const editcoupon = async (req,res)=>{
     try {
-        const getcouponData = await Coupon.findOne({_id : req.query.id})
+        const id = req.query.id
+        const getcouponData = await Coupon.findOne({_id : id})
         if(!getcouponData){
             return res.status(404).render("admin/coupon/index", {status : "error",  msg :  "Unable to edit the coupon" })
         }
         res.status(200).render("admin/coupon/edit", {coupon : getcouponData})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : error.message})
     }
 }
 
+
+//----------------------------------------------------------------------------------------
+
+//delete coupon
 const deletecoupon = async (req,res)=>{
     try {
         const{ id } = req.body
@@ -40,6 +56,9 @@ const deletecoupon = async (req,res)=>{
         return res.status(500).json({status : "error", msg : "Cannot delete Coupon"})
     }
 }
+
+
+//----------------------------------------------------------------------------------------
 
 //save coupon
 const savecoupon = async (req,res)=>{
@@ -59,13 +78,14 @@ const savecoupon = async (req,res)=>{
             status : true
         })
         await newcoupon.save()
-        .then((response)=>{
-            res.status(200).json({status : "success", msg : "Coupon Inserted"})
-        })
+        res.status(200).json({status : "success", msg : "Coupon Inserted"})
     } catch (error) {
         return res.status(500).json({status : "error", msg : "coupon insertion failed"})
     }
 }
+
+
+//----------------------------------------------------------------------------------------
 
 //update coupon
 const updatecoupon = async (req,res)=>{
@@ -93,12 +113,14 @@ const updatecoupon = async (req,res)=>{
             res.status(200).json({status : "success", msg : "Coupon Updated"})
         })
     } catch (error) {
-        console.log(error.message)
         return res.status(500).json({status : "error", msg : "coupon insertion failed"})
     }
 }
 
 
+//----------------------------------------------------------------------------------------
+
+//change coupon status
 const couponStatus = async (req,res)=>{
     try {
         const {status, orderId} = req.body
@@ -112,7 +134,9 @@ const couponStatus = async (req,res)=>{
 }
 
 
+//----------------------------------------------------------------------------------------
 
+//export the functions
 module.exports = {
     showcoupon,
     createcoupon,
@@ -121,5 +145,4 @@ module.exports = {
     updatecoupon,
     deletecoupon,
     couponStatus
-
 }

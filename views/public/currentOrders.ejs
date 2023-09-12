@@ -134,21 +134,20 @@
     </section>
 
 
+
 <script>
-
-   
-
     async function submitRatings(event) {
         event.preventDefault(); 
 
-        const formData = new FormData(event.target); // Create a FormData object from the form
+        // Create a FormData object from the form
+        const formData = new FormData(event.target); 
        
         let rating = {}
         // Iterate through each element in the form
         for (const [name, value] of formData) {
             rating[name] = value
         }
-        // alert(rating+' '+orderId)
+       
         try {
             const response = await fetch('/rate-order', {
                     method: "PUT",
@@ -178,13 +177,19 @@
                     }).showToast();
                 }
         } catch (error) {
-            
+            Toastify({
+                text: 'Something went wrong',
+                className: "info",
+                style: {
+                    background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                }
+            }).showToast();
         }
     }
 
+    //-----------------------------------------------------------------------------------------
 
-
-
+    
     function cancelOrder(orderId) {
         Swal.fire({
         title: 'Are you sure?',
@@ -216,7 +221,19 @@
                     setTimeout(() => {
                         location.reload()
                     }, 800);
-                }else{
+                }else if(result.status == 'canceled'){
+                    Toastify({
+                    text: result.msg,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+                    }).showToast();
+                    setTimeout(() => {
+                        location.reload()
+                    }, 400);
+                }
+                else{
                     Toastify({
                     text: result.msg,
                     className: "info",

@@ -1,5 +1,7 @@
 const Orders = require("../../models/admin/ordersModel")
 
+//----------------------------------------------------------------------------------------
+
 //load dashboard
 const dashboard = async (req, res) => {
     try{
@@ -27,7 +29,6 @@ const dashboard = async (req, res) => {
                 }
             }
         ])
-        // console.log(todaysaleData)
         const canceledOrders = await Orders.find({
             time : { 
                 $gte: new Date(currentYear, currentMonth - 1, currentDay), 
@@ -45,10 +46,14 @@ const dashboard = async (req, res) => {
         }
     }
     catch (error) {
-        res.status(500).render("public/errorPage", { layout: false, status: 'error', msg: error.message });
+        res.status(500).render("admin/errorPage", { layout: false, msg: error.message });
     }
 }
-//for graph
+
+
+//----------------------------------------------------------------------------------------
+
+//fetch data for graph
 const getSaleData = async (req, res) => {
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -87,11 +92,13 @@ const getSaleData = async (req, res) => {
                 monthlyOrderPrices[graphValue[i]._id.month-1] = graphValue[i].totalSubTotal
             }
         }
-        //console.log(monthlyOrderPrices)
         res.json({item : monthlyOrderPrices,})
 }
 
-//for report
+
+//----------------------------------------------------------------------------------------
+
+//fetch data for report
 async function getOrderReport(stat){
     try {
         const currentDate = new Date();
@@ -102,7 +109,6 @@ async function getOrderReport(stat){
         let nextYear = currentYear;
         let nextMonth = currentMonth + 1;
 
-        //console.log(currentMonth, nextMonth)
         if (nextMonth > 12) {
             nextMonth = 1;
             nextYear++;
@@ -136,7 +142,6 @@ async function getOrderReport(stat){
                 status: 'delivered'
             }
         }
-        //console.log(match)
         const orderReport = await Orders.aggregate([
             {
                 $match: match
@@ -176,13 +181,20 @@ async function getOrderReport(stat){
     }
 }
 
+
+//----------------------------------------------------------------------------------------
+
+//show sales page
 const showSalesDataGet = async (req, res) => {
     const stat = req.query.sortBy || 'today'
     const orderReport = await getOrderReport(stat)
     res.render("admin/saleDataPage", {orderReport, orders : orderReport.length})
 }
 
-//export all functions like objects
+
+//----------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     dashboard,
     getSaleData,

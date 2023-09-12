@@ -1,7 +1,10 @@
 const Users = require("../../models/public/userModel")
 const mongoose = require("mongoose")
 
-//show address
+
+//--------------------------------------------------------------------------------------------------------------
+
+//load address book
 const addressBook = async (req, res) => {
     try {
         if(!req.session.isauth){
@@ -11,11 +14,13 @@ const addressBook = async (req, res) => {
             addressData = await Users.findOne({_id : userId}, {addresses : 1, defaultAddress : 1})
             res.render("public/addressBook", {address : addressData})
         }
-        
     } catch (error) {
-        
+        res.render("public/errorPage", {msg : "Issue loading the page"})
     }
 }
+
+
+//--------------------------------------------------------------------------------------------------------------
 
 //save address
 const saveAddress = async (req, res) => {
@@ -35,13 +40,15 @@ const saveAddress = async (req, res) => {
                 res.status(200).json({status : "success", msg : "address added successfully"})
             }
         }
-        
     } catch (error) {
         return res.status(400).json({status : "error", msg : error.message})
     }
 }
 
-//edit address page show
+
+//--------------------------------------------------------------------------------------------------------------
+
+//load edit address
 const editAddress = async (req, res) => {
     try {
         const userId = new mongoose.Types.ObjectId(req.session.isauth)
@@ -58,9 +65,12 @@ const editAddress = async (req, res) => {
         const add = address[0].addresses
         res.render("public/editAddressBook", {address : add})
     } catch (error) {
-         console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
+
+
+//--------------------------------------------------------------------------------------------------------------
 
 //update address
 const updateAddress = async (req, res) => {
@@ -97,9 +107,12 @@ const updateAddress = async (req, res) => {
       res.status(200).json({status : "success", msg : "updated the address"})
 
     } catch (error) {
-        console.log(error.message)
+        res.status(500).json({status : "error", msg : error.message})
     }
 }
+
+
+//--------------------------------------------------------------------------------------------------------------
 
 //delete address
 const deleteAddress = async (req, res) => {
@@ -125,6 +138,9 @@ const deleteAddress = async (req, res) => {
     }
 }
 
+
+//--------------------------------------------------------------------------------------------------------------
+
 //set default
 const setDefault = async (req, res) => {
     try {
@@ -141,24 +157,17 @@ const setDefault = async (req, res) => {
             return res.status(500).json({ status: "error", msg: "Cannot change address" });
         })
     } catch (error) {
-        return res.status(500).json({ status: "error", msg: "Issue changing the address" });
+        return res.status(500).json({ status: "error", msg: "address can't be changed" });
     }
 }
 
 
+//--------------------------------------------------------------------------------------------------------------
 
-const trackOrder = (req, res) => {
-    try {
-        res.render("public/trackOrder")
-    } catch (error) {
-        
-    }
-}
-
+//export all functions
 module.exports = {
     addressBook,
     editAddress,
-    trackOrder,
     saveAddress,
     updateAddress,
     deleteAddress,

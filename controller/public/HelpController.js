@@ -1,6 +1,10 @@
 const helpSupport = require("../../models/public/HelpSupportModel")
 const Users = require("../../models/public/userModel")
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load help page
 const loadPage = (req, res) => {
     try {
         res.status(200).render("public/help")
@@ -9,6 +13,10 @@ const loadPage = (req, res) => {
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//save the user issue
 const saveIssue = async (req, res) => {
     try {
         const {issue} = req.body;
@@ -28,7 +36,10 @@ const saveIssue = async (req, res) => {
     }
 }
 
-//export
+
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     loadPage,
     saveIssue

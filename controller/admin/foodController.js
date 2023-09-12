@@ -6,6 +6,7 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const mongoose = require("mongoose");
 
+
 //---------------------------------------------------------------------------------------------------
 
 // load food index page
@@ -34,6 +35,7 @@ const showFood = async (req, res) => {
   }
 };
 
+
 //---------------------------------------------------------------------------------------------------
 
 // load foos create page
@@ -45,6 +47,7 @@ const createFood = async (req, res) => {
     res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
   }
 };
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -65,6 +68,7 @@ const editFood = async (req, res) => {
     res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
   }
 };
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -137,10 +141,10 @@ const saveFood = async (req, res) => {
 
     res.status(200).json({ status: "success", msg: "Added Food Successfully" });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ status: "error", msg: "Food creation failed" });
   }
 };
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -195,7 +199,6 @@ const updateFood = async (req, res) => {
       if (fs.existsSync(prevImagePath)) {
         // Delete the file
         fs.unlinkSync(prevImagePath);
-        //console.log(`Image ${prevImage} deleted successfully.`);
       } else {
         return res.status(404).json({ status: "error", msg: "Image not found" });
       }
@@ -221,6 +224,7 @@ const updateFood = async (req, res) => {
     res.status(500).json({ status: "error", msg: "Food creation failed" });
   }
 };
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -249,6 +253,7 @@ const foodStatus = async (req, res) => {
     res.status(500).json({ status: "error", msg: error.message });
   }
 };
+
 
 //---------------------------------------------------------------------------------------------------
 

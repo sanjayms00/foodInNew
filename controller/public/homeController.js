@@ -1,9 +1,11 @@
 const Food =  require("../../models/admin/foodModel")
-const Category =  require("../../models/admin/categoryModel")
 const Banner =  require("../../models/admin/bannerModel")
 const categoryController = require("./categoryController");
-// const { response } = require("express");
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load the index page
 const home = async (req,res)=>{
     try {
         const foodData =  Food.find({status : true}).sort({_id : -1}).limit(12)
@@ -17,6 +19,10 @@ const home = async (req,res)=>{
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load search food
 const search = async (req, res) =>{
     try {
         const search = req.query.search
@@ -31,6 +37,10 @@ const search = async (req, res) =>{
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//load all foods page
 const showAllFoods = async (req, res) =>{
     try {   
         const page = parseInt(req.query.page) || 1
@@ -76,7 +86,6 @@ const showAllFoods = async (req, res) =>{
         const limit = 8
 
         const skip = (page - 1) * limit
-        console.log(query)
         const totalSize = await Food.find({status : true}).count()
         const totalPages = Math.ceil(totalSize / limit)
         //main query for pagination
@@ -110,11 +119,9 @@ const showAllFoods = async (req, res) =>{
         const categories =  categoryController.categoryData()
         Promise.all([foodData, categories])
         .then((values) => {
-            console.log(values[0])
             res.status(200).render("public/allFoods", {food : values[0], categories : values[1], currentPage : page, totalPages, totalSize,  limit, query: req.query } )
         })
         .catch((err)=>{
-            // console.log(err.message)
             res.status(500).render("public/errorPage", {status : "error", msg : "Issue loading the page"})
         });
     } catch (error) {
@@ -123,7 +130,9 @@ const showAllFoods = async (req, res) =>{
     }
 }
 
+//-----------------------------------------------------------------------------------------------------
 
+//export all functions
 module.exports = {
     home,
     search,

@@ -62,7 +62,7 @@
             const emailId = formData.get('emailId');
             const phoneNumber = formData.get('phoneNumber');
             // const message = `Food Name: ${foodname}\nFood ID: ${foodId}\nFood Type: ${foodType}\nPrice: ${price}`;
-            // alert(message);
+           
             try {
                 const response = await fetch('/update-profile', {
                     method: 'POST',
@@ -73,7 +73,7 @@
                     });
                     
                     const data = await response.json();
-                    //alert(JSON.stringify(data)); 
+                    
                     const alertDiv = document.getElementById('alertResult');
                     
                     if (data.status === 'success') { 

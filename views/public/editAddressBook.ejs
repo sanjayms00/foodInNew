@@ -89,14 +89,25 @@
             })
             const data = await response.json();
             if (data.status === 'success') {
-                // alert(data.msg);
                 location.href = "/address-book";
             }else{
-                alert(data.msg);
+                Toastify({
+                    text: data.msg,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+                }).showToast();
             }  
             
         } catch (error) {
-            alert(error.message)
+            Toastify({
+                    text: error.message,
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+            }).showToast();
         }
     });
 

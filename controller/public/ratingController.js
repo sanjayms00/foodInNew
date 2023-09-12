@@ -3,6 +3,9 @@ const Orders = require("../../models/admin/ordersModel")
 const mongoose = require('mongoose')
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//save the rating 
 const rate = async (req, res) => {
     try {
        
@@ -28,7 +31,7 @@ const rate = async (req, res) => {
                 { $push: { rating: rate } }
             );
         }
-        console.log("orderId :", orderId)
+        
         // Update the order's rated status
         const updatedOrder = await Orders.updateOne(
             { _id: new mongoose.Types.ObjectId(orderId) },
@@ -37,12 +40,14 @@ const rate = async (req, res) => {
 
         res.status(200).json({ status: "success", msg: "Rating Added" });
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: "error", msg: error.message });
     }
 };
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     rate
 }

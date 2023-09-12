@@ -3,7 +3,7 @@ const Foods = require('../../models/admin/foodModel')
 const mongoose = require("mongoose")
 const cartHelper = require('../../helper/cartHelper')
 
-
+//-----------------------------------------------------------------------------------------------------
 
 //get cart total
 async function getCartTotal(userId){
@@ -40,9 +40,11 @@ async function getCartTotal(userId){
   return cartTotal
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //get cart items
 async function getCartItems(userId){
-  //console.log("user id:"+userId)
   const cartItems = await Cart.aggregate([
     {
       $match: {userId: new mongoose.Types.ObjectId(userId)}
@@ -69,14 +71,15 @@ async function getCartItems(userId){
     }
   ]);
   return cartItems
-  //console.log(cartItems)
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //show cart
 const showCart = async (req, res) => {
   try {
     const userId = req.session.isauth;
-    //console.log(userId)
     if (!userId) {
       res.render("public/errorPage", {msg : "No user found"});
       return
@@ -89,6 +92,9 @@ const showCart = async (req, res) => {
     res.render("public/errorPage", {msg : "Cart Not Available"});
   }
 };
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //delete cart Item
 const deleteCartItem = async (req, res) => {
@@ -112,6 +118,9 @@ const deleteCartItem = async (req, res) => {
     return res.status(500).json({ status: "error", msg: error.message });
   }
 };
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //add to cart
 const addToCart = async (req, res) => {
@@ -143,8 +152,7 @@ const addToCart = async (req, res) => {
         userId: req.session.isauth,
         'items.foodId': foodId,
       });
-      console.log(existingItem)
-      if (!existingItem) {
+      if(!existingItem) {
         await Cart.updateOne({userId : req.session.isauth}, { $push: { items: {foodId : foodId, quantity : 1, total : foodPrice} } });
         const cart = await Cart.findOne({ userId: req.session.isauth });
         if (cart) {
@@ -159,6 +167,10 @@ const addToCart = async (req, res) => {
     }
 };
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//update cart quantity
 const updateCartByQuantity = async (req, res) => {
   try {
     let { foodId, foodPrice, qty, stat, stock} = req.body;
@@ -222,7 +234,9 @@ const updateCartByQuantity = async (req, res) => {
 };
 
 
+//-----------------------------------------------------------------------------------------------------
 
+//export all functions
 module.exports = {
   addToCart,
   showCart,

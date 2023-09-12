@@ -84,8 +84,6 @@ publicRoute.get("/orders", userMiddleWare.isBlocked, orderController.currentOrde
 publicRoute.get("/order-history", userMiddleWare.isBlocked, orderController.orderHistory)
 publicRoute.get("/canceled-orders", userMiddleWare.isBlocked, orderController.canceledOrders)
 publicRoute.delete("/cancel-order", userMiddleWare.isBlocked, orderController.cancelOrder)
-publicRoute.patch("/rate-food", userMiddleWare.isBlocked, orderController.rating)
-publicRoute.get("/track-order", userMiddleWare.isBlocked, addressController.trackOrder)
 
 //order tacking routes
 publicRoute.get("/wallet", userMiddleWare.isBlocked, walletController.wallet)

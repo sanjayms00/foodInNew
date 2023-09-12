@@ -23,7 +23,7 @@ async function addToCart(foodData, auth){
             });
             
             const data = await response.json();
-            //alert(JSON.stringify(data)); 
+          
             const alertDiv = document.getElementById('alertResult');
             
             if (data.status === 'success') { 
@@ -39,7 +39,7 @@ async function addToCart(foodData, auth){
                     style: {
                         background: "linear-gradient(to right, #0b7303, #24c9a3)",
                     }
-                    }).showToast();
+                }).showToast();
             }
             else if (data.status === "blocked"){
                 Toastify({
@@ -63,10 +63,10 @@ async function addToCart(foodData, auth){
                     style: {
                         background: "linear-gradient(to right, #ff0000, #dd2a7f)",
                     }
-                    }).showToast();
-                    setTimeout(()=>{
-                        btn.innerText = "Add to Cart"
-                    },500)
+                }).showToast();
+                setTimeout(()=>{
+                    btn.innerText = "Add to Cart"
+                },500)
             }
         }catch (error) {
             Toastify({

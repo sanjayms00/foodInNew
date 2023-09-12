@@ -354,7 +354,7 @@
           });
 
           const result = await response.json();
-          // alert(JSON.stringify(result))
+          
           if (result.status === 'success') {
             if (result.paymentMethod === 'cod') {
               window.location.href = "/success"
@@ -369,7 +369,7 @@
               throw new Error("Invalid Payment Option")
             }
           } else {
-            // alert("error", result.msg)
+           
             Toastify({
               text: result.msg,
               className: "info",
@@ -395,9 +395,9 @@
         "key": "rzp_test_VKYrvNHj11eGIQ", // Enter the Key ID generated from the Dashboard
         "amount": order.razorpayOrder.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
         "currency": order.razorpayOrder.currency,
-        "name": "FOODIN",
+        "name": "foodin",
         "description": "Test Transaction",
-        "image": "https://example.com/your_logo",
+        "image": "./assets/img/logo.png",
         "order_id": order.razorpayOrder.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         "handler": function (response) {
           // alert(response.razorpay_payment_id);
@@ -406,12 +406,12 @@
           verifyPayment(response, order)
         },
         "prefill": {
-          "name": "Sanjay M S",
-          "email": "Sanjayms1321999@gmail.com",
-          "contact": "7025903817"
+          "name": "Foodin",
+          "email": "foodinfastdelivery@gmail.com",
+          "contact": "1234567890"
         },
         "notes": {
-          "address": "Razorpay Corporate Office"
+          "address": "foodin restaurant"
         },
         "theme": {
           "color": "#3399cc"

@@ -49,11 +49,23 @@ function bannerUpdateValidate(){
     const prevImage = document.getElementById("prevImage")
 
     if (bannerId.value.trim() === "") {
-        alert("banner Id is Required")
+        Toastify({
+            text: "Banner id is Required",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
         return false;
     }
     if (prevImage.value.trim() === "") {
-        alert("banner image is Required")
+        Toastify({
+            text: "Banner image is Required",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
         return false;
     }
     return bannerValidate()

@@ -90,11 +90,23 @@ function foodUpdateValidate(){
     const prevImage = document.getElementById("prevImage")
 
     if (foodId.value.trim() === "") {
-        alert("food Id is Required")
+        Toastify({
+            text: "food Id is Required",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
         return false;
     }
     if (prevImage.value.trim() === "") {
-        alert("food Id is Required")
+        Toastify({
+            text: "food Id is Required",
+            className: "info",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+        }).showToast();
         return false;
     }
     return foodValidate()

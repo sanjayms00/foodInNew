@@ -5,12 +5,11 @@ const showusers = async (req,res)=>{
         const userData = await Users.find({})
         res.status(200).render("admin/users", {data : userData})
     } catch (error) {
-        console.log(error.message)
+        res.status(500).render("admin/errorPage", {msg : error.message})
     }
 }
 const userStatus = async (req,res)=>{
     try {
-        
         const {userId, status} = req.body
         const updateStatus = await Users.updateOne({_id : userId}, {$set : {blocked : status === "true"}})
         if(!updateStatus){

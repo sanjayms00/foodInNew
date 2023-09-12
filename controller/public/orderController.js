@@ -4,6 +4,9 @@ const orderHelper = require('../../helper/orderHelper')
 var easyinvoice = require('easyinvoice');
 const fs = require('fs');
 
+
+//--------------------------------------------------------------------------------------------
+
 //show current orders
 const currentOrders = async (req, res) => {
     try {
@@ -17,6 +20,9 @@ const currentOrders = async (req, res) => {
         res.render("public/errorPage", {status : "error", msg : "Issue loading the page"})
     }
 }
+
+
+//--------------------------------------------------------------------------------------------
 
 //canceled order page
 const canceledOrders = async (req, res) => {
@@ -32,6 +38,9 @@ const canceledOrders = async (req, res) => {
     }
 }
 
+
+//--------------------------------------------------------------------------------------------
+
 // load the order history
 const orderHistory = async (req, res) => {
     try {
@@ -46,6 +55,9 @@ const orderHistory = async (req, res) => {
     }
 }
 
+
+//--------------------------------------------------------------------------------------------
+
 //cancel the order user side
 const cancelOrder = async (req, res) => {
     try {
@@ -53,14 +65,24 @@ const cancelOrder = async (req, res) => {
         if(!orderId){
             return res.status(404).json({status : "error", msg : "order not Found"})
         }
-        await orderHelper.cancelOrder(orderId)
-        .then((response)=>{
-            res.status(200).json({status : "success", msg : response})
-        }) 
+        const validateOrder = await Orders.find({_id : orderId}, {status : 1, _id : 0})
+        if(validateOrder[0].status !== 'canceled')
+        {
+            await orderHelper.cancelOrder(orderId)
+            .then((response)=>{
+                res.status(200).json({status : "success", msg : response})
+            }) 
+        }else{
+            res.status(400).json({status : "canceled", msg : "Order is already canceled"})
+        }
+        
     } catch (error) {
         return res.status(400).json({status : "error", msg : error.message})
     }
 }
+
+
+//--------------------------------------------------------------------------------------------
 
 //invoice downloader
 const downloadInvoice = async (req, res) => {
@@ -133,9 +155,7 @@ const downloadInvoice = async (req, res) => {
             easyinvoice.createInvoice(data, (result) => {
                 const randomInt = Math.floor(Math.random() * 100000);
                 const filename = "invoice_" + randomInt + ".pdf";
-
                 fs.writeFileSync("views/uploads/" + filename, result.pdf, 'base64');
-
                 resolve(result);
             });
         });
@@ -147,22 +167,14 @@ const downloadInvoice = async (req, res) => {
     }
 }
 
-//rate order foods
-const rating = async (req, res) => {
-    try{
-        console.log(req.body)
-    } catch (err) {
 
-    }
-}
+//--------------------------------------------------------------------------------------------
 
-
-
+//exporting the functions
 module.exports = {
     currentOrders,
     orderHistory,
     canceledOrders,
     cancelOrder,
-    downloadInvoice,
-    rating
+    downloadInvoice
 }

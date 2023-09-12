@@ -1,4 +1,3 @@
-
 require("dotenv").config()
 const Users = require("../../models/public/userModel")
 const Category = require("../../models/admin/categoryModel")
@@ -16,15 +15,21 @@ const client = require("twilio")(accountSid, authToken);
 const fromEmailId = process.env.EMAILID;
 const emailPassword = process.env.EMAilPASSWORD;
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //login
 const login = async (req, res) => {
     try {
         const categoryData = await Category.find({})
         res.render("public/loginMobile", {categories : categoryData})
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //login authenticate
 const loginAuthenticate = async (req, res) => {
@@ -63,6 +68,9 @@ const loginAuthenticate = async (req, res) => {
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //show verify otp page
 const verifyOtp = (req, res) => {
     try {
@@ -72,6 +80,9 @@ const verifyOtp = (req, res) => {
         res.status(500).render('public/errorPage', {msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //validate otp
 const validateOtp = async (req, res) => {
@@ -88,9 +99,7 @@ const validateOtp = async (req, res) => {
             .services(verifySid)
             .verificationChecks.create({ to: `+91${mobileNumber}`, code: otp })
             .then((verification_check) => {
-                console.log(verification_check.status)
                 if (verification_check.status === "approved") {
-                    // console.log(verification_check);
                         req.session.isauth = getUser._id;
                         req.session.email = getUser.email;
                         req.session.isBlocked = getUser.blocked;
@@ -110,6 +119,9 @@ const validateOtp = async (req, res) => {
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //validate the mobile number
 const validateNumber = async (req, res) => {
     try {
@@ -125,7 +137,6 @@ const validateNumber = async (req, res) => {
         .services(verifySid)
         .verifications.create({ to: `+91${mobileNumber}`, channel: "sms" })
         .then((verification) => {
-            console.log(verification.status)
             res.json({status: "success", msg : 'number validated'})
         })
         .catch((err)=>{
@@ -137,19 +148,24 @@ const validateNumber = async (req, res) => {
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
 //fogot password authenticate
 const forgotPassword = (req, res) => {
     try {
         res.render("public/forgotPassword.ejs")
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //fogot password authenticate
 const forgotPasswordAuth = async (req, res) => {
     try {
-        console.log("haii")
         const {forgotEmail} = req.body
         const findUser = await Users.findOne({email : forgotEmail})
         if(!findUser){
@@ -165,7 +181,6 @@ const forgotPasswordAuth = async (req, res) => {
 
             //send email
             // let testAccount = await nodemailer.createTestAccount()
-            console.log(fromEmailId, emailPassword)
             const config = {
                 service : "gmail",
                 auth : {
@@ -217,9 +232,12 @@ const forgotPasswordAuth = async (req, res) => {
             })
         }
     } catch (error) {
-        console.log(error.message)
+        res.status(500).json({status : "error", msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //fogot password authenticate
 const resetPassword = async (req, res) => {
@@ -232,22 +250,23 @@ const resetPassword = async (req, res) => {
                 const secret = jwtsecretKey+checkUser.password
                 const payload = jwt.verify(token, secret)
                 if(!payload){
-                    res.status(400).send("unauthorixed user")
+                    res.status(400).send("Unauthoried user")
                 }else{
                     res.render("public/resetPassword", {email : checkUser.email})
-                    // res.status(200).json({status : "status", msg : "User verified, reset the password"})
                 }
         }
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //fogot password authenticate
 const resetPasswordAuth = async (req, res) => {
     try {
         const {password, confirmPassword, email} = req.body
-        console.log(password, confirmPassword, email)
         if(password !== confirmPassword){
             res.status(400).json({status : "error", msg : "password does not match"})
         }else{
@@ -260,9 +279,12 @@ const resetPasswordAuth = async (req, res) => {
             }
         }
     } catch (error) {
-        console.log(error.message)
+        res.status(500).json({status : 'error', msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //signup 
 const signup = async (req, res) => {
@@ -270,14 +292,16 @@ const signup = async (req, res) => {
         const categoryData = await Category.find({})
         res.render("public/signup", {categories : categoryData})
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
+
+
+//-----------------------------------------------------------------------------------------------------
 
 //signup authenticate
 const signupAuthenticate = async (req, res) => {
     try {
-        console.log(req.body);
         const { firstName, lastName, emailId, mobileNumber, signupPassword, confirmPassword } = req.body
         //check the user exist or not
         const checkUser = await Users.findOne({$or : [{email : emailId}, {phone : mobileNumber}]})
@@ -304,28 +328,34 @@ const signupAuthenticate = async (req, res) => {
                 return res.status(400).render({status : "error", msg : "Password does not match"});
             }
         }
-       
-    } catch (error) {
-        console.log(error.message)
-        res.status(500).json({status : "error", msg : "internal server error"})
+    } 
+    catch (error) {
+        res.status(500).json({status : "error", msg : error.message})
     }
 }
 
+
+//-----------------------------------------------------------------------------------------------------
+
+//logout
 const logOut = (req,res)=>{
     try {
         req.session.destroy((err)=>{
             if(err){
-                console.log(err.message)
+                res.render("public/errorPage", {msg : err.message})
             }else{
                 res.redirect("/login")
             }
         })
     } catch (error) {
-        console.log(error.message)
+        res.render("public/errorPage", {msg : error.message})
     }
 }
 
 
+//-----------------------------------------------------------------------------------------------------
+
+//export all functions
 module.exports = {
     login,
     loginAuthenticate,

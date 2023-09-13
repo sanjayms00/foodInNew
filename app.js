@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'views/uploads')));
 
 app.use(express.urlencoded({extended : true}))
 app.use(express.json())
+app.use(express.json({ limit: '10mb' }));
 
 //public and admin routes
 const publicRoute = require("./routes/public/publicRoute")

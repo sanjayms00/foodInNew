@@ -29,23 +29,30 @@
                                 let i = 1;
                                 data.forEach((item)=>{
                             %>
-                            <div class="row py-1">
+                            <div class="row py-1 text-light">
                                 <div class="py-3 col-sm-12">
-                                    <div class="text-light rounded p-2" style="background-color: #595959;">
-                                        <p class="mb-0 px-3">Order Id : <%= item._id %></p>
-                                        <p class="mb-0 px-3">Payment Method : <%= item.paymentMethod %></p>
-                                        <p class="mb-0 px-3">Payment Status : <%= item.paymentStatus %></p>
-                                        <p class="mb-0 px-3">status : <%= item.status %></p>
-                                        <p class="mb-0 px-3">Address : <%= item.address %></p>
-                                        <p class="mb-0 px-3">Date : <%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></p>
-                                        <p class="mb-0 px-3">Time : <%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> </p>
-                                        <hr>
+                                    <div class="text-dark border border-dark rounded p-2">               
+                                        <p class="mb-0 px-3"><strong>Order Id :</strong> &nbsp;&nbsp;&nbsp; <%= item._id %></p>
+                                        <p class="mb-0 px-3"><strong>Payment Method :</strong> &nbsp;&nbsp;&nbsp; <%= item.paymentMethod %></p>
+                                        <p class="mb-0 px-3"><strong>Payment Status :</strong> &nbsp;&nbsp;&nbsp; <%= item.paymentStatus %></p>
+                                        <p class="mb-0 px-3"><strong>Address :</strong> &nbsp;&nbsp;&nbsp; <%= item.address %></p>
+                                        <p class="mb-0 px-3"><strong>Date :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></p>
+                                        <p class="mb-0 px-3"><strong>Time :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> </p>
+                                        <hr class="py-1">
                                         <% item.items.forEach((element)=>{ %>
-                                            <span class="mb-0 px-3"><b>Dish :</b> <%= element.carted.foodName %></span><span class="mb-0 px-3"><b>Qty :</b> <%= element.quantity %></span><span class="mb-0 p-3"><b>Price :</b> <%= element.total %></span>
+                                            <span class="mb-0 px-3"><b>Dish :</b> <%= element.carted[0].foodName %></span><span class="mb-0 px-3"><b>Qty :</b> <%= element.quantity %></span><span class="mb-0 p-3"><b>Price :</b> <%= element.total %></span>
                                             <hr>
                                         <% }) %>
-                                        <h4 class="mb-0 px-3 float-start">Total : <span class="text-danger">₹ <%= item.subTotal %></span></h4>
-                                        <h4 class="mb-0 px-3">Wallet Amount : <span class="text-danger">₹ <%= item.walletAmount ? item.walletAmount : 'None' %></span></h4>                                    </div>
+                                        <br>
+                                        <p class="mb-1 px-2 float-end"><strong>Discount Price :</strong> ₹ <%= item.discountedPrice ? item.discountedPrice : 'Nil' %></p>
+                                        <p class="mb-1 px-2 float-end"><strong>Discount</span> :</strong> <%= item.discount ? item.discount+'%' : 'Nil' %></p>
+                                        <p class="mb-1 px-2 float-end"><strong>Sub Total :</strong> ₹ <%= item.price ? item.price : 'Nil' %></p>
+                                        <br>
+                                        <br>
+                                        <h5 class="mb-0 px-2 float-end">Wallet Amount : <span class="text-danger">₹ <%= item.walletAmount ? item.walletAmount : 'None' %></span></h5>
+                                        <h5 class="mb-0 px-4 float-end">Total : <span class="text-danger">₹ <%= item.subTotal %></span></h5>
+                                        <br>
+                                    </div>
                                 </div>
                             </div>
                             <% }) %> 

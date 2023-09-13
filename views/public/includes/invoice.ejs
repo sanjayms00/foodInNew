@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Invoice</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .center{
+            text-align: center;
+        }
+
+        .header {
+            text-align: center;
+            background-color: #1a1a18;
+            color: #fff;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .invoice-header .invoice-logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .invoice-header .invoice-address {
+            text-align: right;
+        }
+
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+
+        .invoice-details p {
+            margin: 5px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        thead{
+            text-align: center;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Invoice</h2>
+        </div>
+        <div class="invoice-header">
+            <div class="invoice-logo">Foodin</div>
+            <div class="invoice-address">
+                <p><strong>foodin</strong></p>
+                <p><strong>Round south, Thrissur</strong></p>
+                <p><strong>680 300</strong></p>
+            </div>
+        </div>
+
+        <div class="invoice-details">
+            <p><strong>Order ID:</strong> <%= order._id %></p>
+            <p><strong>Date:</strong> <span id="date"></span></p>
+            <p><strong>Time:</strong> <span id="time"></span></p>
+            <p><strong>Customer Address:</strong> <%= order.address %></p>
+            <br>
+            <span><strong>Order Status:</strong> <%= order.status %></span> &nbsp;&nbsp;&nbsp;&nbsp;
+            <span><strong>Payment Status:</strong> <%= order.paymentStatus %></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span><strong>Payment Method:</strong> <%= order.paymentMethod %></span>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% 
+                    let i = 1;
+                    order.items.forEach(element => { 
+                %>
+                    <tr>
+                        <td><%= i %></td>
+                        <td class="center"><%= element.carted[0].foodName %></td>
+                        <td class="center"><%= element.quantity %></td>
+                        <td class="center">₹ <%= element.carted[0].discPrice %></td>
+                        <td class="center">₹ <%= element.total %></td>
+                    </tr>
+                <% 
+                    i++ 
+                    }) 
+                %>
+                <tr>
+                    <td></td>
+                    <td colspan="3">
+                        <p>Discount<br><br> Discounted price</p>
+                        <h3>Wallet Amount</h3>
+                        <h3>Total</h3>
+                    </td>
+                    <td>
+                        <p><%= order.discount %> %<br><br> ₹ <%= order.discountedPrice %></p>
+                        <h3><%= order.walletAmount ? '₹ '+ order.walletAmount : 'Null'  %> </h3>
+                        <h3>₹ <%= order.subTotal %> </h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            Thankyou for visiting foodin.
+        </div>
+    </div>
+    <script>
+    // Assuming order.deliveredTime is a valid date-time string
+    const deliveredTime = new Date('<%= order.deliveredTime %>');
+
+    // Extract the date and time components
+    const date = deliveredTime.toLocaleDateString('en-US');
+    const time = deliveredTime.toLocaleTimeString('en-US');
+
+    // Update the HTML elements with the formatted date and time
+    document.getElementById('date').textContent = date;
+    document.getElementById('time').textContent = time;
+    </script>
+</body>
+
+</html>

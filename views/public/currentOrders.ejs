@@ -55,9 +55,10 @@
                                 let i = 1;
                                 data.forEach((item)=>{
                             %>
-                            <div class="row py-1">
+                            
+                            <div class="row py-1 text-light">
                                 <div class="py-3 col-sm-12">
-                                    <div class="rounded p-2" style="background-color: #d3ea66;">
+                                    <div class="text-dark border border-dark rounded p-2">
                                         <% if (item.status === 'prepared' || item.status === 'delivered') { %>
                                             <button type="button" class="btn btn-danger float-end m-1" disabled>Cancel Order</button>
                                         <% }else{ %>
@@ -102,26 +103,27 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div> 
-                                        
-                                        <p class="mb-1 px-3"><span class="pe-4">Order Id</span> : <b><%= item._id %></b></p>
-                                        <p class="mb-1 px-3"><span class="pe-4">status</span> : <b><%= item.status %></b></p>
-                                        <p class="mb-1 px-3"><span class="pe-4">Date</span> : <b><%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></b></p>
-                                        <p class="mb-1 px-3"><span class="pe-4">Time</span> : <b><%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %></b> </p>
-                                        <p class="mb-1 px-3"><span class="pe-4">Address</span> : <b><b></b><%= item.address %></b></p>
-                                        <p class="mb-1 px-3"><span class="pe-4">Payment Method</span> : <b><%= item.paymentMethod %></b></p>
-                                        <p class="mb-1 px-3"><span class="pe-4">Payment Status</span> : <b><%= item.paymentStatus %></b></p>
-                                        <br>
-                                        <span class="mb-1 px-3"><span class="pe-4">Price</span> : <b>₹ <%= item.price ? item.price : 'Nil' %></b></span>
-                                        <span class="mb-1 px-3"><span class="pe-4">Discount Price</span> : <b>₹ <%= item.discountedPrice ? item.discountedPrice : 'Nil' %></b></span>
-                                        <span class="mb-1 px-3"><span class="pe-4">Discount</span> : <b><%= item.discount ? item.discount+'%' : 'Nil' %></b></span>
-                                        <hr>
+                                        </div>                 
+                                        <p class="mb-0 px-3"><strong>Order Id :</strong> &nbsp;&nbsp;&nbsp; <%= item._id %></p>
+                                        <p class="mb-0 px-3"><strong>Payment Method :</strong> &nbsp;&nbsp;&nbsp; <%= item.paymentMethod %></p>
+                                        <p class="mb-0 px-3"><strong>Payment Status :</strong> &nbsp;&nbsp;&nbsp; <%= item.paymentStatus %></p>
+                                        <p class="mb-0 px-3"><strong>Address :</strong> &nbsp;&nbsp;&nbsp; <%= item.address %></p>
+                                        <p class="mb-0 px-3"><strong>Date :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></p>
+                                        <p class="mb-0 px-3"><strong>Time :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> </p>
+                                        <hr class="py-1">
                                         <% item.items.forEach((element)=>{ %>
                                             <span class="mb-0 px-3"><b>Dish :</b> <%= element.carted[0].foodName %></span><span class="mb-0 px-3"><b>Qty :</b> <%= element.quantity %></span><span class="mb-0 p-3"><b>Price :</b> <%= element.total %></span>
                                             <hr>
                                         <% }) %>
-                                        <h4 class="mb-0 px-3 float-start">Total : <span class="text-danger">₹ <%= item.subTotal %></span></h4>
-                                        <h4 class="mb-0 px-3">Wallet Amount : <span class="text-danger">₹ <%= item.walletAmount ? item.walletAmount : 'Nil' %></span></h4>
+                                        <br>
+                                        <p class="mb-1 px-2 float-end"><strong>Discount Price :</strong> ₹ <%= item.discountedPrice ? item.discountedPrice : 'Nil' %></p>
+                                        <p class="mb-1 px-2 float-end"><strong>Discount</span> :</strong> <%= item.discount ? item.discount+'%' : 'Nil' %></p>
+                                        <p class="mb-1 px-2 float-end"><strong>Sub Total :</strong> ₹ <%= item.price ? item.price : 'Nil' %></p>
+                                        <br>
+                                        <br>
+                                        <h5 class="mb-0 px-2 float-end">Wallet Amount : <span class="text-danger">₹ <%= item.walletAmount ? item.walletAmount : 'None' %></span></h5>
+                                        <h5 class="mb-0 px-4 float-end">Total : <span class="text-danger">₹ <%= item.subTotal %></span></h5>
+                                        <br>
                                     </div>
                                 </div>
                             </div>

@@ -1,8 +1,7 @@
 const Orders = require('../../models/admin/ordersModel')
 const mongoose  = require('mongoose')
 const orderHelper = require('../../helper/orderHelper')
-var easyinvoice = require('easyinvoice');
-const fs = require('fs');
+
 
 
 //--------------------------------------------------------------------------------------------
@@ -82,88 +81,25 @@ const cancelOrder = async (req, res) => {
 }
 
 
+
+
 //--------------------------------------------------------------------------------------------
 
 //invoice downloader
 const downloadInvoice = async (req, res) => {
     try {
-        const id = req.params.orderId;
         const userId = req.session.isauth;
-        const result = await orderHelper.findInvoiceOrder(id, userId);
 
+        const orderId = req.params.orderId;
+        const orderData = await orderHelper.findInvoiceOrder(orderId, userId);
 
-        const order = {
-            id: id,
-            total: result[0].walletAmount + result[0].subTotal,
-            date: result[0].time, // Use the formatted date
-            paymentMethod: result[0].paymentMethod,
-            paymentStatus: result[0].paymentStatus,
-            orderStatus: result[0].status,
-            address: result[0].address,
-            product: result[0].items,
-            deliveredTime: result[0].deliveredTime
-        };
-        //set up the product
-        const products = order.product.map((product) => ({
-            "quantity": parseInt(product.quantity),
-            "description": product.carted.foodName,
-            "price": parseInt(product.carted.discPrice),
-            "total": parseInt(product.total),
-            "tax-rate" : 0
-          }))
+        const pdfBuffer = await orderHelper.generateInvoicePDF(orderData);
 
-        const isoDateString = order.date;
-        const isoDate = new Date(isoDateString);
-
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = isoDate.toLocaleDateString('en-US', options);
-
-        const data = {
-            
-            "customize": {
-                //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
-            },
-            "images": {
-                // The invoice background
-                "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
-            },
-            // Your own data
-            "sender": {
-                "company": "foodIn",
-                "address": "foodIn Round North",
-                "city": "Thsissur",
-                "country": "India"
-            },
-            // Your recipient
-            "client": {
-                "company": "Customer Address",
-                "address": order.address,
-            },
-            "information": {
-                // Invoice number
-                "number": 'order'+order.id,
-                // ordered date
-                "date": formattedDate,
-                // food delivered date
-                "due date": "Nil"
-            },
-            "products": products,
-            "bottom-notice": "Happy shoping and visit foodin again",
-        };
-        
-        const pdfResult = await new Promise((resolve, reject) => {
-            easyinvoice.createInvoice(data, (result) => {
-                const randomInt = Math.floor(Math.random() * 100000);
-                const filename = "invoice_" + randomInt + ".pdf";
-                fs.writeFileSync("views/uploads/" + filename, result.pdf, 'base64');
-                resolve(result);
-            });
-        });
-
-        // Send a response back to the frontend
-        res.status(200).json({ message: 'Invoice generated successfully' });
+        res.setHeader('Content-Disposition', `attachment; filename=invoice_${orderId}.pdf`);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.send(pdfBuffer);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).render('public/errorPage', {msg : error.message});
     }
 }
 

@@ -114,7 +114,7 @@ publicRoute.get("/success",userMiddleWare.isBlocked, checkoutController.success)
 publicRoute.get("/failed",userMiddleWare.isBlocked, checkoutController.failed)
 
 //invoice route
-publicRoute.get("/generate-pdf/:orderId",userMiddleWare.isBlocked, orderController.downloadInvoice)
+publicRoute.get("/download-invoice/:orderId",userMiddleWare.isBlocked, orderController.downloadInvoice)
 
 //rating route
 publicRoute.put("/rate-order",userMiddleWare.isBlocked, ratingController.rate)

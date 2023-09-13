@@ -489,8 +489,8 @@
           walletAmount.innerHTML = wallet;
           document.getElementById('wallAmount').value = wallet
           //update wallet amount
-          amountPayable.innerHTML = price - wallet
-          document.getElementById('totalPrice').value = price - wallet
+          amountPayable.innerHTML = parseFloat(price - wallet).toFixed(2)
+          document.getElementById('totalPrice').value = parseFloat(price - wallet).toFixed(2)
           $('input[name="paymentOption"][value="onlinePay"]').prop('checked', true);
           document.getElementById('walletInPrice').innerHTML = 0
           $('#codList').hide()

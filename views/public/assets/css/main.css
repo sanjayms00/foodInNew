@@ -1,12 +1,21 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian&display=swap');
-
 :root {
   scroll-behavior: smooth;
 }
 
 body {
   color: rgba(var(--color-primary-rgb), 1);
+}
+
+
+/* detail page wishlist and cart  */
+
+#addToWishList:hover {
+  color: darkred !important;
+}
+
+#addToCart:hover {
+  color: darkred !important;
 }
 
 .accordion.accordion-flush .accordion-button {
@@ -67,8 +76,9 @@ a:hover {
 }
 
 p{
-  font-family: 'Noto Sans Georgian', sans-serif;
-  font-size: 14px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: 500;
 }
 
 

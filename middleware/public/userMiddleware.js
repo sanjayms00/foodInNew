@@ -1,5 +1,6 @@
 const Users = require("../../models/public/userModel")
 const Cart = require("../../models/public/cartModel")
+const mongoose = require('mongoose')
 
 const isloggedIn = (req, res, next) => {
     if (req.session.isauth) {
@@ -39,8 +40,10 @@ const checkUserBlocked = async (req,res,next) => {
 const sessionCheck = async (req, res, next) => {
 
     const cart = await Cart.findOne({ userId: req.session.isauth });
-    if (cart) {
+    const userData = await Users.findOne({ _id : req.session.isauth }, {wishlist : 1});
+    if (cart && userData) {
         res.locals.CartLength = cart.items.length;
+        res.locals.wishlistLength = userData.wishlist.length;
     }else{
         res.locals.CartLength = false
     }

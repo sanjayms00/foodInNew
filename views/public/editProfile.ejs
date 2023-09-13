@@ -83,8 +83,8 @@
                         alertDiv.innerText = data.msg;
                         
                         setTimeout(()=>{
-                            window.location = "http://localhost:3000/my-profile"
-                        },1000)
+                            window.location.href = "/my-profile"
+                        },300)
                     } else {
                         alertDiv.classList.remove('alert-success');
                         alertDiv.classList.add('alert-danger');

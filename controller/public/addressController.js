@@ -30,7 +30,7 @@ const saveAddress = async (req, res) => {
         }else{
             const userId = new mongoose.Types.ObjectId(req.session.isauth)
             const address = {fullName, mobileNumber, pinCode, addressLine, city, state, addressType } = req.body
-            // console.log(fullName, mobileNumber, pinCode, addressLine, city, state, addressType)
+            
             const saveData = await Users.updateOne({_id : userId},{$push : {addresses : address} })
             if(!saveData){
                 return res.status(400).json({status : "error", msg : "can't add address at the moment "})

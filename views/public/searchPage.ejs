@@ -28,7 +28,7 @@
                             <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
                             <div class="float-end fs-6">
                                 <i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`) "></i>
-                                <i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5"></i>
+                                <i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5" id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
                             </div>
                             <h2 style="height: 50px; padding-top: 10px;" class=""><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h2>
                             <a href="/foodDetail/<%= item.slug %>"><button type="button" class="btn btn-danger float-end">Show Details</button></a>
@@ -43,4 +43,5 @@
     </div>
 </div>
 <script src="../assets/js/cart.js"></script>
+<script src="../assets/js/wishlist.js"></script>
 <%- include("./includes/footer") %>

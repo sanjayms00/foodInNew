@@ -1,7 +1,6 @@
 //create schema structure of document
 const mongoose = require("mongoose")
 
-
 const walletTransactionSchema = new mongoose.Schema({
     amount :{
         type : Number,
@@ -16,6 +15,10 @@ const walletTransactionSchema = new mongoose.Schema({
         type : Date
     }
 });
+
+
+//---------------------------------------------------------------------------
+
 
 const addressSchema = new mongoose.Schema({
     fullName : {
@@ -48,6 +51,18 @@ const addressSchema = new mongoose.Schema({
     }
 })
 
+
+//---------------------------------------------------------------------------
+
+
+const wishlistSchema = new mongoose.Schema({
+    foodId : {
+        type : mongoose.Schema.Types.ObjectId
+    }
+})
+
+
+//---------------------------------------------------------------------------
 
 
 const userSchema = new  mongoose.Schema({
@@ -109,8 +124,15 @@ const userSchema = new  mongoose.Schema({
     walletTransactions : {
         type : [walletTransactionSchema],
         required : true
-     }
+    },
+    wishlist : {
+        type : [wishlistSchema],
+    }
 })
+
+
+//---------------------------------------------------------------------------
+
 
 //define Model
 const Users = mongoose.model("Users", userSchema)

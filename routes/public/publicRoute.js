@@ -96,9 +96,8 @@ publicRoute.patch("/update-cart-data", userMiddleWare.isBlocked, cartController.
 
 //wishlist routes
 publicRoute.get("/wishlist", userMiddleWare.isBlocked, wishlistController.loadWishlist)
-// publicRoute.post("/delete-cart-item", userMiddleWare.isBlocked, cartController.deleteCartItem)
-// publicRoute.get("/cart", userMiddleWare.isBlocked, cartController.showCart)
-// publicRoute.patch("/update-cart-data", userMiddleWare.isBlocked, cartController.updateCartByQuantity)
+publicRoute.put("/add-to-wishlist", userMiddleWare.isBlocked, wishlistController.addToWishlist)
+publicRoute.patch("/delete-wishlist", userMiddleWare.isBlocked, wishlistController.deleteWishlist)
 
 
 //checkout Routes

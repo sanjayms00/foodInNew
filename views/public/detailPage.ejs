@@ -45,16 +45,15 @@
                         <% }else if(locals.data.totalStoke <= 0){ %>
                             <h6 class="text-danger">Out of Stock</h6>
                         <% }%>
-                        <button id="addToCart" onclick="addToCart(`<%= JSON.stringify(data) %>`, `<%= isAuthenticated %>`) " class="btn btn-warning w-25 fs-5 rounded-2 float-start"><i class="bi bi-bag-fill p-1"></i> Add to Cart</button>
-                        <div class="float-start fs-4 p-1">
-                            <!-- <i class="bi bi-heart p-1 border border-dark rounded-1"></i> -->
-                            <i class="bi text-warning bi-heart-fill border border-dark p-1 rounded-1"></i>
-                        </div>
+                        <button id="addToCart" onclick="addToCart(`<%= JSON.stringify(data) %>`, `<%= isAuthenticated %>`) " class="btn btn-warning">
+                            <p class="mb-0"><i class="bi bi-bag-fill p-1"></i> Add to Cart</p>
+                        </button>
+                        <button id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(data) %>`, `<%= isAuthenticated %>`) " class="btn btn-warning">
+                            <p class="mb-0"><i class="bi bi-heart-fill p-1"></i> Add to Wishlist</p>
+                        </button>
+                        
                 </div>
             </div>
-         
-
-           
         </div>
     </div>
     <script src='https://code.jquery.com/jquery-1.11.0.js'></script>
@@ -69,5 +68,6 @@
     </script>
 
     <script src="../assets/js/cart.js"></script>
+    <script src="../assets/js/wishlist.js"></script>
     <!-- include footer -->
     <%- include('./includes/footer') %>

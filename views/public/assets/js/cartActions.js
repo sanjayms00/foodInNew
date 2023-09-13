@@ -122,7 +122,6 @@ async function updateQtyInDb(btn, foodPrice, qty, foodId, stat, stock){
       const data = await response.json();
       if(data.status === "success"){
         const input = btn.parentElement.querySelector('input[type="number"]');
-        // console.log(input)
         input.value = data.items[0].quantity;
         const itemPrice = btn.parentElement.parentElement.querySelector('.total-price');
         itemPrice.innerText = data.items[0].total;

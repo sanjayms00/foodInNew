@@ -49,10 +49,14 @@
                 <th class="py-3">orderId</th>
                 <th class="py-3">Customer</th>
                 <th class="py-3">Date & time</th>
+                <th class="py-3" style="min-width: 200px;">address</th>
                 <th class="py-3">payment Method</th>
                 <th class="py-3">payment Status</th>
                 <th class="py-3">Order Status</th>
-                <th class="py-3" style="min-width: 200px;">address</th>
+                <th class="py-3">Wallet Amount</th>
+                <th class="py-3">coupon Code</th>
+                <th class="py-3">Discounted Price</th>
+                <th class="py-3">Items Count</th>
                 <th class="py-3">Total</th>
                 </tr>
             </thead>
@@ -64,17 +68,21 @@
               %>
                 <tr>
                 <td class="py-3"><%= i %></td>
-                <td class="py-3"><%= element.orderDetails.orderId %></td>
+                <td class="py-3 orderId"><%= element.orderDetails.orderId %></td>
                 <td class="py-3"><%= element.firstName +' '+ element.lastName %></td>
                 <td class="py-3">
                     <%= element.orderDetails.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %> <br>
                     <%= element.orderDetails.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> 
                 </td>
+                <td class="py-3" style="max-width: 130px; text-align: left;"><%= element.orderDetails.address %></td>
                 <td class="py-3"><%= element.orderDetails.paymentMethod %></td>
                 <td class="py-3"><%= element.orderDetails.paymentStatus %></td>
                 <td class="py-3"><%= element.orderDetails.status %></td>
-                <td class="py-3" style="max-width: 130px; text-align: left;"><%= element.orderDetails.address %></td>
-                <td class="py-3"><%= (element.orderDetails.subTotal < 1 && element.orderDetails.paymentMethod === 'wallet') ? element.orderDetails.walletAmount : element.orderDetails.subTotal  %></td>
+                <td class="py-3"><%= element.orderDetails.walletAmount ? element.orderDetails.walletAmount : 0 %></td>
+                <td class="py-3"><%= element.orderDetails.couponCode ? element.orderDetails.couponCode : 'None' %></td>
+                <td class="py-3"><%= element.orderDetails.discountedPrice ? element.orderDetails.discountedPrice : 'None' %></td>
+                <td class="py-3"><%= element.orderDetails.items.length %></td>
+                <td class="py-3" >₹ <%= (element.orderDetails.subTotal < 1 && element.orderDetails.paymentMethod === 'wallet') ? element.orderDetails.walletAmount : element.orderDetails.subTotal  %></td>
                 </tr>
               <% 
                 i++ }); 
@@ -99,7 +107,17 @@
         dom: 'Bfrtip',
         buttons: [
             // 'copy', 'csv', 'excel', 'pdf', 'print'
-            'excel', 'pdf'
+            {
+            extend : 'pdfHtml5',
+            title : function() {
+                return "Order_Details";
+            },
+            orientation : 'landscape',
+            pageSize : 'A3', // You can also use "A1","A2" or "A3", most of the time "A3" works the best.
+            text : 'PDF',
+            titleAttr : 'PDF'
+        } ,
+        'excel'
         ]
     } );
 } );

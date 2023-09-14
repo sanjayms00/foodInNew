@@ -45,7 +45,7 @@ const auth = async(req,res) => {
         //check the user
         const checkAdmin = await AdminUsers.findOne({email : adminEmail})
         if(!checkAdmin){
-            res.status(400).json({status : "error" , msg : "Wrong Email or Password"})
+            return res.status(400).json({status : "error" , msg : "Wrong Email or Password"})
         }
 
         //compare the password

@@ -170,11 +170,15 @@ async function getOrderReport(stat){
                         paymentStatus : '$paymentStatus',
                         paymentMethod : '$paymentMethod',
                         walletAmount : '$walletAmount',
+                        couponCode : '$couponCode',
+                        discountedPrice : '$discountedPrice',
+                        items : '$items',
                         subTotal : '$subTotal',
                     }
                 }
             }
         ]);
+        console.log(orderReport)
         return orderReport
     } catch (error) {
         

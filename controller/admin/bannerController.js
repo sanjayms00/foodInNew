@@ -90,7 +90,7 @@ const saveBanner = async (req, res) => {
             res.status(200).json({ status: "success", msg: "Banner Created" });
         })
       } catch (error) {
-        res.status(500).json({ status: "error", msg: "Food creation failed" });
+        res.status(500).json({ status: "error", msg: error.message });
       }
 }
 

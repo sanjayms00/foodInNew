@@ -11,12 +11,6 @@ const bannerSchema = new mongoose.Schema({
     },
     url : {
         type : String,
-        validate : {
-            validator : function(value){
-                return /^http?:\/\S+$/.test(value)
-            },
-            message : props => '${props}is not a valid url'
-        },
         required : true
     },
     status : {

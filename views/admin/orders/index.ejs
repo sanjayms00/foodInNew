@@ -132,7 +132,7 @@
                         </div>
                         <div class="modal-body">
                           <% item.items.forEach((element)=>{ %>
-                            <h6><b>Dish :</b> <%= element.carted.foodName %></h6><h6><b>Qty :</b> <%= element.quantity %></h6><h6><b>Price :</b> <%= element.total %></h6>
+                            <h6><b>Dish :</b> <%= element.carted[0].foodName %></h6><h6><b>Qty :</b> <%= element.quantity %></h6><h6><b>Price :</b> <%= element.total %></h6>
                             <hr>
                           <% }) %>
                         </div>

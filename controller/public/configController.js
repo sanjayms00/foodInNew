@@ -177,15 +177,15 @@ const forgotPasswordAuth = async (req, res) => {
                 id : findUser._id
             }
             const token = jwt.sign(payload, newSecret, {expiresIn : '5m'})
-            const link = `http://sanjayms.onine/reset-password/${findUser._id}/${token}`;
+            const link = `https://sanjayms.online/reset-password/${findUser._id}/${token}`;
 
             //send email
             // let testAccount = await nodemailer.createTestAccount()
             const config = {
                 service : "gmail",
                 auth : {
-                    user : 'sanjayms1321999@gmail.com',
-                    pass : 'bnovdijcbozmyvgx'
+                    user : fromEmailId,
+                    pass : emailPassword
                 }
             }
 
@@ -195,7 +195,7 @@ const forgotPasswordAuth = async (req, res) => {
                 theme : "default" ,
                 product : {
                     name : "foodin",
-                    link : "http://sanjayms.online"
+                    link : "https://sanjayms.online"
                 }
             })
 
@@ -208,7 +208,7 @@ const forgotPasswordAuth = async (req, res) => {
                         button: {
                             color: '#22BC66',
                             text: 'reset password',
-                            link: link
+                            link: `${link}`
                         }
                     },
                     outro : "looking forward to having buisness with you"

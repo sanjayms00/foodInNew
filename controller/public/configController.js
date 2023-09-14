@@ -177,7 +177,7 @@ const forgotPasswordAuth = async (req, res) => {
                 id : findUser._id
             }
             const token = jwt.sign(payload, newSecret, {expiresIn : '5m'})
-            const link = `http://localhost:3000/reset-password/${findUser._id}/${token}`;
+            const link = `http://sanjayms.onine/reset-password/${findUser._id}/${token}`;
 
             //send email
             // let testAccount = await nodemailer.createTestAccount()
@@ -195,7 +195,7 @@ const forgotPasswordAuth = async (req, res) => {
                 theme : "default" ,
                 product : {
                     name : "foodin",
-                    link : "http://localhost:3000/"
+                    link : "http://sanjayms.online"
                 }
             })
 

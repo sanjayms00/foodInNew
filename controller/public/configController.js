@@ -184,8 +184,8 @@ const forgotPasswordAuth = async (req, res) => {
             const config = {
                 service : "gmail",
                 auth : {
-                    user : fromEmailId,
-                    pass : emailPassword
+                    user : 'sanjayms1321999@gmail.com',
+                    pass : 'bnovdijcbozmyvgx'
                 }
             }
 

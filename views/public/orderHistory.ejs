@@ -41,6 +41,7 @@
                                         <p class="mb-0 px-3"><strong>Address :</strong> &nbsp;&nbsp;&nbsp; <%= item.address %></p>
                                         <p class="mb-0 px-3"><strong>Date :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></p>
                                         <p class="mb-0 px-3"><strong>Time :</strong> &nbsp;&nbsp;&nbsp; <%= item.time.toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric", hour12: true}); %> </p>
+                                        <p class="mb-0 px-3"><strong>Order Status :</strong> &nbsp;&nbsp;&nbsp; <%= item.status %></p>
                                         <hr class="py-1">
                                         <% item.items.forEach((element)=>{ %>
                                             <span class="mb-0 px-3"><b>Dish :</b> <%= element.carted[0].foodName %></span><span class="mb-0 px-3"><b>Qty :</b> <%= element.quantity %></span><span class="mb-0 p-3"><b>Price :</b> <%= element.total %></span>

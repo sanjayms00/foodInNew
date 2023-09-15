@@ -33,7 +33,7 @@ async function getCartTotal(userId){
     {
       $group: {
         _id : null,
-        subTotal: { $sum: { $multiply: ["$quantity", "$carted.discPrice"] } }
+        subTotal: { $sum:  '$total'  }
       }
     }
   ]);
@@ -86,6 +86,7 @@ const showCart = async (req, res) => {
     } else {
         const cart = await getCartItems(userId)
         const cartTotal = await getCartTotal(userId);
+        console.log(cartTotal)
         res.render("public/cart", { cart, cartTotal });
       }
   } catch (error) {
@@ -131,13 +132,21 @@ const addToCart = async (req, res) => {
       }
       const userId = new mongoose.Types.ObjectId(req.session.isauth)
       const foodId = req.body._id;
-      const foodPrice = req.body.discPrice;
+      if(req.body.discPrice > 0){
+        var foodPrice = req.body.discPrice;
+      }else{
+        var foodPrice = req.body.orgPrice;
+      }
       const totalStock = req.body.totalStock;
       
+
+      //check the stock
       const CheckStock = await Foods.find({_id : new mongoose.Types.ObjectId(foodId)}, {totalStoke : 1})
       if(CheckStock[0].totalStoke < 1){
         return res.status(404).json({status : "error", msg : "Out of Stock"})
       }
+
+      //find the user
       const findUser = await Cart.findOne({userId})
       if(!findUser){
         const newUser = new Cart({
@@ -147,12 +156,15 @@ const addToCart = async (req, res) => {
         })
         newUser.save()
       }
+
       //check existing item
       const existingItem = await Cart.findOne({
         userId: req.session.isauth,
         'items.foodId': foodId,
       });
       if(!existingItem) {
+        foodPrice = (foodPrice).toFixed(2)
+        console.log(foodPrice)
         await Cart.updateOne({userId : req.session.isauth}, { $push: { items: {foodId : foodId, quantity : 1, total : foodPrice} } });
         const cart = await Cart.findOne({ userId: req.session.isauth });
         if (cart) {
@@ -192,7 +204,7 @@ const updateCartByQuantity = async (req, res) => {
         );
       return res.status(400).json({ removed : true });
     }
-
+    foodPrice = Math.round(foodPrice * 100) / 100;
     const result =  await Cart.updateOne(
         { userId: userId, "items.foodId": foodIdAsObjectId },
         { $inc : { "items.$.quantity": stat, "items.$.total" : foodPrice}},

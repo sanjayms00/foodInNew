@@ -82,7 +82,20 @@
 												</div>
 												<h2 style="height: 50px; padding-top: 10px;" class=""><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h2>
 												<a href="/foodDetail/<%= item.slug %>"><button type="button" class="btn btn-danger float-end">Show Details</button></a>
-												<h2 class="pt-2"><a href="/foodDetail/" class="text-success"><b>₹ <%= item.discPrice %></b></a>&nbsp;&nbsp;<small class="text-secondary"><del>₹ <%= item.orgPrice %></del></small></h2>
+												<h2 class="pt-2">
+													<% if(item.discPrice > 0){ %>
+														<a href="/foodDetail/" class="text-success">
+															<b>₹ <%= item.discPrice %></b>
+														</a>&nbsp;
+														<small class="text-secondary">
+															<del>₹ <%= item.orgPrice %></del>
+														</small>
+													<% }else{ %>
+														<a href="/foodDetail/" class="text-success">
+															<b>₹ <%= item.orgPrice %></b>
+														</a>
+													<% } %>
+												</h2>
 											</div>
 										</div>
 										</div>

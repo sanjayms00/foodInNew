@@ -54,7 +54,7 @@
                                     <h5><strong><%= element.carted.foodName %></strong></h5>
                                     <p><%= element.carted.foodType === 1 ? "Veg" : "Non-Veg" %></p>
                                     <h5 class="text-start text-md-center float-end">
-                                        <strong class=""> ₹ <span class="total-price text-danger"><%= element.total %></span></strong>
+                                        <strong class=""> ₹ <span class="total-price text-danger"><%= parseFloat(element.total).toFixed(2) %></span></strong>
                                     </h5>
                                     <div class="d-flex mb-4" style="max-width: 400px">
                                         <button class="btn btn-primary me-2 cart-btn" onclick="decrement(this)">
@@ -63,15 +63,23 @@
                                         <div class="form-outline">
                                             <input id="<%= element.carted._id %>" min="1" name="quantity" value="<%= element.quantity %>" type="number" class="form-control item-quantity" style="width: 75px;" readonly/>
                                             <input name="foodId" value="<%= element.carted._id %>" type="hidden" class="form-control"/>
-                                            <input name="totalStock" value="<%= element.carted.totalStoke %>" type="hidden" class="form-control" class="totalStock"/>
-                                            <input name="foodPrice" value="<%= element.carted.discPrice %>" type="hidden" class="form-control"/>
+                                            <input name="totalStock" value="<%= parseFloat(element.carted.totalStoke).toFixed(2) %>" type="hidden" class="form-control" class="totalStock"/>
+                                            <% if(element.carted.discPrice > 0){ %>
+                                                <input name="foodPrice" value="<%= parseFloat(element.carted.discPrice).toFixed(2) %>" type="hidden" class="form-control"/>
+                                            <% }else{ %>
+                                                <input name="foodPrice" value="<%= parseFloat(element.carted.orgPrice).toFixed(2) %>" type="hidden" class="form-control"/>
+                                            <% } %>
                                         </div>
                                         <button class="btn btn-primary ms-2 cart-btn" onclick="increment(this)">
                                             <i class="bi bi-plus"></i>
                                         </button>
                                     </div>
                                     <h6 class="text-start text-md-center float-start">
-                                        <strong class="text-secondary">Price : ₹ <span class="org-price"><%= element.carted.discPrice %></span></strong>
+                                        <% if(element.carted.discPrice > 0){ %>
+                                            <strong class="text-secondary">Price : ₹ <span class="org-price"><%= parseFloat(element.carted.discPrice).toFixed(2) %></span></strong>
+                                        <% }else{ %>
+                                            <strong class="text-secondary">Price : ₹ <span class="org-price"><%= parseFloat(element.carted.orgPrice).toFixed(2) %></span></strong>
+                                        <% } %>
                                     </h6>
                                     
                                 </div>
@@ -90,7 +98,7 @@
                                 <!-- <button id="checkOutBtn"  onclick="checkOut('<%= JSON.stringify(cart) %>')" class="m-3 float-end btn btn-success w-50">Checkout</button> -->
                                 <a href="/checkout"><button id="checkOutBtn" class="m-3 float-end btn btn-success w-50">Checkout</button></a>
                             </div>
-                            <h5 class="float-end m-3">Total : ₹ <span id="subTotal"><%= cartTotal[0].subTotal %></span></h5>
+                            <h5 class="float-end m-3">Total : ₹ <span id="subTotal"><%= parseFloat(cartTotal[0].subTotal).toFixed(2) %></span></h5>
                         </div>
                     </div>
                 </div>

@@ -9,12 +9,15 @@ const foodSchema = new  mongoose.Schema({
         type : Number,
         required : true
     },
+    discount : {
+        type : Number
+    },
     discPrice : {
         type : Number,
-        required : true
     },
     category : {
-        type : String,
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Category',
         required : true
     },
     image : {

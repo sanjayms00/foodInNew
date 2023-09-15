@@ -32,6 +32,9 @@
                       <h6 class="fw-semibold mb-0">Orginal Price</h6>
                     </th>
                     <th class="border-bottom-0">
+                      <h6 class="fw-semibold mb-0">Discount</h6>
+                    </th>
+                    <th class="border-bottom-0">
                       <h6 class="fw-semibold mb-0">Discount Price</h6>
                     </th>
                     <th class="border-bottom-0">
@@ -69,7 +72,7 @@
                         <h6 class="fw-semibold mb-1"><%= item.foodName %></h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.category %></h6>
+                        <h6 class="fw-semibold mb-1"><%= item.category.categoryName %></h6>
                       </td>
                       <td class="border-bottom-0">
                         <h6 class="fw-semibold mb-1"><%= (item.type === 1) ? "Veg" : "Non Veg" %></h6>
@@ -81,7 +84,10 @@
                         <h6 class="fw-semibold mb-1"><%= item.orgPrice %></h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.discPrice %></h6>
+                        <h6 class="fw-semibold mb-1"><%= item.discount ? item.discount : 'Nil' %></h6>
+                      </td>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1"><%= item.discPrice ? item.discPrice : 'Nil' %></h6>
                       </td>
                       <td class="border-bottom-0">
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#foodModal<%= i %>">

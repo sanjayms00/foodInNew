@@ -18,10 +18,12 @@ const showFood = async (req, res) => {
     const totalSize = await Foods.find({ status: true }).count();
     const totalPages = Math.ceil(totalSize / limit);
     //main query for pagination
-    const foodData = await Foods.find({})
+    const foodData = await Foods.find({}).populate('category')
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit);
+    
+    
     res.status(200).render("admin/food/index", {
       data: foodData,
       totalPages,
@@ -31,7 +33,7 @@ const showFood = async (req, res) => {
       skip,
     });
   } catch (error) {
-    res.status(500).render("admin/errorPage", {msg : "Something went wrong."})
+    res.status(500).render("admin/errorPage", {msg : error.message})
   }
 };
 
@@ -61,6 +63,9 @@ const editFood = async (req, res) => {
         .status(404)
         .render("admin/food/index", { msg: "can not edit the food" });
     }
+    const id = getFoodData.category
+    
+    
     res
       .status(200)
       .render("admin/food/edit", { food: getFoodData, category: categoryData });
@@ -80,6 +85,7 @@ const saveFood = async (req, res) => {
       categories,
       foodType,
       orgPrice,
+      discount,
       discPrice,
       foodDescription,
       foodIngredients,
@@ -122,10 +128,11 @@ const saveFood = async (req, res) => {
       image: newFileName,
       foodName: foodName,
       orgPrice: orgPrice,
-      discPrice: discPrice,
+      discount: discount ? discount : 0,
+      discPrice: discPrice ? discPrice : 0,
       slug: slug,
       totalStoke: totalStoke,
-      category: categories,
+      category: new mongoose.Types.ObjectId(categories),
       type: foodType,
       description: foodDescription,
       ingredients: foodIngredients,
@@ -151,7 +158,7 @@ const saveFood = async (req, res) => {
 // update food data
 const updateFood = async (req, res) => {
   try {
-    const {prevSlug, foodName, totalStoke, croppedImage,foodId, prevImage, categories, foodType, orgPrice, discPrice, foodDescription, foodIngredients} = req.body;
+    const {prevSlug, foodName, totalStoke, croppedImage,foodId, prevImage, categories, foodType, orgPrice, discPrice, discount, foodDescription, foodIngredients} = req.body;
 
     const slug = foodName.trim().split(" ").join("-").toLocaleLowerCase();
 
@@ -207,10 +214,11 @@ const updateFood = async (req, res) => {
       image: newFileName === null ? prevImage : newFileName,
       foodName: foodName,
       orgPrice: orgPrice,
-      discPrice: discPrice,
+      discount: discount ? discount : 0,
+      discPrice: discPrice ? discPrice : 0,
       totalStoke: totalStoke,
       slug: slug,
-      category: categories,
+      category: new mongoose.Types.ObjectId(categories),
       type: foodType,
       description: foodDescription,
       ingredients: foodIngredients,

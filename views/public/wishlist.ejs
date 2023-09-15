@@ -55,7 +55,15 @@
                                             <h5><strong><%= element.foodData[0].foodName %></strong></h5>
                                             <p><%= element.foodData[0].foodType === 1 ? "Veg" : "Non-Veg" %></p>
                                             <h6 class="text-start text-md-center float-start">
-                                                <strong class="text-secondary">Price : ₹ <span class="org-price"><%= element.foodData[0].discPrice %></span></strong>
+                                                <strong class="text-secondary">Price : ₹ 
+                                                    <span class="org-price">
+                                                        <% if(element.foodData[0].discPrice > 0){ %>
+                                                            <%= element.foodData[0].discPrice %>
+                                                        <% }else{ %>
+                                                            <%= element.foodData[0].orgPrice %>
+                                                        <% } %>
+                                                    </span>
+                                                </strong>
                                             </h6>
                                         </div>
 

@@ -83,22 +83,30 @@ const showAllFoods = async (req, res) =>{
             query.rating = rating
         }
         
-        const limit = 8
+        const limit = 8;
 
         const skip = (page - 1) * limit
-        const totalSize = await Food.find({status : true}).count()
-        const totalPages = Math.ceil(totalSize / limit)
+        //const totalSize = await Food.find({status : true}).count()
+        // const totalPages = Math.ceil(foodDataCount / limit)
         //main query for pagination
+        
         if(!req.query.rating){
+            var foodDataCount = await Food.find(query).count()
             var foodData =  Food.find(query).sort(sortCriteria).skip(skip).limit(limit)
-        }  
-        else{
+        }
+        else if(req.query.rating){
             var foodData = Food.aggregate([
                 { $unwind: '$rating' },
                 {
                     $match: {
                       'rating.value': rating, // Match the specific rating
                     },
+                },
+                {
+                    $skip : skip
+                },
+                {
+                    $limit : limit
                 },
                 {
                     $group: {
@@ -115,11 +123,15 @@ const showAllFoods = async (req, res) =>{
               ]);
               
         }
-
+        
         const categories =  categoryController.categoryData()
         Promise.all([foodData, categories])
         .then((values) => {
-            res.status(200).render("public/allFoods", {food : values[0], categories : values[1], currentPage : page, totalPages, totalSize,  limit, query: req.query } )
+            if(req.query.rating){
+                foodDataCount = values[0].length
+            }
+            const totalPages = Math.ceil(foodDataCount / limit)
+            res.status(200).render("public/allFoods", {food : values[0], categories : values[1], currentPage : page, totalPages, limit, query: req.query, foodDataCount } )
         })
         .catch((err)=>{
             res.status(500).render("public/errorPage", {status : "error", msg : "Issue loading the page"})

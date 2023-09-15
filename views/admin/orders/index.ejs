@@ -137,7 +137,7 @@
                           <% }) %>
                         </div>
                         <div class="modal-footer">
-                          <h4>Total : <span class="text-danger">₹ <%= item.subTotal %></span></h4>
+                          <h4>Total : <span class="text-danger">₹ <%= item.subTotal ? item.subTotal : item.walletAmount %></span></h4>
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                       </div>

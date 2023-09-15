@@ -16,7 +16,6 @@ function foodValidate(){
     const foodType = document.getElementsByName("foodType")[0];
     const orgPrice = document.getElementsByName("orgPrice")[0];
     const totalStoke = document.getElementsByName("totalStoke")[0];
-    const discPrice = document.getElementsByName("discPrice")[0];
     const foodDescription = document.getElementsByName("foodDescription")[0];
     const foodIngredients = document.getElementsByName("foodIngredients")[0];
 
@@ -55,13 +54,6 @@ function foodValidate(){
         orgPriceLabel.innerHTML = "Original Price Required"
         orgPriceLabel.style.color = "red"
         orgPrice.focus();
-        return false;
-    }
-    if (discPrice.value.trim() === "") {
-        const discPriceLabel = document.getElementById("discPriceLabel")
-        discPriceLabel.innerHTML = "Discount Price Required"
-        discPriceLabel.style.color = "red"
-        discPrice.focus();
         return false;
     }
     if (foodDescription.value.trim() === "") {

@@ -40,7 +40,8 @@ const getcartItems = (userId) => {
                 carted : {
                     image : 1,
                     foodName : 1,
-                    discPrice : 1
+                    discPrice : 1,
+                    orgPrice : 1
                 }
               }
             }
@@ -83,7 +84,7 @@ const getcartTotal = (userId) => {
             {
               $group: {
                 _id : null,
-                subTotal: { $sum: { $multiply: ["$quantity", "$carted.discPrice"] } }
+                subTotal: { $sum:  '$total'  }
               }
             }
         ])

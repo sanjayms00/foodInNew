@@ -120,8 +120,8 @@ publicRoute.get("/download-invoice/:orderId",userMiddleWare.isBlocked, orderCont
 publicRoute.put("/rate-order",userMiddleWare.isBlocked, ratingController.rate)
 
 //hep route
-const helpRoute = require('./HelpRoute')
-publicRoute.use('/help', helpRoute)
+// const helpRoute = require('./HelpRoute')
+// publicRoute.use('/help', helpRoute)
 
 //error handling middleware
 publicRoute.use((err, req, res, next) => {

@@ -51,11 +51,15 @@
                     <p class="mb-2">
                       <%= element.carted[0].foodName %>.
                     </p>
-                    <span><b>₹<%= element.carted[0].discPrice %></b></span>
+                    <% if(element.carted[0].discPrice > 0){ %>
+                      <span><b>₹<%= element.carted[0].discPrice %></b></span>
+                    <% }else{ %>
+                      <span><b>₹<%= element.carted[0].orgPrice %></b></span>
+                    <% } %>
                     <span class="mx-4"><b>
                         <%= element.quantity %>
                       </b></span>
-                    <span class="mx-4 text-danger"><b>₹<%= element.total %></b></span>
+                    <span class="mx-4 text-danger"><b>₹<%= parseFloat(element.total).toFixed(2) %></b></span>
                   </div>
                 </div>
               </div>
@@ -70,9 +74,9 @@
                 <h6 class="my-0">Price</h6>
               </div>
               <span class="text-muted">₹ <span id="price">
-                  <%= subTotal[0].subTotal %>
+                  <%= parseFloat(subTotal[0].subTotal).toFixed(2) %>
                 </span></span>
-              <input type="hidden" name="price" id="SubTotal" value="<%= subTotal[0].subTotal %>" readonly>
+              <input type="hidden" name="price" id="SubTotal" value="<%= parseFloat(subTotal[0].subTotal).toFixed(2) %>" readonly>
             </li>
             
               <li class="list-group-item d-flex justify-content-between bg-light py-3">
@@ -96,10 +100,10 @@
             <li class="list-group-item d-flex justify-content-between py-3">
               <span>Amount Payable</span>
               <strong class="text-danger">₹ <span id="amountPayable">
-                  <%= locals.subTotal[0].subTotal %>
+                  <%= parseFloat(locals.subTotal[0].subTotal).toFixed(2) %>
                 </span></strong>
                 <span class="d-none" id="orgTotalPrice"><%= locals.subTotal[0].subTotal %></span>
-                <input type="hidden" name="totalPrice" id="totalPrice" value="<%= locals.subTotal[0].subTotal %>" readonly>
+                <input type="hidden" name="totalPrice" id="totalPrice" value="<%= parseFloat(locals.subTotal[0].subTotal).toFixed(2) %>" readonly>
             </li>
           </ul>
           <h4 class="py-2">Payment Options</h4>

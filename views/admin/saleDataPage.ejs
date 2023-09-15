@@ -82,7 +82,7 @@
                 <td class="py-3"><%= element.orderDetails.couponCode ? element.orderDetails.couponCode : 'None' %></td>
                 <td class="py-3"><%= element.orderDetails.discountedPrice ? element.orderDetails.discountedPrice : 'None' %></td>
                 <td class="py-3"><%= element.orderDetails.items.length %></td>
-                <td class="py-3" >₹ <%= (element.orderDetails.subTotal < 1 && element.orderDetails.paymentMethod === 'wallet') ? element.orderDetails.walletAmount : element.orderDetails.subTotal  %></td>
+                <td class="py-3" >₹ <%= element.orderDetails.subTotal +element.orderDetails.walletAmount %></td>
                 </tr>
               <% 
                 i++ }); 

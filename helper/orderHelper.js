@@ -89,7 +89,7 @@ const ejs = require('ejs')
                 discount : data.discount ? data.discount : data.discount,
                 discountedPrice : data.discountedPrice ? data.discountedPrice : '',
                 couponCode : data.couponCode ? data.couponCode : '',
-                walletAmount : data.walletAmount ? data.walletAmount : '',
+                walletAmount : data.walletAmount ? data.walletAmount : 0,
                 rated : false
             }
             const orderData = new Orders(orderDetails);

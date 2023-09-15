@@ -124,10 +124,10 @@ async function updateQtyInDb(btn, foodPrice, qty, foodId, stat, stock){
         const input = btn.parentElement.querySelector('input[type="number"]');
         input.value = data.items[0].quantity;
         const itemPrice = btn.parentElement.parentElement.querySelector('.total-price');
-        itemPrice.innerText = data.items[0].total;
-        document.getElementById('subTotal').innerText = data.subTotal[0].subTotal;
+        itemPrice.innerText = parseFloat(data.items[0].total).toFixed(2);
+        document.getElementById('subTotal').innerText = parseFloat(data.subTotal[0].subTotal).toFixed(2);
         const totalStock = btn.parentElement.querySelector('input[name="totalStock"]');
-        totalStock.value = data.foodStock[0].totalStoke
+        totalStock.value = parseFloat(data.foodStock[0].totalStoke).toFixed(2);
       }else if(data.removed === true){
         Swal.fire(
           'Removed!',

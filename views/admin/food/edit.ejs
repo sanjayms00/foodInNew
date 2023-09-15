@@ -68,10 +68,12 @@
                         <select class="form-select border-dark" name="categories" id="Categories" aria-label="Food Category">
                           <option selected value=" ">Select Categories*</option>
                           <% if (locals.category) { 
-                              category.forEach((item) => { 
+                            category.forEach((item) => { 
                           %>
-                            <option value="<%= item._id %>" <%= (item._id === food.category) ? "selected" : " " %> ><%= item.categoryName %></option>
-                          <% }) } %>
+                            <option value="<%= item._id %>" <%= (item._id.equals(food.category)) ? "selected" : "" %> ><%= item.categoryName %></option>
+                          <% 
+                            }) 
+                          } %>
                         </select>
                         <label for="Categories" id="categoriesLabel">Categories*</label>
                       </div>
@@ -83,32 +85,34 @@
                         </select>
                         <label for="foodType" id="foodTypeLabel">Type*</label>
                       </div>
+                      <div class="form-floating mb-3">
+                        <input type="number" min="1" max="200" class="form-control border-dark" name="totalStoke" value="<%= food.totalStoke %>" id="totalStoke" placeholder="Total Stock">
+                        <label for="Total Stoke" id="totalStokeLabel">Total Stock* (Maximum 200)</label>
+                      </div>
                     </div>
                     <div class="col-xl-8 text-dark">
                       <div class="form-floating mb-3 mt-5">
                         <input type="text" class="form-control border-dark" name="foodName" id="foodName" placeholder="Food Name" value="<%= food.foodName %>">
                         <label for="foodName" id="foodNameLabel">Food Name*</label>
                       </div>
-                    
-                    
                       <div class="form-floating mb-3">
-                        <input type="number" min="1" max="200" class="form-control border-dark" name="totalStoke" value="<%= food.totalStoke %>" id="totalStoke" placeholder="Total Stoke">
-                        <label for="Total Stoke" id="totalStokeLabel">Total Stoke* (Maximum 200)</label>
-                      </div>
-                      <div class="form-floating mb-3">
-                        <input type="text" class="form-control border-dark" name="orgPrice" id="orgPrice" placeholder="Original Price" value="<%= food.orgPrice %>">
+                        <input type="text" class="form-control border-dark" name="orgPrice" id="orgPrice" placeholder="Original Price" value="<%= food.orgPrice %>" oninput="checkDiscount()">
                         <label for="orgPrice" id="orgPriceLabel">Original Price*</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="text" class="form-control border-dark" name="discPrice" id="discPrice" placeholder="Discount Price" value="<%= food.discPrice %>">
-                        <label for="discPrice" id="discPriceLabel">Discount Price*</label>
+                        <input type="text" class="form-control border-dark" name="discount" id="discount" placeholder="Discount" value="<%= food.discount %>" oninput="checkDiscount()" onclick="checkPrice()">
+                        <label for="orgPrice" id="orgPriceLabel">Discount</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <textarea class="form-control border-dark" style="height: 90px" name="foodDescription" placeholder="Description..." id="foodDescription"><%= food.description %></textarea>
+                        <input type="text" class="form-control border-dark" name="discPrice" id="discPrice" placeholder="Discount Price" value="<%= food.discPrice %>">
+                        <label for="discPrice" id="discPriceLabel">Discount Price</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <textarea class="form-control border-dark" style="height: 153px" name="foodDescription" placeholder="Description..." id="foodDescription"><%= food.description %></textarea>
                         <label for="foodDescription" id="foodDescriptionLabel">Description*</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <textarea class="form-control border-dark" style="height: 88px" name="foodIngredients" placeholder="Ingredients..." id="foodIngredients"><%= food.ingredients %></textarea>
+                        <textarea class="form-control border-dark" style="height: 100px" name="foodIngredients" placeholder="Ingredients..." id="foodIngredients"><%= food.ingredients %></textarea>
                         <label for="foodIngredients" id="foodIngredientsLabel">Ingredients*</label>
                       </div>
                       <div class="modal fade" id="cropImagePop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -145,6 +149,41 @@
 </div>
 
 <script>
+
+
+  function checkPrice(){
+    const orgPrice = document.getElementById('orgPrice')
+    if(orgPrice.value === ''){
+      orgPrice.focus()
+      document.getElementById('orgPriceLabel').innerHTML = "Original price required"
+    }
+  }
+    
+  //check discount
+
+  function checkDiscount(){
+    const discount = document.getElementById('discount')
+    if(discount.value === ''){
+      document.getElementById('discPrice').value = ''
+    }
+    const orgPrice = document.getElementById('orgPrice').value
+    if(orgPrice !== '' && discount.value !== ''){
+      document.getElementById('orgPriceLabel').innerHTML = "Original price*"
+      const disc = discount.value
+      const discountedPrice = orgPrice - (orgPrice *(disc / 100)) 
+      document.getElementById('discPrice').value = discountedPrice
+    }else{
+      document.getElementById('orgPrice').focus()
+      document.getElementById('orgPriceLabel').innerHTML = "Original price required"
+      document.getElementById('discPrice').value = ''
+      
+    }
+  }
+
+
+
+
+
   //  Start upload preview image
   const prevImage = document.getElementById('prevImage').value
   $(".gambar").attr("src", `/food/${prevImage}`);

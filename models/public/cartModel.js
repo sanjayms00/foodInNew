@@ -12,7 +12,6 @@ let ItemSchema = new Schema({
     },
     total: {
         type: Number,
-        
     }
 })
 const CartSchema = new Schema({

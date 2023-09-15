@@ -137,7 +137,7 @@
                                                     categories.forEach((item)=>{
                                             %>
                                             <p>
-                                                <a href="/foods?page=1&category=<%= item.categoryName %>">
+                                                <a href="/foods?page=1&category=<%= item._id %>">
                                                     <i class="bi bi-chevron-right my-3"></i>
                                                     <%= item.categoryName %>
                                                 </a>
@@ -165,7 +165,7 @@
             <main class="col-md-9">
                 <div class="border-bottom mb-4 pb-3">
                     <div class="d-flex justify-content-between align-items-center bg-white p-3">
-                        <h5 class="mb-0 w-50">Total <%= totalSize %> Items</h5>
+                        <h5 class="mb-0 w-50">Total <%= locals.foodDataCount %> Items</h5>
                         
                     </div>
                 </div>
@@ -174,8 +174,8 @@
                         if (locals.food.length > 0) { 
                             food.forEach((item)=>{
                     %>
-                    <div class="col-md-3 border-start custom-border">
-                        <div class="bg-light mb-4">
+                    <div class="col-md-3 border-start">
+                        <div class="bg-light mb-4" style="height: 400px;">
                             <div class="post-entry-1">
                                 <a href="/foodDetail/<%= item.slug %>">
                                     <% if(item.image){ %>
@@ -192,7 +192,25 @@
                                     </div>
                                     <h2 style="height: 50px; padding-top: 10px;" class=""><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h2>
                                     <a href="/foodDetail/<%= item.slug %>"><button type="button" class="btn btn-danger float-end">Show Details</button></a>
-                                    <h2 class="pt-2"><a href="/foodDetail/" class="text-success"><b>₹ <%= item.discPrice %></b></a>&nbsp;&nbsp;<small class="text-secondary"><del>₹ <%= item.orgPrice %></del></small></h2>
+                                    <% if(item.discPrice > 0){ %>
+                                        <h2 class="m-0">
+                                            <a href="/foodDetail/" class="text-success">
+                                                <b>₹ <%= item.discPrice %></b>
+                                            </a>
+                                        </h2>
+                                        <h2 class="m-0">
+                                            <small class="text-secondary">
+                                                <del>₹ <%= item.orgPrice %></del>
+                                            </small>
+                                        </h2>
+                                    <% }else{ %>
+                                        <h2 class="m-0">
+                                            <a href="/foodDetail/" class="text-success">
+                                                <b>₹ <%= item.orgPrice %></b>
+                                            </a>
+                                        </h2>
+                                    <% } %>
+                                    
                                 </div>
                             </div>
                             </div>
@@ -203,7 +221,7 @@
                         
                     
                 </div>
-                <% if (totalSize > limit) { %>
+                <% if (foodDataCount > limit) { %>
                     <nav aria-label="Page navigation example mt-3">
                         <ul class="pagination justify-content-center">
                         <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">

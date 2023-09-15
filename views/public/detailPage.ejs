@@ -15,18 +15,28 @@
                     <div class="alert d-none ml-5" role="alert" id="alertResult">
                         <%= locals.msg %>
                     </div>
-                    <%= data.category %>
+                    <%= data.category.categoryName %>
                         &nbsp;
                         <i class="bi bi-circle-fill fs-6 text-<%= locals.data.type === 1 ? "success" : "danger" %>"></i>
 
                         <h1 class="font-weight-light">
                             <%= locals.data.foodName %>
                         </h1>
-                        <h3 class="pt-2">
-                            <b>₹ <%= locals.data.discPrice %></b>
-                            &nbsp;&nbsp;
-                        </h3>
-                        <span class="text-secondary"><del>₹ <%= locals.data.orgPrice %></del></span>
+                        <!-- price -->
+                        <% if(data.discPrice > 0){ %>
+                            <h3 class="pt-2">
+                                <b>₹ <%= locals.data.discPrice %></b>
+                                &nbsp;&nbsp;
+                            </h3>
+                            <span class="text-secondary"><del>₹ <%= locals.data.orgPrice %></del></span>
+                        <% }else{ %>
+                            <h3 class="pt-2">
+                                <b>₹ <%= locals.data.orgPrice %></b>
+                                &nbsp;&nbsp;
+                            </h3>
+                        <% } %>
+
+                       
                         <h5 class="text-secondary py-1">
                             <%= locals.data.type===1 ? "Veg" : "Non-Veg" %>
                         </h5>

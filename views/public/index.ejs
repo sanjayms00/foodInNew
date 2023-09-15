@@ -51,7 +51,7 @@
 									if (locals.categories) { 
 										categories.forEach((item)=>{
 								%>
-									<li><a href="/foods?page=1&category=<%= item.categoryName %>"><i class="bi bi-chevron-right"></i> <%= item.categoryName %></a></li>
+									<li><a href="/foods?page=1&category=<%= item._id %>"><i class="bi bi-chevron-right"></i> <%= item.categoryName %></a></li>
 								<% }) }else{ %>
 									<p class="text-secondary">No products to display</p>
 								<% } %>

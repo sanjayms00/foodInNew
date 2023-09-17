@@ -170,56 +170,53 @@
                     </div>
                 </div>
                 <div class="row mb-5">
-                    <% 
-                        if (locals.food.length > 0) { 
-                            food.forEach((item)=>{
-                    %>
-                    <div class="col-md-3 border-start">
-                        <div class="bg-light mb-4" style="height: 400px;">
-                            <div class="post-entry-1">
-                                <a href="/foodDetail/<%= item.slug %>">
-                                    <% if(item.image){ %>
-                                        <img src="/food/<%= item.image %>" alt="food image" class="img-fluid mb-0">
-                                    <% }else{ %>
-                                        <img src="/no-image.jpg" class="img-fluid" alt="food image">
+                <% if (locals.food) { 
+                    food.forEach((item) => { %>
+                    <div class="col-md-3 mb-4">
+                        <div class="card">
+                            <a href="/foodDetail/<%= item.slug %>">
+                                <img src="<%= item.image ? '/food/' + item.image : '/no-image.jpg' %>" alt="food image" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi fs-6 bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
+                                <h5 class="card-title mb-2" style="height: 65px;"><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h5>
+                                <h6 class="card-text">
+                                    <% if (item.discPrice > 0) { %>
+                                        <a href="/foodDetail/" class="text-success">
+                                            <b>₹ <%= item.discPrice %></b>
+                                        </a>&nbsp;
+                                        <small class="text-secondary">
+                                            <del>₹ <%= item.orgPrice %></del>
+                                        </small>
+                                        <small class="text-secondary">
+                                            ₹ <%= item.discount %> %
+                                        </small>
+                                    <% } else { %>
+                                        <a href="/foodDetail/" class="text-success">
+                                            <b>₹ <%= item.orgPrice %></b>
+                                        </a>
                                     <% } %>
-                                </a>
-                                <div class="p-2">
-                                    <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
-                                    <div class="float-end fs-6">
-                                        <i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`) "></i>
+                                </h6>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <a href="/foodDetail/<%= item.slug %>" class="btn btn-danger btn-sm">Show Details</a>
+                                    </div>
+                                    <div>
+                                        <i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
+                                    </div>
+                                    <div>
                                         <i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5" id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
                                     </div>
-                                    <h2 style="height: 50px; padding-top: 10px;" class=""><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h2>
-                                    <a href="/foodDetail/<%= item.slug %>"><button type="button" class="btn btn-danger float-end">Show Details</button></a>
-                                    <% if(item.discPrice > 0){ %>
-                                        <h2 class="m-0">
-                                            <a href="/foodDetail/" class="text-success">
-                                                <b>₹ <%= item.discPrice %></b>
-                                            </a>
-                                        </h2>
-                                        <h2 class="m-0">
-                                            <small class="text-secondary">
-                                                <del>₹ <%= item.orgPrice %></del>
-                                            </small>
-                                        </h2>
-                                    <% }else{ %>
-                                        <h2 class="m-0">
-                                            <a href="/foodDetail/" class="text-success">
-                                                <b>₹ <%= item.orgPrice %></b>
-                                            </a>
-                                        </h2>
-                                    <% } %>
-                                    
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
-                    <% }) }else{ %>
-                        <p class="text-secondary text-center p-5">No products to display</p>
-                    <% } %>
-                        
-                    
+                <% }); 
+                } else { %>
+                    <div class="col-12">
+                        <p class="text-secondary text-center">No products to display</p>
+                    </div>
+                <% } %>
                 </div>
                 <% if (foodDataCount > limit) { %>
                     <nav aria-label="Page navigation example mt-3">

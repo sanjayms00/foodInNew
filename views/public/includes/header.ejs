@@ -62,89 +62,86 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl">
         <div class="row pb-1">
-          <div class="col-md-12 d-flex align-items-center justify-content-between fst-italic">
-            <div class="p-2 bd-highlight">
-              <a href="mailto: foodinfastdelivery.com"><i class="bi bi-envelope-at-fill"></i>&nbsp;foodinfastdelivery.com</a>
+            <div class="col-md-12 d-flex align-items-center justify-content-between fst-italic">
+                <div class="p-2 bd-highlight">
+                    <a href="mailto: foodinfastdelivery.com"><i class="bi bi-envelope-at-fill"></i>&nbsp;foodinfastdelivery.com</a>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <a href="tel:+91 1234567890" class="mx-2"><i class="bi bi-telephone-outbound-fill"></i>&nbsp;+91 1234567890</a>
+                </div>
             </div>
-            <div class="p-2 bd-highlight">
-              <a href="tel:+91 1234567890" class="mx-2"><i class="bi bi-telephone-outbound-fill"></i>&nbsp;+91 1234567890</a>
-            </div>
-            <!-- <div class="p-2 bd-highlight">
-              <a href="#" class="mx-3"><i class="bi bi-geo-alt-fill"></i>&nbsp;access your location</a>
-            </div> -->
-            <!-- <div class="p-2 bd-highlight">
-              <a href="/help" class="mx-3"><i class="bi bi-info-circle-fill"></i>&nbsp;Help</a>
-            </div> -->
-          </div>
         </div>
         <div class="row">
-          <div class="col-md-12 d-flex align-items-center justify-content-between">
-            <!-- logo -->
-            <a href="/" class="logo d-flex align-items-center">
-              <img src="../assets/img/logo.png" class="rounded-circle" alt="logo">
-              <h1>FoodIn</h1>
-            </a>
+            <div class="col-md-12 col-xl-12 col-12 d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="/" class="logo d-flex align-items-center">
+                    <img src="../assets/img/logo.png" class="rounded-circle" alt="logo">
+                    <h1>FoodIn</h1>
+                </a>
 
-            <nav id="navbar" class="navbar">
-              <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/foods">Shop</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Category
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <% 
-                      if (locals.category) { 
-                        category.forEach((item)=>{
-                    %>
-                      <li><a href="/foods?page=1&category=<%= item._id %>" class="dropdown-item"> <%= item.categoryName %></a></li>
-                    <% }) }else{ %>
-                      <p class="text-secondary">No products to display</p>
-                    <% } %>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-            <!-- search form starts -->
-            <form action="/search-result" class="d-flex">
-              <input type="search" placeholder="Search" name="search" id="search" class="form-control" aria-label="Search">
-              <button class="btn bg-light mx-1" type="submit"><span class="icon bi-search"></span></button>
-            </form>
-         
-            
-              <a href="/cart" class="mx-3"><i class="bi bi-bag-fill fs-6"></i>&nbsp;Cart&nbsp;<span class="badge bg-danger" id="cartCounter"><%= locals.CartLength ? locals.CartLength : "" %></span></a>
-            
-            
-              <a href="/wishlist" class="mx-3"><i class="bi bi-heart-fill fs-6"></i>&nbsp;wishlist&nbsp;<span class="badge bg-danger" id="wishlistCounter"><%= locals.wishlistLength ? locals.wishlistLength : "" %></span></a>
-           
-            <div class="navbar">
-              <% if (!isAuthenticated) { %>
-                <a href="/login" class="mx-3"><span class="bi bi-person-circle"></span>&nbsp; Login</a>
-                <% } else { %>
-                  <div class="dropdown" >
-                    <button class="dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <div class="d-flex align-items-center author mx-3">
-                        <i class="bi bi-list mobile-nav-toggle"></i>
-                        <div class="photo"><img src="../assets/img/person-1.jpg" alt="profile-img" class="img-fluid"></div>
-                        <div class="name">
-                          <a href="#" class="m-0 p-0"><%= userName ? userName : "user" %></a>
-                        </div>
-                      </div>
-                    </button>
-                    <ul class="dropdown-menu pb-2">
-                      <li><a class="dropdown-item" href="/my-profile">My Profile</a></li>
-                      <li><a class="dropdown-item" href="/address-book">Address Book</a></li>
-                      <li><a class="dropdown-item" href="/orders">Orders</a></li>
-                      <li><a class="dropdown-item" href="/wallet">Wallet</a></li>
-                      <hr class="my-1">
-                      <li><a class="dropdown-item" href="/logout">logout</a></li>
+                <!-- Navbar -->
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/foods">Shop</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Category
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <% 
+                                    if (locals.category) { 
+                                        category.forEach((item)=>{
+                                %>
+                                <li><a href="/foods?page=1&category=<%= item._id %>" class="dropdown-item"> <%= item.categoryName %></a></li>
+                                <% }) }else{ %>
+                                <p class="text-secondary">No products to display</p>
+                                <% } %>
+                            </ul>
+                        </li>
                     </ul>
-                  </div>
-                <% } %>
-              </div>
+                </nav>
+
+                <!-- Search Form -->
+                <form action="/search-result" class="d-flex">
+                    <input type="search" placeholder="Search" name="search" id="search" class="form-control" aria-label="Search">
+                    <button class="btn bg-light mx-1" type="submit"><span class="bi bi-search"></span></button>
+                </form>
+
+                <!-- Cart and Wishlist Icons -->
+                <a href="/cart" class="mx-3 d-none d-md-inline"><i class="bi bi-bag-fill fs-6"></i><span class="badge bg-danger" id="cartCounter"><%= locals.CartLength ? locals.CartLength : "" %></span></a>
+
+                <a href="/wishlist" class="mx-3 d-none d-md-inline"><i class="bi bi-heart-fill fs-6"></i><span class="badge bg-danger" id="wishlistCounter"><%= locals.wishlistLength ? locals.wishlistLength : "" %></span></a>
+
+                <!-- User Dropdown -->
+                <div class="navbar">
+                    <% if (!isAuthenticated) { %>
+                    <a href="/login" class="mx-3 d-none d-md-inline"><span class="bi bi-person-circle"></span>&nbsp; Login</a>
+                    <% } else { %>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="d-flex align-items-center author mx-3">
+                                <i class="bi bi-list mobile-nav-toggle"></i>
+                                <div class="photo"><img src="../assets/img/person-1.jpg" alt="profile-img" class="img-fluid"></div>
+                                <div class="name">
+                                    <a href="#" class="m-0 p-0"><%= userName ? userName : "user" %></a>
+                                </div>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu pb-2">
+                            <li><a class="dropdown-item" href="/my-profile">My Profile</a></li>
+                            <li><a class="dropdown-item" href="/address-book">Address Book</a></li>
+                            <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                            <li><a class="dropdown-item" href="/wallet">Wallet</a></li>
+                            <hr class="my-1">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
         </div>
-      </div>
-      
     </div>
-  </header><!-- End Header -->
+</header>
+
+  <!-- ======= Header ends ======= -->

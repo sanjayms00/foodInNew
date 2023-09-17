@@ -172,7 +172,7 @@
       document.getElementById('orgPriceLabel').innerHTML = "Original price*"
       const disc = discount.value
       const discountedPrice = orgPrice - (orgPrice *(disc / 100)) 
-      document.getElementById('discPrice').value = discountedPrice
+      document.getElementById('discPrice').value = Math.trunc(discountedPrice)
     }else{
       document.getElementById('orgPrice').focus()
       document.getElementById('orgPriceLabel').innerHTML = "Original price required"

@@ -130,7 +130,7 @@
                         <td><%= i %></td>
                         <td class="center"><%= element.carted[0].foodName %></td>
                         <td class="center"><%= element.quantity %></td>
-                        <td class="center">₹ <%= element.carted[0].discPrice %></td>
+                        <td class="center">₹ <%= element.carted[0].discPrice > 0 ? element.carted[0].discPrice : element.carted[0].orgPrice %></td>
                         <td class="center">₹ <%= element.total %></td>
                     </tr>
                 <% 

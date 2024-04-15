@@ -1,9 +1,10 @@
 async function addToCart(e) {
 
-    const item = e.target.getAttribute('data-item');
-    const auth = JSON.stringify(e.target.getAttribute('data-auth'))
 
-    if (auth === false) {
+    const item = e.target.getAttribute('data-item');
+    const auth = e.target.getAttribute('data-auth');
+
+    if (auth === 'false') {
         Toastify({
             text: "login to acccount",
             className: "info",

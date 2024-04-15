@@ -1,4 +1,4 @@
-    <%- include('./includes/header') %>
+<%- include('./includes/header') %>
 
 
 
@@ -17,13 +17,14 @@
                                 <form class="row g-3" id="mobileNumberValidateForm">
                                     <div class="col-md-12">
                                         <label for="validationCustom" class="form-label">Email Id</label>
-                                        <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number" oninput="validateNumber(this)">
+                                        <input type="text" class="form-control" id="mobileNumber" name="mobileNumber"
+                                            placeholder="Mobile Number" oninput="validateNumber(this)">
                                     </div>
                                     <div class="col-12">
                                         <button id="mobilelogin" class="w-100" type="submit">Login</button>
                                     </div>
                                 </form>
-                                <button id="goLeft" class="mt-0 w-100">Login >>></button>
+                                <button id="goLeft" class="mt-0 w-100">Login</button>
                             </div>
                         </div>
 
@@ -34,15 +35,18 @@
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Email Id</label>
                                         <div class="input-group">
-                                            <input type="email" class="form-control px-2" id="emailId" name="emailId" required>
+                                            <input type="email" class="form-control px-2" id="emailId" name="emailId"
+                                                required>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-12">
                                         <label class="form-label">Password</label>
                                         <div class="input-group">
-                                            <input type="password" class="form-control px-2" id="loginPassword" name="loginPassword" required>
-                                            <button class="btn btn-secondary m-0 rounded-right" type="button" id="showPasswordButton">
+                                            <input type="password" class="form-control px-2" id="loginPassword"
+                                                name="loginPassword" required>
+                                            <button class="btn btn-secondary m-0 rounded-right" type="button"
+                                                id="showPasswordButton">
                                                 <i class="bi bi-eye" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -51,7 +55,7 @@
                                         <button id="login" class="w-100" type="submit">Login</button>
                                     </div>
                                 </form>
-                                <button id="goRight" class="w-100 mt-0" class="off"> <<< MOBILE LOGIN </button>
+                                <button id="goRight" class="w-100 mt-0" class="off"> MOBILE LOGIN </button>
                                 <div class="d-flex align-items-center justify-content-center">
                                     <a class="text-primary fw-bold" href="/forgot-password">Forgot Password ?</a>
                                     <a class="text-primary fw-bold ms-2" href="/signup">Create an account</a>
@@ -68,7 +72,7 @@
     <script>
         var passwordInput = document.getElementById('loginPassword');
         var showPasswordButton = document.getElementById('showPasswordButton');
-    
+
         showPasswordButton.addEventListener('click', function () {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
@@ -78,53 +82,53 @@
         });
 
         //normal login
-        document.getElementById('loginForm').addEventListener('submit', async (event)=>{
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            if(validateLogin()){
-                
+            if (validateLogin()) {
+
                 const form = document.getElementById('loginForm');
                 const formData = new FormData(form);
 
                 const emailId = formData.get('emailId');
                 const loginPassword = formData.get('loginPassword');
 
-                const data ={
+                const data = {
                     emailId,
                     loginPassword
                 }
                 try {
-                    
+
                 } catch (error) {
-                    
+
                 }
                 const response = await fetch("/loginAuthenticate", {
-                method: "POST", // or 'PUT'
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
                 });
 
                 const result = await response.json();
-                if(result.status === "success"){
+                if (result.status === "success") {
                     Toastify({
                         text: result.msg,
                         className: "info",
                         style: {
                             background: "linear-gradient(to right, #0b7303, #24c9a3)",
                         }
-                        }).showToast();
+                    }).showToast();
                     setTimeout(() => {
                         window.location.href = "/"
                     }, 800);
-                }else{
+                } else {
                     Toastify({
                         text: result.msg,
                         className: "info",
                         style: {
                             background: "linear-gradient(to right, #ff0000, #dd2a7f)",
                         }
-                        }).showToast();
+                    }).showToast();
                 }
             }
 

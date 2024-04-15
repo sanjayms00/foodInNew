@@ -1,9 +1,9 @@
 async function addToWishList(e) {
 
     const item = e.target.getAttribute('data-item');
-    const auth = JSON.stringify(e.target.getAttribute('data-auth'))
+    const auth = e.target.getAttribute('data-auth');
 
-    if (auth === false) {
+    if (auth === 'false') {
         Toastify({
             text: "login to acccount",
             className: "info",

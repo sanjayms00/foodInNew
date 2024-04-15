@@ -1,94 +1,108 @@
 <!-- include header -->
 <%- include('./includes/header') %>
 
-    <% if(!wishlist.length > 0){ %>
-    <section style="background-color: #eee;">
-        <div class="container profile-section">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>wishlist</h3>
-                        </div>
-                        <div class="card-body wishlist">
-                            <div class="col-sm-12 empty-wishlist-cls text-center">
-                                <img src="./assets/img/emptyCart2.gif" width="380" height="130" class="img-fluid mb-4 mr-3">
-                                <h3><strong>Your wishlist is Empty</strong></h3>
-                                <h5>
-                                    <a href="/foods" class="btn btn-primary wishlist-btn-transform m-3" data-abc="true">Add to Wishlist</a>
-                                </h5>
+    <% if(!wishlist.length> 0){ %>
+        <section style="background-color: #eee;">
+            <div class="container profile-section">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>wishlist</h3>
+                            </div>
+                            <div class="card-body wishlist">
+                                <div class="col-sm-12 empty-wishlist-cls text-center">
+                                    <img src="./assets/img/emptyCart2.gif" width="380" height="130"
+                                        class="img-fluid mb-4 mr-3">
+                                    <h3><strong>Your wishlist is Empty</strong></h3>
+                                    <h5>
+                                        <a href="/foods" class="btn btn-primary wishlist-btn-transform m-3"
+                                            data-abc="true">Add to Wishlist</a>
+                                    </h5>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <% }else{ %>
-    <%= wishlist.length %>
-    <section class="h-100">
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center my-4">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header py-3">
-                            
-                        </div>
-                        <div class="card-body">
-                            <!-- Single item -->
-                            <% wishlist.forEach(element => { %>
-                                <% if(element.foodData[0] !== undefined){ %>
-                                    <div class="row align-items-center cart-items-list">
-                                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                                            <!-- Image -->
-                                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                <img src="food/<%= element.foodData[0].image !== "" ? element.foodData[0].image : "" %>" class="w-50" />
-                                                <a href="#!">
-                                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                                                </a>
-                                            </div>
-                                            <!-- Image -->
-                                        </div>
-        
-                                        <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
-                                            <!-- Data -->
-                                            <h5><strong><%= element.foodData[0].foodName %></strong></h5>
-                                            <p><%= element.foodData[0].foodType === 1 ? "Veg" : "Non-Veg" %></p>
-                                            <h6 class="text-start text-md-center float-start">
-                                                <strong class="text-secondary">Price : ₹ 
-                                                    <span class="org-price">
-                                                        <% if(element.foodData[0].discPrice > 0){ %>
-                                                            <%= element.foodData[0].discPrice %>
-                                                        <% }else{ %>
-                                                            <%= element.foodData[0].orgPrice %>
-                                                        <% } %>
-                                                    </span>
-                                                </strong>
-                                            </h6>
-                                        </div>
+        </section>
+        <% }else{ %>
+            <%= wishlist.length %>
+                <section class="h-100">
+                    <div class="container py-5">
+                        <div class="row d-flex justify-content-center my-4">
+                            <div class="col-md-12">
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
 
-                                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                                            <button data-item="<%= element.foodData[0]._id %>" type="button" class="wishlist-delete-btn btn btn-danger float-end m-1">
-                                                <i class="bi bi-trash3-fill"></i> Delete
-                                            </button>
-                                            <button onclick="addToCart(`<%= JSON.stringify(element.foodData[0]) %>`, `<%= isAuthenticated %>`)" type="button" class="btn btn-primary float-end m-1">
-                                                <i class="bi bi-cart-fill"></i> Add to Cart
-                                            </button>
-                                        </div>
                                     </div>
-                                    <hr>
-                                <% } %>
-                            <% }) %>
+                                    <div class="card-body">
+                                        <!-- Single item -->
+                                        <% wishlist.forEach(element=> { %>
+                                            <% if(element.foodData[0] !==undefined){ %>
+                                                <div class="row align-items-center cart-items-list">
+                                                    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                                        <!-- Image -->
+                                                        <div class="bg-image hover-overlay hover-zoom ripple rounded"
+                                                            data-mdb-ripple-color="light">
+                                                            <img src="food/<%= element.foodData[0].image !== "" ? element.foodData[0].image : "" %>"
+                                                                class="w-50" />
+                                                            <a href="#!">
+                                                                <div class="mask"
+                                                                    style="background-color: rgba(251, 251, 251, 0.2)">
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                        <!-- Image -->
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                                                        <!-- Data -->
+                                                        <h5><strong>
+                                                                <%= element.foodData[0].foodName %>
+                                                            </strong></h5>
+                                                        <p>
+                                                            <%= element.foodData[0].foodType===1 ? "Veg" : "Non-Veg" %>
+                                                        </p>
+                                                        <h6 class="text-start text-md-center float-start">
+                                                            <strong class="text-secondary">Price : ₹
+                                                                <span class="org-price">
+                                                                    <% if(element.foodData[0].discPrice> 0){ %>
+                                                                        <%= element.foodData[0].discPrice %>
+                                                                            <% }else{ %>
+                                                                                <%= element.foodData[0].orgPrice %>
+                                                                                    <% } %>
+                                                                </span>
+                                                            </strong>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                                        <button data-item="<%= element.foodData[0]._id %>" type="button"
+                                                            class="wishlist-delete-btn btn btn-danger float-end m-1">
+                                                            <i class="bi bi-trash3-fill"></i> Delete
+                                                        </button>
+                                                        <button onclick="addToCart(event)" type="button"
+                                                            data-item="<%= JSON.stringify(element.foodData[0]) %>"
+                                                            data-auth="<%= isAuthenticated %>"
+                                                            class="btn btn-primary float-end m-1">
+                                                            <i class="bi bi-cart-fill"></i> Add to Cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <% } %>
+                                                    <% }) %>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </section>
 
-    <% } %>
-    <script src="./assets/js/wishlist.js"></script>
-    <script src="./assets/js/cart.js"></script>
+                <% } %>
+                    <script src="./assets/js/wishlist.js"></script>
+                    <script src="./assets/js/cart.js"></script>
 
-<!-- include footer -->
-<%- include('./includes/footer') %>
+                    <!-- include footer -->
+                    <%- include('./includes/footer') %>

@@ -7,25 +7,25 @@ const session = require("express-session")
 const mongoDBSession = require("connect-mongodb-session")(session)
 
 const multer = require("multer")
-const uploads = multer({ 
-    storage: multer.memoryStorage(),
-    limits: {
-      fieldSize: 10 * 1024 * 1024, 
-      // Increase the limit to 10MB (adjust as needed)
-    }
-  });
+const uploads = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fieldSize: 10 * 1024 * 1024,
+    // Increase the limit to 10MB (adjust as needed)
+  }
+});
 
 const store = mongoDBSession({
-    uri : process.env.DATABSE_URL,
-    collection : "adminSessions"
+  uri: process.env.DATABSE_URL,
+  collection: "adminSessions"
 })
 
 //session middlware
 adminRoute.use(session({
-    secret : process.env.SECRET,
-    resave : false,
-    saveUninitialized : false,
-    store : store
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: store
 }))
 
 //importing the controllers
@@ -45,11 +45,13 @@ const adminMiddleware = require("../../middleware/admin/adminMiddleware")
 adminRoute.use(expressLayouts)
 
 //authentication routes
-adminRoute.get("/",adminConfigController.admin)
-adminRoute.get("/login",adminConfigController.login)
-adminRoute.post("/auth",adminConfigController.auth)
-adminRoute.get("/auth",adminConfigController.login)
-adminRoute.get("/logout",adminConfigController.logout)
+adminRoute.get("/", adminConfigController.admin)
+adminRoute.get("/login", adminConfigController.login)
+adminRoute.get("/sign-up", adminConfigController.signUp)
+adminRoute.post("/auth", adminConfigController.auth)
+adminRoute.post("/auth-sign-up", adminConfigController.authSignUp)
+adminRoute.get("/auth", adminConfigController.login)
+adminRoute.get("/logout", adminConfigController.logout)
 
 //dashboard routes
 adminRoute.get("/dashboard", adminMiddleware.adminSessionCheck, dashboardController.dashboard)
@@ -64,7 +66,7 @@ adminRoute.post("/userStatus", adminMiddleware.adminSessionCheck, userController
 adminRoute.get("/banner", adminMiddleware.adminSessionCheck, bannerController.showBanner)
 adminRoute.get("/create-banner", adminMiddleware.adminSessionCheck, bannerController.createBanner)
 adminRoute.get("/edit-banner", adminMiddleware.adminSessionCheck, bannerController.editBanner)
-adminRoute.post("/save-banner",adminMiddleware.adminSessionCheck, uploads.single('file_photo'), bannerController.saveBanner)
+adminRoute.post("/save-banner", adminMiddleware.adminSessionCheck, uploads.single('file_photo'), bannerController.saveBanner)
 adminRoute.post("/update-banner", adminMiddleware.adminSessionCheck, uploads.single('file_photo'), bannerController.updateBanner)
 adminRoute.delete("/delete-banner", adminMiddleware.adminSessionCheck, bannerController.deleteBanner)
 adminRoute.patch("/banner-status", adminMiddleware.adminSessionCheck, bannerController.changeStatus)
@@ -72,30 +74,30 @@ adminRoute.patch("/banner-position", adminMiddleware.adminSessionCheck, bannerCo
 
 //food routes
 adminRoute.get("/food", adminMiddleware.adminSessionCheck, foodController.showFood)
-adminRoute.get("/createFood",adminMiddleware.adminSessionCheck, foodController.createFood)
+adminRoute.get("/createFood", adminMiddleware.adminSessionCheck, foodController.createFood)
 adminRoute.post("/save-food", uploads.single('file_photo'), foodController.saveFood)
 adminRoute.post("/updateFood", uploads.single('file_photo'), foodController.updateFood)
-adminRoute.get("/editFood",adminMiddleware.adminSessionCheck, foodController.editFood)
-adminRoute.delete("/delete-food",adminMiddleware.adminSessionCheck, foodController.deleteFood)
+adminRoute.get("/editFood", adminMiddleware.adminSessionCheck, foodController.editFood)
+adminRoute.delete("/delete-food", adminMiddleware.adminSessionCheck, foodController.deleteFood)
 adminRoute.patch("/foodStatus", adminMiddleware.adminSessionCheck, foodController.foodStatus)
 
 //category routes
 adminRoute.get("/category", adminMiddleware.adminSessionCheck, categoryController.showCategory)
-adminRoute.get("/createCategory",adminMiddleware.adminSessionCheck, categoryController.createCategory)
-adminRoute.post("/saveCategory",adminMiddleware.adminSessionCheck, categoryController.saveCategory)
-adminRoute.get("/editCategory",adminMiddleware.adminSessionCheck, categoryController.editCategory)
-adminRoute.post("/update-category",adminMiddleware.adminSessionCheck, categoryController.updateCategory)
-adminRoute.delete("/deleteCategory",adminMiddleware.adminSessionCheck, categoryController.deleteCategory)
-adminRoute.post("/categoryStatus",adminMiddleware.adminSessionCheck, categoryController.categoryStatus)
+adminRoute.get("/createCategory", adminMiddleware.adminSessionCheck, categoryController.createCategory)
+adminRoute.post("/saveCategory", adminMiddleware.adminSessionCheck, categoryController.saveCategory)
+adminRoute.get("/editCategory", adminMiddleware.adminSessionCheck, categoryController.editCategory)
+adminRoute.post("/update-category", adminMiddleware.adminSessionCheck, categoryController.updateCategory)
+adminRoute.delete("/deleteCategory", adminMiddleware.adminSessionCheck, categoryController.deleteCategory)
+adminRoute.post("/categoryStatus", adminMiddleware.adminSessionCheck, categoryController.categoryStatus)
 
 //Coupon routes
 adminRoute.get("/coupons", adminMiddleware.adminSessionCheck, couponController.showcoupon)
-adminRoute.get("/createcoupon",adminMiddleware.adminSessionCheck, couponController.createcoupon)
-adminRoute.post("/savecoupon",adminMiddleware.adminSessionCheck, couponController.savecoupon)
-adminRoute.get("/editcoupon",adminMiddleware.adminSessionCheck, couponController.editcoupon)
-adminRoute.put("/updatecoupon",adminMiddleware.adminSessionCheck, couponController.updatecoupon)
-adminRoute.delete("/deletecoupon",adminMiddleware.adminSessionCheck, couponController.deletecoupon)
-adminRoute.post("/couponStatus",adminMiddleware.adminSessionCheck, couponController.couponStatus)
+adminRoute.get("/createcoupon", adminMiddleware.adminSessionCheck, couponController.createcoupon)
+adminRoute.post("/savecoupon", adminMiddleware.adminSessionCheck, couponController.savecoupon)
+adminRoute.get("/editcoupon", adminMiddleware.adminSessionCheck, couponController.editcoupon)
+adminRoute.put("/updatecoupon", adminMiddleware.adminSessionCheck, couponController.updatecoupon)
+adminRoute.delete("/deletecoupon", adminMiddleware.adminSessionCheck, couponController.deletecoupon)
+adminRoute.post("/couponStatus", adminMiddleware.adminSessionCheck, couponController.couponStatus)
 
 
 //order routes
@@ -110,7 +112,7 @@ adminRoute.use("/help-support", help)
 
 //error handling middleware
 adminRoute.use((err, req, res, next) => {
-  res.status(500).render("admin/errorPage", {msg : err.message})
+  res.status(500).render("admin/errorPage", { msg: err.message })
 })
 
 

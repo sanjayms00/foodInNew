@@ -43,6 +43,9 @@ const loadWishlist = async (req, res) => {
 //load wishlist 
 const addToWishlist = async (req, res) => {
     try {
+
+      console.log(req.body)
+
       if(!req.session.isauth)
       {
         return  res.status(404).json({status : "no-user", msg : "User not Found"});

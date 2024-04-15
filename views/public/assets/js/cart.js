@@ -1,33 +1,36 @@
+async function addToCart(e) {
 
-async function addToCart(foodData, auth){
-    if(auth === 'false'){
+    const item = e.target.getAttribute('data-item');
+    const auth = JSON.stringify(e.target.getAttribute('data-auth'))
+
+    if (auth === false) {
         Toastify({
             text: "login to acccount",
             className: "info",
             style: {
                 background: "linear-gradient(to right, #ff0000, #dd2a7f)",
             }
-            }).showToast();
-            setTimeout(()=>{
-                location.href = "/login"
-            },1000)
-    }else if(auth === "true"){
-        
+        }).showToast();
+
+        setTimeout(() => {
+            location.href = "/login"
+        }, 500)
+    } else {
+
         try {
+
             const response = await fetch('/add-to-cart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: foodData
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: item
             });
-            
+
             const data = await response.json();
-          
-            const alertDiv = document.getElementById('alertResult');
-            
-            if (data.status === 'success') { 
-                if(data.length){
+
+            if (data.status === 'success') {
+                if (data.length) {
                     document.getElementById('cartCounter').innerText = data.length
                 }
                 Toastify({
@@ -38,21 +41,21 @@ async function addToCart(foodData, auth){
                     }
                 }).showToast();
             }
-            else if (data.status === "blocked"){
+            else if (data.status === "blocked") {
                 Toastify({
                     text: data.msg,
                     className: "info",
                     style: {
                         background: "linear-gradient(to right, #ff0000, #dd2a7f)",
                     }
-                    }).showToast();
+                }).showToast();
                 setTimeout(() => {
                     window.location.href = "/logout"
                 }, 800);
             }
-            else if (data.status === "no-user"){
+            else if (data.status === "no-user") {
                 window.location.href = "/login"
-            } 
+            }
             else {
                 Toastify({
                     text: data.msg,
@@ -62,14 +65,14 @@ async function addToCart(foodData, auth){
                     }
                 }).showToast();
             }
-        }catch (error) {
+        } catch (error) {
             Toastify({
                 text: error.message,
                 className: "info",
                 style: {
                     background: "linear-gradient(to right, #ff0000, #dd2a7f)",
                 }
-                }).showToast();
+            }).showToast();
         }
     }
 }

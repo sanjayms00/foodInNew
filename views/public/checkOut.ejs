@@ -1,17 +1,17 @@
 <%- include("includes/header") %>
-  
+
   <div class="container padd-top">
     <form id="checkOutForm">
       <div class="row">
         <div class="col-md-8">
           <h4 class="mb-3">Delivery Address*</h4>
           <div class="form-floating">
-            <% if (defAddress.length === 0 || defAddress[0].addresses === undefined ) { %>
+            <% if (defAddress.length===0 || defAddress[0].addresses===undefined ) { %>
               <textarea class="form-control" id="floatingAddress" name="address" style="height: 150px"
                 placeholder="Delivery Address..." readonly required></textarea>
               <label for="floatingAddress" id="floatingAddressId">Address</label>
               <% }else{ %>
-                
+
                 <textarea class="form-control" id="floatingAddress" name="address" style="height: 150px"
                   placeholder="Address" readonly
                   required><%= `${defAddress[0].addresses.fullName}, \n${defAddress[0].addresses.addressLine},  ${defAddress[0].addresses.pinCode},  ${defAddress[0].addresses.city},  ${defAddress[0].addresses.state}, \n${defAddress[0].addresses.mobileNumber}, \n${defAddress[0].addresses.addressType}  ` %></textarea>
@@ -21,10 +21,10 @@
           <br>
           <div class="row">
             <div class="col-md-12 mb-4">
-              
+
               <button type="button" class="btn btn-primary float-end ms-2" data-bs-toggle="modal"
                 data-bs-target="#couponModal">
-                  Coupons
+                Coupons
               </button>
               <button type="button" class="btn btn-dark float-end mx-2" data-bs-toggle="modal"
                 data-bs-target="#exampleModal">
@@ -34,13 +34,13 @@
                 data-bs-target="#addressModal">
                 Add new address
               </button>
-              
+
             </div>
           </div>
 
           <div class="row">
             <h4 class="mb-3">Current Orders</h4>
-            
+
             <input type="hidden" name="cartItems" value="<%= JSON.stringify(cartItems) %>" readonly>
             <% cartItems.forEach(element=> { %>
               <div class="col-md-6 mb-4">
@@ -51,15 +51,15 @@
                     <p class="mb-2">
                       <%= element.carted[0].foodName %>.
                     </p>
-                    <% if(element.carted[0].discPrice > 0){ %>
+                    <% if(element.carted[0].discPrice> 0){ %>
                       <span><b>₹<%= element.carted[0].discPrice %></b></span>
-                    <% }else{ %>
-                      <span><b>₹<%= element.carted[0].orgPrice %></b></span>
-                    <% } %>
-                    <span class="mx-4"><b>
-                        <%= element.quantity %>
-                      </b></span>
-                    <span class="mx-4 text-danger"><b>₹<%= parseFloat(element.total).toFixed(2) %></b></span>
+                      <% }else{ %>
+                        <span><b>₹<%= element.carted[0].orgPrice %></b></span>
+                        <% } %>
+                          <span class="mx-4"><b>
+                              <%= element.quantity %>
+                            </b></span>
+                          <span class="mx-4 text-danger"><b>₹<%= parseFloat(element.total).toFixed(2) %></b></span>
                   </div>
                 </div>
               </div>
@@ -74,22 +74,23 @@
                 <h6 class="my-0">Price</h6>
               </div>
               <span class="text-muted">₹ <span id="price">
-                  <%= parseFloat(subTotal[0].subTotal).toFixed(2) %>
+                  <%= parseFloat(subTotal[0]?.subTotal).toFixed(2) %>
                 </span></span>
-              <input type="hidden" name="price" id="SubTotal" value="<%= parseFloat(subTotal[0].subTotal).toFixed(2) %>" readonly>
+              <input type="hidden" name="price" id="SubTotal"
+                value="<%= parseFloat(subTotal[0]?.subTotal).toFixed(2) %>" readonly>
             </li>
-            
-              <li class="list-group-item d-flex justify-content-between bg-light py-3">
-                <div class="text-success">
-                  <h6 class="my-0">Coupon discount</h6>
-                  <small id="couponCode"></small>
-                  <input type="hidden" id="couponCodeInput" value="">
-                </div>
-                <span class="text-success"><b id="discountPercentage">0</b>%</span>
-                <span class="text-success">₹ <b id="discTotal">0</b></span>
-                <input type="hidden" name="discount" id="discount" value="" readonly>
-                <input type="hidden" name="discountedPrice" id="discountedPrice" value="" readonly>
-              </li>
+
+            <li class="list-group-item d-flex justify-content-between bg-light py-3">
+              <div class="text-success">
+                <h6 class="my-0">Coupon discount</h6>
+                <small id="couponCode"></small>
+                <input type="hidden" id="couponCodeInput" value="">
+              </div>
+              <span class="text-success"><b id="discountPercentage">0</b>%</span>
+              <span class="text-success">₹ <b id="discTotal">0</b></span>
+              <input type="hidden" name="discount" id="discount" value="" readonly>
+              <input type="hidden" name="discountedPrice" id="discountedPrice" value="" readonly>
+            </li>
             <li class="list-group-item d-flex justify-content-between bg-light py-3">
               <div class="text-success">
                 <h6 class="my-0">Wallet Amount</h6>
@@ -100,10 +101,13 @@
             <li class="list-group-item d-flex justify-content-between py-3">
               <span>Amount Payable</span>
               <strong class="text-danger">₹ <span id="amountPayable">
-                  <%= parseFloat(locals.subTotal[0].subTotal).toFixed(2) %>
+                  <%= parseFloat(locals.subTotal[0]?.subTotal).toFixed(2) %>
                 </span></strong>
-                <span class="d-none" id="orgTotalPrice"><%= locals.subTotal[0].subTotal %></span>
-                <input type="hidden" name="totalPrice" id="totalPrice" value="<%= parseFloat(locals.subTotal[0].subTotal).toFixed(2) %>" readonly>
+              <span class="d-none" id="orgTotalPrice">
+                <%= locals.subTotal[0]?.subTotal %>
+              </span>
+              <input type="hidden" name="totalPrice" id="totalPrice"
+                value="<%= parseFloat(locals.subTotal[0]?.subTotal).toFixed(2) %>" readonly>
             </li>
           </ul>
           <h4 class="py-2">Payment Options</h4>
@@ -118,18 +122,19 @@
                 value="onlinePay">
               <label class="form-check-label " for="onlinePayment">Online Payment</label>
             </li>
-            <% if (user.wallet > 0) { %>
+            <% if (user.wallet> 0) { %>
               <li class="list-group-item py-3" id="walletList">
-                <input class="form-check-input border-dark" type="radio" onclick="showWallet(this);" name="paymentOption"
-                  id="wallet" value="wallet" data-toggle="modal" data-target="#walletModal">
+                <input class="form-check-input border-dark" type="radio" onclick="showWallet(this);"
+                  name="paymentOption" id="wallet" value="wallet" data-toggle="modal" data-target="#walletModal">
                 <label class="form-check-label " for="onlinePayment">Wallet </label>
                 <p class="text-center float-end <%= user.wallet ? `text-success` : '' %>">
-                  <%= user.wallet > 0 ? `you have ${user.wallet} balance in your wallet` : '' %>
+                  <%= user.wallet> 0 ? `you have ${user.wallet.toFixed(2) } balance in your wallet` : '' %>
                 </p>
               </li>
-            <% } %>
+              <% } %>
           </ul>
-          <button type="submit" id="checkout-btn" class="btn btn-primary btn-lg btn-block w-100" type="button">Place Order</button>
+          <button type="submit" id="checkout-btn" class="btn btn-primary btn-lg btn-block w-100" type="button">Place
+            Order</button>
         </div>
       </div>
     </form>
@@ -175,7 +180,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Coupon Modal -->
   <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -190,26 +195,27 @@
               <div class="col-md-12">
                 <!-- Radio buttons for addresses -->
                 <div class="list-group">
-                  <% 
-                    if(coupons.length > 0){
-                    let active = true 
-                    coupons.forEach((coup)=>{ 
-                  %> 
-                      <a href="#" class="list-group-item coupons list-group-item-action my-1 active" aria-current="true">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1"><span class="code"><%= coup.couponName %></span></h5>
-                          <h5 class="mb-1"><span class="discount"><%= coup.discount %></span> % </h5>
-                          <small>Till <%= coup.validity.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %></small>
-                        </div>
-                      </a> 
-                  <% 
-                    active = false
-                    }) }else{
-                  %>
-                  <p class="text-center"><%= 'No coupons Available' %></p>
-                  <%  
-                    }
-                  %>
+                  <% if(coupons.length> 0){
+                    let active = true
+                    coupons.forEach((coup)=>{
+                    %>
+                    <a href="#" class="list-group-item coupons list-group-item-action my-1 active" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><span class="code">
+                            <%= coup.couponName %>
+                          </span></h5>
+                        <h5 class="mb-1"><span class="discount">
+                            <%= coup.discount %>
+                          </span> % </h5>
+                        <small>Till <%= coup.validity.toLocaleString("en-US", {day: "numeric" , month: "short" ,
+                            year: "numeric" }) %></small>
+                      </div>
+                    </a>
+                    <% active=false }) }else{ %>
+                      <p class="text-center">
+                        <%= 'No coupons Available' %>
+                      </p>
+                      <% } %>
                 </div>
               </div>
             </div>
@@ -310,7 +316,7 @@
     const form = document.getElementById("checkOutForm")
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-  
+
       if (checkOut()) {
         const formData = {
           address: form.address.value,
@@ -321,32 +327,32 @@
         };
 
         //add wallet amount
-        if(form.wallAmount.value > 0){
+        if (form.wallAmount.value > 0) {
           formData.walletAmount = form.wallAmount.value
         }
-        if(form.discount.value){
+        if (form.discount.value) {
           formData.discount = form.discount.value
         }
-        if(form.discountedPrice.value){
+        if (form.discountedPrice.value) {
           formData.discountedPrice = form.discountedPrice.value
         }
-        if(form.couponCodeInput.value){
+        if (form.couponCodeInput.value) {
           formData.couponCode = form.couponCodeInput.value
         }
 
         console.log(formData.paymentOption, formData.walletAmount)
 
 
-        if(formData.paymentOption === 'wallet' && formData.walletAmount === undefined){
+        if (formData.paymentOption === 'wallet' && formData.walletAmount === undefined) {
           Toastify({
-              text: "Please Use the Wallet",
-              className: "info",
-              style: {
-                background: "linear-gradient(to right, #8f0d53, #df3333)",
-              }
-            }).showToast();
+            text: "Please Use the Wallet",
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #8f0d53, #df3333)",
+            }
+          }).showToast();
           showWallet()
-          return 
+          return
         }
         try {
           const response = await fetch("/authCheckout", {
@@ -358,7 +364,7 @@
           });
 
           const result = await response.json();
-          
+
           if (result.status === 'success') {
             if (result.paymentMethod === 'cod') {
               window.location.href = "/success"
@@ -373,7 +379,7 @@
               throw new Error("Invalid Payment Option")
             }
           } else {
-           
+
             Toastify({
               text: result.msg,
               className: "info",
@@ -384,12 +390,12 @@
           }
         } catch (error) {
           Toastify({
-              text: error,
-              className: "info",
-              style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-              }
-            }).showToast();
+            text: error,
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+          }).showToast();
         }
       }
     })
@@ -456,25 +462,25 @@
     function useWallet() {
       const discountedPrice = document.getElementById('discountedPrice').value
       let price
-      if(discountedPrice > 0){
+      if (discountedPrice > 0) {
         price = discountedPrice
-      }else{
+      } else {
         price = parseInt(document.getElementById('price').innerHTML);
       }
       const wallet = parseInt(document.getElementById('walletInPrice').innerHTML);
       let amountPayable = document.getElementById('amountPayable');
       let walletAmount = document.getElementById('walletAmount');
-    
+
       try {
         if (wallet >= price) {
-          walletAmount.innerHTML = price; 
+          walletAmount.innerHTML = price;
           document.getElementById('wallAmount').value = price;
           // Update wallet amount
           document.getElementById('walletInPrice').innerHTML = (wallet - price);
-          if(wallet - price > 0){
+          if (wallet - price > 0) {
             amountPayable.innerHTML = 0
             document.getElementById('totalPrice').value = 0
-          }else{
+          } else {
             amountPayable.innerHTML = price - wallet
             document.getElementById('totalPrice').value = price - wallet
           }
@@ -482,13 +488,13 @@
           $('#payList').hide()
           $('#walletList').hide()
           Toastify({
-                text: 'Wallet Payment Activated',
-                className: "info",
-                style: {
-                  background: "linear-gradient(to right, #00b09b, #96c93d)",
-                }
-              }).showToast();
-        }else{
+            text: 'Wallet Payment Activated',
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+          }).showToast();
+        } else {
           //use wallet amount
           walletAmount.innerHTML = wallet;
           document.getElementById('wallAmount').value = wallet
@@ -501,59 +507,59 @@
           $('#walletList').hide()
         }
         // Close the modal
-        $('#walletModal').modal('hide'); 
+        $('#walletModal').modal('hide');
       } catch (error) {
-          Toastify({
-                text: error.msg,
-                className: "info",
-                style: {
-                  background: "linear-gradient(to right, #00b09b, #96c93d)",
-                }
-              }).showToast();
+        Toastify({
+          text: error.msg,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
-  }
+    }
 
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const couponLinks = document.querySelectorAll('.coupons');
+    document.addEventListener('DOMContentLoaded', function () {
+      const couponLinks = document.querySelectorAll('.coupons');
 
-    couponLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
+      couponLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
 
-      // Get coupon details from the clicked link
-      const couponDiscount = link.querySelector('.discount').innerHTML
-      const code = link.querySelector('.code').innerHTML;
-      document.getElementById('couponCode').innerHTML = code
-      document.getElementById('couponCodeInput').value = code
+          // Get coupon details from the clicked link
+          const couponDiscount = link.querySelector('.discount').innerHTML
+          const code = link.querySelector('.code').innerHTML;
+          document.getElementById('couponCode').innerHTML = code
+          document.getElementById('couponCodeInput').value = code
 
-      // Update the displayed discount
-      const discountField = document.getElementById('discountPercentage');
-      discountField.textContent = couponDiscount;
+          // Update the displayed discount
+          const discountField = document.getElementById('discountPercentage');
+          discountField.textContent = couponDiscount;
 
-      // Get the initial subtotal, coupon discount, and wallet amount
-      const initialSubtotal = parseFloat(document.getElementById('SubTotal').value);
-      const walletAmount = parseFloat(document.getElementById('wallAmount').value);
-      
-      // Discount Amount = Total Value * (Discount Percentage / 100)
-      const discountAmount = initialSubtotal * (couponDiscount / 100)
-      //Final Price = Total Value - Discount Amount
-      const totalValue = initialSubtotal - discountAmount
+          // Get the initial subtotal, coupon discount, and wallet amount
+          const initialSubtotal = parseFloat(document.getElementById('SubTotal').value);
+          const walletAmount = parseFloat(document.getElementById('wallAmount').value);
 
-      // Update the displayed amount payable
-      const amountPayableField = document.getElementById('amountPayable');
-      amountPayableField.textContent = totalValue
-      document.getElementById('discountedPrice').value = totalValue;
+          // Discount Amount = Total Value * (Discount Percentage / 100)
+          const discountAmount = initialSubtotal * (couponDiscount / 100)
+          //Final Price = Total Value - Discount Amount
+          const totalValue = initialSubtotal - discountAmount
 
-      document.getElementById('discTotal').innerHTML = totalValue
-      document.getElementById('totalPrice').value = totalValue
+          // Update the displayed amount payable
+          const amountPayableField = document.getElementById('amountPayable');
+          amountPayableField.textContent = totalValue
+          document.getElementById('discountedPrice').value = totalValue;
 
-      // Update hidden input field for discount
-      const discountInput = document.getElementById('discount');
-      discountInput.value = couponDiscount
-      $('#couponModal').modal('hide')
-    });
-  });
+          document.getElementById('discTotal').innerHTML = totalValue
+          document.getElementById('totalPrice').value = totalValue
+
+          // Update hidden input field for discount
+          const discountInput = document.getElementById('discount');
+          discountInput.value = couponDiscount
+          $('#couponModal').modal('hide')
+        });
+      });
     });
 
   </script>

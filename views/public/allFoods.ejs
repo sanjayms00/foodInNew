@@ -1,107 +1,89 @@
 <%- include("includes/header") %>
 
-
-<style>
-/* Initial star color */
-.bi-star-fill {
-    color: gray;
-}
-
-/* Define a blinking animation */
-@keyframes blink {
-    0%, 100% {
-        color: yellow;
-    }
-    50% {
-        color: gray;
-    }
-}
-
-/* Apply the animation on hover and to previous stars */
-.bi-star-fill:hover,
-.bi-star-fill:hover ~ a .bi-star-fill {
-    animation: blink 1s infinite; /* Blinking animation */
-}
-</style>
-
-    <div class="container padd-top">
+    <section class="container padd-top">
         <div class="row">
-            <aside class="col-md-3">
+            <div class="col-12 col-md-4 col-lg-3 col-xl-2">
                 <div class="card">
                     <article class="filter-group">
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    Filter by Pricing
-                                </button>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                        aria-controls="flush-collapseOne">
+                                        Pricing
+                                    </button>
                                 </h2>
-                                <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div id="flush-collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
-                                            <div class="form-check">
-                                                <label class="form-check-label" for="lowToHigh">
-                                                    <p>
-                                                         <a href="/foods?page=1&sort=1">
-                                                            <i class="bi bi-chevron-right my-3"></i>
-                                                             Low - High
-                                                         </a>
-                                                    </p>
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label" for="lowToHigh">
-                                                    <p>
-                                                        <a href="/foods?page=1&sort=-1">
-                                                            <i class="bi bi-chevron-right my-3"></i>
-                                                             High - Low
-                                                        </a>
-                                                    </p>
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label" for="lowToHigh">
-                                                    <p>
-                                                        <a href="/foods?page=1&price=-500">
-                                                            <i class="bi bi-chevron-right my-3"></i>
-                                                             Below 500 
-                                                        </a> 
-                                                    </p>
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label" for="lowToHigh">
-                                                    <p>
-                                                        <a href="/foods?page=1&price=-1000">
-                                                            <i class="bi bi-chevron-right my-3"></i>
-                                                             Below 1000 
-                                                        </a>
-                                                    </p>
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label" for="lowToHigh">
-                                                    <p>
-                                                        <a href="/foods?page=1&price=100-500">
-                                                            <i class="bi bi-chevron-right my-3"></i>
-                                                             100 to 500
-                                                        </a>
-                                                    </p>
-                                                </label>
-                                            </div>
-                                        
+                                        <div class="form-check p-0">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&sort=1">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        Low - High
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check p-0">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&sort=-1">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        High - Low
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check p-0">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&price=-500">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        Below 500
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check p-0">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&price=-1000">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        Below 1000
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="form-check p-0">
+                                            <label class="form-check-label" for="lowToHigh">
+                                                <p>
+                                                    <a href="/foods?page=1&price=100-500">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        100 to 500
+                                                    </a>
+                                                </p>
+                                            </label>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                    Filter by Food Type
-                                </button>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                        aria-controls="flush-collapseTwo">
+                                        Food Type
+                                    </button>
                                 </h2>
-                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
-                                        <div class="form-check">
-                                            
+                                        <div class="form-check p-0">
+
                                             <label class="form-check-label" for="lowToHigh">
                                                 <p>
                                                     <a href="/foods?page=1&type=veg">
@@ -110,7 +92,7 @@
                                                 </p>
                                             </label>
                                         </div>
-                                        <div class="form-check">
+                                        <div class="form-check p-0">
                                             <label class="form-check-label" for="lowToHigh">
                                                 <p>
                                                     <a href="/foods?page=1&type=non-veg">
@@ -124,146 +106,186 @@
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    Top Categories
-                                </button>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                        aria-controls="flush-collapseThree">
+                                        Top Categories
+                                    </button>
                                 </h2>
-                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
 
                                         <label class="form-check-label" for="lowToHigh">
-                                            <% 
-                                                if (locals.categories) { 
-                                                    categories.forEach((item)=>{
-                                            %>
-                                            <p>
-                                                <a href="/foods?page=1&category=<%= item._id %>">
-                                                    <i class="bi bi-chevron-right my-3"></i>
-                                                    <%= item.categoryName %>
-                                                </a>
-                                            </p>
-                                            <% }) }else{ %>
-                                                <p class="text-secondary">No Categories</p>
-                                            <% } %>
-                                            
+                                            <% if (locals.categories) { categories.forEach((item)=>{
+                                                %>
+                                                <p>
+                                                    <a href="/foods?page=1&category=<%= item._id %>">
+                                                        <i class="bi bi-chevron-right my-3"></i>
+                                                        <%= item.categoryName %>
+                                                    </a>
+                                                </p>
+                                                <% }) }else{ %>
+                                                    <p class="text-secondary">No Categories</p>
+                                                    <% } %>
+
                                         </label>
                                         <br>
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-4 py-3">
-                                <a href="/foods?page=1&rating=1"><i class="bi bi-star-fill px-2"></i></a>
-                                <a href="/foods?page=1&rating=2"><i class="bi bi-star-fill px-2"></i></a>
-                                <a href="/foods?page=1&rating=3"><i class="bi bi-star-fill px-2"></i></a>
-                                <a href="/foods?page=1&rating=4"><i class="bi bi-star-fill px-2"></i></a>
-                                <a href="/foods?page=1&rating=5"><i class="bi bi-star-fill px-2"></i></a>
-                            </div>               
+                            <div class="d-flex justify-content-center py-3">
+                                <a href="/foods?page=1&rating=1"><i class="bi bi-star-fill px-1"></i></a>
+                                <a href="/foods?page=1&rating=1"><i class="bi bi-star-fill px-1"></i></a>
+                                <a href="/foods?page=1&rating=3"><i class="bi bi-star-fill px-1"></i></a>
+                                <a href="/foods?page=1&rating=4"><i class="bi bi-star-fill px-1"></i></a>
+                                <a href="/foods?page=1&rating=5"><i class="bi bi-star-fill px-1"></i></a>
+                            </div>
                         </div>
                     </article>
-                </div> 
-            </aside>
-            <main class="col-md-9">
+                </div>
+            </div>
+            <div class="col-12 col-md-8 col-lg-9 col-xl-10">
                 <div class="border-bottom mb-4 pb-3">
                     <div class="d-flex justify-content-between align-items-center bg-white p-3">
                         <h5 class="mb-0 w-50">Total <%= locals.foodDataCount %> Items</h5>
-                        
                     </div>
                 </div>
-                <div class="row mb-5">
-                <% if (locals.food) { 
-                    food.forEach((item) => { %>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <a href="/foodDetail/<%= item.slug %>">
-                                <img src="<%= item.image ? '/food/' + item.image : '/no-image.jpg' %>" alt="food image" class="card-img-top">
-                            </a>
-                            <div class="card-body">
-                                <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi fs-6 bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
-                                <h5 class="card-title mb-2" style="height: 65px;"><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h5>
-                                <h6 class="card-text">
-                                    <% if (item.discPrice > 0) { %>
-                                        <a href="/foodDetail/" class="text-success">
-                                            <b>₹ <%= item.discPrice %></b>
-                                        </a>&nbsp;
-                                        <small class="text-secondary">
-                                            <del>₹ <%= item.orgPrice %></del>
-                                        </small>
-                                        <small class="text-secondary">
-                                            ₹ <%= item.discount %> %
-                                        </small>
-                                    <% } else { %>
-                                        <a href="/foodDetail/" class="text-success">
-                                            <b>₹ <%= item.orgPrice %></b>
+                <div class="row">
+                    <% if(locals.food?.length <=0 ){ %>
+                        <p class="text-center">
+                            No Items to display
+                        </p>
+                        <% } %>
+                            <% if (locals.food) { food.forEach((item)=> { %>
+                                <div class="col-6 col-md-6 col-xl-3 mb-4">
+                                    <div class="card">
+                                        <a href="/foodDetail/<%= item.slug %>">
+                                            <img src="<%= item.image ? '/food/' + item.image : '/no-image.jpg' %>"
+                                                alt="food image" class="card-img-top">
                                         </a>
-                                    <% } %>
-                                </h6>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <a href="/foodDetail/<%= item.slug %>" class="btn btn-danger btn-sm">Show Details</a>
-                                    </div>
-                                    <div>
-                                        <i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
-                                    </div>
-                                    <div>
-                                        <i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5" id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
+                                        <div class="card-body">
+                                            <small class="text-secondary">
+                                                <%= item.type===1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi fs-6 bi-circle-fill text-<%= item.type === 1 ? ' success'
+                                            : 'danger' %>"></i>
+                                            </small>
+                                            <h5 class="card-title mb-2" style="height: 50px;"><a
+                                                    href="/foodDetail/<%= item.slug %>">
+                                                    <%= item.foodName.slice(0,25) %>
+                                                </a>
+                                            </h5>
+                                            <h6 class="card-text">
+                                                <% if (item.discPrice> 0) { %>
+                                                    <a href="/foodDetail/" class="text-success">
+                                                        <b>₹ <%= item.discPrice %></b>
+                                                    </a>&nbsp;
+                                                    <small class="text-secondary">
+                                                        <del>₹ <%= item.orgPrice %></del>
+                                                    </small>
+                                                    <small class="text-secondary">
+                                                        ₹ <%= item.discount %> %
+                                                    </small>
+                                                    <% } else { %>
+                                                        <a href="/foodDetail/" class="text-success">
+                                                            <b>₹ <%= item.orgPrice %></b>
+                                                        </a>
+                                                        <% } %>
+                                            </h6>
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <a href="/foodDetail/<%= item.slug %>"
+                                                        class="btn btn-danger btn-sm">
+                                                        Details</a>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-end">
+                                                    <div>
+														<i title="added to cart"
+															class="bi text-danger bi-bag-fill p-1 fs-5"
+															data-item="<%= JSON.stringify(item) %>"
+															data-auth="<%= JSON.stringify(isAuthenticated) %>"
+															onclick="addToCart(event)"></i>
+													</div>
+													<div>
+														<i title="add to wishlist"
+															class="bi text-danger bi-heart-fill p-1 fs-5"
+															data-item="<%= JSON.stringify(item) %>"
+															data-auth="<%= JSON.stringify(isAuthenticated) %>"
+															onclick="addToWishList(event)"></i>
+													</div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                <% }); 
-                } else { %>
-                    <div class="col-12">
-                        <p class="text-secondary text-center">No products to display</p>
-                    </div>
-                <% } %>
+                                <% }); } else { %>
+                                    <div class="col-12">
+                                        <p class="text-secondary text-center">No products to display</p>
+                                    </div>
+                                    <% } %>
+
+                                        <div class="pagination">
+                                            <% if (foodDataCount> limit) { %>
+                                                <nav aria-label="Page navigation example mt-3">
+                                                    <ul class="pagination justify-content-center">
+                                                        <li
+                                                            class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                                            <a class="page-link"
+                                                                href="<%= currentPage > 1 ? '/foods?page=' + (currentPage - 1) + '&' + serializeQuery(query) : '#' %>"
+                                                                aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                                            <li
+                                                                class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                                <a class="page-link"
+                                                                    href="/foods?page=<%= i %>&<%= serializeQuery(query) %>">
+                                                                    <%= i %>
+                                                                </a>
+                                                            </li>
+                                                            <% } %>
+                                                                <li
+                                                                    class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                                                    <a class="page-link"
+                                                                        href="<%= currentPage < totalPages ? '/foods?page=' + (currentPage + 1) + '&' + serializeQuery(query) : '#' %>"
+                                                                        aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                    </a>
+                                                                </li>
+                                                    </ul>
+                                                </nav>
+                                                <% } %>
+                                        </div>
                 </div>
-                <% if (foodDataCount > limit) { %>
-                    <nav aria-label="Page navigation example mt-3">
-                        <ul class="pagination justify-content-center">
-                        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                            <a class="page-link" href="<%= currentPage > 1 ? '/foods?page=' + (currentPage - 1) + '&' + serializeQuery(query) : '#' %>" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                            <a class="page-link" href="/foods?page=<%= i %>&<%= serializeQuery(query) %>"><%= i %></a>
-                            </li>
-                        <% } %>
-                        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
-                            <a class="page-link" href="<%= currentPage < totalPages ? '/foods?page=' + (currentPage + 1) + '&' + serializeQuery(query) : '#' %>" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        </ul>
-                    </nav>
-              <% } %>
-            </main>
+            </div>
         </div>
-    </div>
+    </section>
 
     <% function serializeQuery(query) { %>
-    <% return Object.keys(query).map(key => key + '=' + encodeURIComponent(query[key])).join('&'); %>
-    <% } %>
-
-    <script>
-        
-        document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll(".bi-star-fill");
-
-    stars.forEach((star) => {
-        star.addEventListener("click", function () {
-            stars.forEach((s) => s.classList.remove("selected"));
-            this.classList.add("selected");
-        });
-    });
-});
-    
-    </script>
+        <% return Object.keys(query).map(key=> key + '=' + encodeURIComponent(query[key])).join('&'); %>
+            <% } %>
 
 
 
-<script src="../assets/js/cart.js"></script>
-<script src="../assets/js/wishlist.js"></script>
-<%- include("includes/footer") %>
+                <script>
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const stars = document.querySelectorAll(".bi-star-fill");
+
+                        stars.forEach((star) => {
+                            star.addEventListener("click", function () {
+                                stars.forEach((s) => s.classList.remove("selected"));
+                                this.classList.add("selected");
+                            });
+                        });
+                    });
+
+                </script>
+
+
+
+                <script src="../assets/js/cart.js"></script>
+                <script src="../assets/js/wishlist.js"></script>
+                <%- include("includes/footer") %>

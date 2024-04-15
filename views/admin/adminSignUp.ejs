@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>foodin Sign Up</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/img/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <link href="../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <style>
+        .poppins-light {
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+            font-style: normal;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <main class="container pt-5">
+        <form class="d-flex flex-column w-50 mx-auto" id="adminSignUp">
+            <h3 class="text-center">Sign Up</h3>
+
+            <hr>
+
+            <div class="form-group pb-3">
+                <label for="inputName" class="poppins-light"><b>Name</b></label>
+                <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter Name">
+            </div>
+            <div class="form-group pb-3">
+                <label for="inputEmail" class="poppins-light"><b>Email</b></label>
+                <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Enter email">
+            </div>
+            <div class="form-group pb-3">
+                <label for="inputPassword" class="poppins-light"><b>Password</b></label>
+                <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
+            </div>
+            <div class="col-auto">
+                <label class="sr-only poppins-light" for="inlineFormInputGroup">
+                    <b>Confirm Password</b>
+                </label>
+                <div class="input-group mb-2">
+                    <input type="password" class="form-control" name="confirmPassword" id="inputPasswordConfirm"
+                        placeholder="Confirm Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text bg-primary text-light" id="eye-btn" onclick="showpassword()">
+                            <div id="eye-open" hidden>
+                                <i class="bi bi-eye-fill"></i>
+                            </div>
+                            <div id="eye-close">
+                                <i class="bi bi-eye-slash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </main>
+
+    <!-- validation -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+        document.getElementById("adminSignUp").addEventListener("submit", async (e) => {
+            e.preventDefault()
+
+            const formData = new FormData(e.target)
+
+            let data = Object.fromEntries(formData)
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value)
+                if (!value.trim()) {
+                    //toast
+                    Toastify({
+                        text: `${key} is required`,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                        }
+                    }).showToast();
+
+                    //focus
+                    document.getElementsByName(key)[0].focus()
+                    return;
+
+                }
+            }
+
+
+            const response = await validate()
+
+            if (response) {
+                const response = await fetch("/admin/auth-sign-up", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                console.log(result)
+
+                if (result?.status === "success") {
+                    Toastify({
+                        text: result?.msg,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #2db622, #125b00)",
+                        }
+                    }).showToast();
+                } else {
+                    Toastify({
+                        text: result?.msg,
+                        className: "info",
+                        style: {
+                            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                        }
+                    }).showToast();
+                }
+            }
+        })
+
+        // password show
+        const showpassword = () => {
+            const eyeOpen = document.getElementById("eye-open")
+            const eyeClose = document.getElementById("eye-close")
+
+            eyeOpen.hidden = !eyeOpen.hidden
+            eyeClose.hidden = !eyeClose.hidden
+
+            const cPassword = document.getElementsByName("confirmPassword")[0]
+
+            if (!eyeOpen.hidden) {
+                cPassword.type = "text"
+            } else {
+                cPassword.type = "password"
+            }
+        }
+
+
+        const validate = () => {
+            const password = document.getElementById("inputPassword").value
+            const cPassword = document.getElementById("inputPasswordConfirm").value
+
+            if (password !== cPassword) {
+                Toastify({
+                    text: "Password do not match",
+                    className: "info",
+                    style: {
+                        background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+                    }
+                }).showToast();
+
+                return false
+            }
+
+            return true
+        }
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

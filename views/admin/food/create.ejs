@@ -54,9 +54,11 @@
                 <div class="row">
                   <div class="col-md-12">
                     <label class="cabinet center-block">
-                      <label for="foodImage"><b id="foodImageLabel">Upload Image*</b> <br>(supported formats : jpg | jpeg | png)</label>
+                      <label for="foodImage"><b id="foodImageLabel">Upload Image*</b> <br>(supported formats : jpg |
+                        jpeg | png)</label>
                       <figure>
-                        <input type="file" class="item-img file center-block" name="file_photo" id="filePhoto"/>
+                        <input type="file" class="item-img file center-block" name="file_photo" id="filePhoto"
+                          accept="image/jpeg" />
                         <img src="" class="gambar img-responsive img-thumbnail mt-2 img-fluid" id="item-img-output" />
                         <figcaption><i class="fa fa-camera"></i></figcaption>
                       </figure>
@@ -152,32 +154,32 @@
 </div>
 
 <script>
-  function checkPrice(){
+  function checkPrice() {
     const orgPrice = document.getElementById('orgPrice')
-    if(orgPrice.value === ''){
+    if (orgPrice.value === '') {
       orgPrice.focus()
       document.getElementById('orgPriceLabel').innerHTML = "Original price required"
     }
   }
-    
+
   //check discount
 
-  function checkDiscount(){
+  function checkDiscount() {
     const discount = document.getElementById('discount')
-    if(discount.value === '' && discount.value !== ''){
+    if (discount.value === '' && discount.value !== '') {
       document.getElementById('discPrice').value = ''
     }
     const orgPrice = document.getElementById('orgPrice').value
-    if(orgPrice !== ''){
+    if (orgPrice !== '') {
       document.getElementById('orgPriceLabel').innerHTML = "Original price*"
       const disc = discount.value
-      const discountedPrice = orgPrice - (orgPrice *(disc / 100)) 
+      const discountedPrice = orgPrice - (orgPrice * (disc / 100))
       document.getElementById('discPrice').value = Math.trunc(discountedPrice)
-    }else{
+    } else {
       document.getElementById('orgPrice').focus()
       document.getElementById('orgPriceLabel').innerHTML = "Original price required"
       document.getElementById('discPrice').value = ''
-      
+
     }
   }
 
@@ -190,15 +192,15 @@
   function readFile(input) {
     const filePath = input.value
     const allowedExtensions = /(\.jpg|\.jpeg|\.png)/i
-    if(!allowedExtensions.exec(filePath)){
+    if (!allowedExtensions.exec(filePath)) {
       Toastify({
-          text: "Image Format not Supported",
-          className: "info",
-          style: {
-              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-          }
-          }).showToast();
-      return 
+        text: "Image Format not Supported",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+        }
+      }).showToast();
+      return
     }
     if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -244,11 +246,11 @@
       $('#cropImagePop').modal('hide');
     });
   });
-	
-  
+
+
   document.getElementById('foodform').addEventListener('submit', async (event) => {
     event.preventDefault();
-    if(foodValidateCreate()){
+    if (foodValidateCreate()) {
       const croppedImageSrc = $('#item-img-output').attr('src');
 
       const formData = new FormData(event.currentTarget);
@@ -261,34 +263,34 @@
         });
 
         const result = await response.json()
-        if(result.status === "success"){
-        Toastify({
+        if (result.status === "success") {
+          Toastify({
             text: result.msg,
             className: "info",
             style: {
-                background: "linear-gradient(to right, #0b7303, #24c9a3)",
+              background: "linear-gradient(to right, #0b7303, #24c9a3)",
             }
-            }).showToast();
-            setTimeout(() => {
-              location.href = '/admin/food'
-            }, 200);
+          }).showToast();
+          setTimeout(() => {
+            location.href = '/admin/food'
+          }, 200);
 
-        
-      }else{
-        Toastify({
-          text: result.msg,
-          className: "info",
-          style: {
+
+        } else {
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
               background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-          }
-        }).showToast();
-      }
+            }
+          }).showToast();
+        }
       } catch (error) {
-        
+
       }
     }
-    
-});
+
+  });
 
 
 

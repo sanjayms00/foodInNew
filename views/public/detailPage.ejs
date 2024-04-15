@@ -7,9 +7,10 @@
                 <div class="col-lg-4 pt-5">
                     <div class="large-5 column">
                         <div class="xzoom-container">
-                          <img class="xzoom" id="xzoom-default" src="/food/<%= locals.data.image %>" xoriginal="/food/<%= locals.data.image %>" width="100%" />
+                            <img class="xzoom" id="xzoom-default" src="/food/<%= locals.data.image %>"
+                                xoriginal="/food/<%= locals.data.image %>" width="100%" />
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="alert d-none ml-5" role="alert" id="alertResult">
@@ -17,67 +18,80 @@
                     </div>
                     <%= data.category.categoryName %>
                         &nbsp;
-                        <i class="bi bi-circle-fill fs-6 text-<%= locals.data.type === 1 ? "success" : "danger" %>"></i>
+                        <i class="bi bi-circle-fill fs-6 text-<%= locals.data.type === 1 ? " success" : "danger"
+                            %>"></i>
 
                         <h1 class="font-weight-light">
                             <%= locals.data.foodName %>
                         </h1>
                         <!-- price -->
-                        <% if(data.discPrice > 0){ %>
+                        <% if(data.discPrice> 0){ %>
                             <h3 class="pt-2">
                                 <b>₹ <%= locals.data.discPrice %></b>
                                 &nbsp;&nbsp;
                             </h3>
                             <span class="text-secondary"><del>₹ <%= locals.data.orgPrice %></del></span>
-                        <% }else{ %>
-                            <h3 class="pt-2">
-                                <b>₹ <%= locals.data.orgPrice %></b>
-                                &nbsp;&nbsp;
-                            </h3>
-                        <% } %>
+                            <% }else{ %>
+                                <h3 class="pt-2">
+                                    <b>₹ <%= locals.data.orgPrice %></b>
+                                    &nbsp;&nbsp;
+                                </h3>
+                                <% } %>
 
-                       
-                        <h5 class="text-secondary py-1">
-                            <%= locals.data.type===1 ? "Veg" : "Non-Veg" %>
-                        </h5>
-                        <h6>Description</h6>
-                        <p>
-                            <%= locals.data.description %>
-                        </p>
-                        <h6>Ingredients</h6>
-                        <p>
-                            <%= locals.data.ingredients %>
-                        </p>
-                        <% if (locals.data.totalStoke > 10) { %>
-                            <h6><span class="stock"><%= locals.data.totalStoke %></span> stock left</h6>
-                        <% }else if (locals.data.totalStoke <= 10 && locals.data.totalStoke > 0) { %>
-                            <h6 class="text-danger">Hurry Up, Only <span class="stock"><%= locals.data.totalStoke %></span> left</h6>
-                        <% }else if(locals.data.totalStoke <= 0){ %>
-                            <h6 class="text-danger">Out of Stock</h6>
-                        <% }%>
-                        <button id="addToCart" onclick="addToCart(`<%= JSON.stringify(data) %>`, `<%= isAuthenticated %>`) " class="btn btn-warning">
-                            <p class="mb-0"><i class="bi bi-bag-fill p-1"></i> Add to Cart</p>
-                        </button>
-                        <button id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(data) %>`, `<%= isAuthenticated %>`) " class="btn btn-warning">
-                            <p class="mb-0"><i class="bi bi-heart-fill p-1"></i> Add to Wishlist</p>
-                        </button>
-                        
+
+                                    <h5 class="text-secondary py-1">
+                                        <%= locals.data.type===1 ? "Veg" : "Non-Veg" %>
+                                    </h5>
+                                    <h6>Description</h6>
+                                    <p>
+                                        <%= locals.data.description %>
+                                    </p>
+                                    <h6>Ingredients</h6>
+                                    <p>
+                                        <%= locals.data.ingredients %>
+                                    </p>
+                                    <% if (locals.data.totalStoke> 10) { %>
+                                        <h6><span class="stock">
+                                                <%= locals.data.totalStoke %>
+                                            </span> stock left</h6>
+                                        <% }else if (locals.data.totalStoke <=10 && locals.data.totalStoke> 0) { %>
+                                            <h6 class="text-danger">Hurry Up, Only <span class="stock">
+                                                    <%= locals.data.totalStoke %>
+                                                </span> left</h6>
+                                            <% }else if(locals.data.totalStoke <=0){ %>
+                                                <h6 class="text-danger">Out of Stock</h6>
+                                                <% }%>
+                                                    <button onclick="addToCart(event)"
+                                                        data-item="<%= JSON.stringify(data) %>"
+                                                        data-auth="<%= JSON.stringify(isAuthenticated) %>"
+                                                        class="btn btn-warning">
+                                                        Add to Cart <i class="bi bi-bag-fill p-1"></i>
+                                                    </button>
+                                                    <button onclick="addToWishList(event)"
+                                                        data-item="<%= JSON.stringify(data) %>"
+                                                        data-auth="<%= isAuthenticated %>" class="btn btn-warning">
+                                                        Add to Wishlist <i class="bi bi-heart-fill p-1"></i>
+                                                    </button>
+
                 </div>
             </div>
         </div>
     </div>
+
     <script src='https://code.jquery.com/jquery-1.11.0.js'></script>
     <script src='https://unpkg.com/xzoom/dist/xzoom.min.js'></script>
+
     <script>
         (function ($) {
-            $(document).ready(function() {
-                $('.xzoom, .xzoom-gallery').xzoom({zoomWidth: 400, zoomHeight:400, title: true, tint: '#333', Xoffset: 15});
-            
+            $(document).ready(function () {
+                $('.xzoom, .xzoom-gallery').xzoom({ zoomWidth: 400, zoomHeight: 400, title: true, tint: '#333', Xoffset: 15 });
+
             });
         })(jQuery);
     </script>
 
     <script src="../assets/js/cart.js"></script>
     <script src="../assets/js/wishlist.js"></script>
+
     <!-- include footer -->
     <%- include('./includes/footer') %>

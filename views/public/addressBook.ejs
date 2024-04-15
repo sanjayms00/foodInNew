@@ -22,7 +22,7 @@
                                  <p>No address to display</p>
                                 <% }else{ %>
                                     <% address.addresses.forEach(element => { %>
-                                        <div class="rounded p-3 mb-3 bg-<%= address.defaultAddress.equals(element._id) ? 'secondary text-light' : 'light' %>">
+                                        <div class="rounded p-3 mb-3 bg-<%= address.defaultAddress.equals(element._id) ? 'success text-light' : 'light' %>">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <p class="mb-0"><strong><%= element.fullName %></strong></p>
@@ -30,9 +30,13 @@
                                                     <p class="mb-0">Mobile: <%= element.mobileNumber %></p>
                                                     <p class="mb-0">Address Type: <%= element.addressType %></p>
                                                 </div>
-                                                <div>
-                                                    <button class="btn btn-<%= address.defaultAddress.equals(element._id) ? 'info text-light' : 'primary' %>" onclick="setDefault('<%= element._id %>')"><%= address.defaultAddress.equals(element._id) ? 'Default' : 'Set Default' %></button>
-                                                    <a href="/edit-address/<%= element._id %>"><button class="btn btn-primary">Edit</button></a>
+                                                <div class="d-flex flex-column gap-1">
+                                                    <button class="btn btn-<%= address.defaultAddress.equals(element._id) ? 'warning text-dark' : 'info' %>" onclick="setDefault('<%= element._id %>')"><%= address.defaultAddress.equals(element._id) ? 'Default' : 'Set Default' %></button>
+
+                                                    <a href="/edit-address/<%= element._id %>">
+                                                        <button class="btn btn-primary w-100">Edit</button>
+                                                    </a>
+
                                                     <button data-address="<%= JSON.stringify(element) %>" class="btn btn-danger delete-address">Delete</button>
                                                 </div>
                                             </div>

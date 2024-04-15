@@ -89,7 +89,7 @@ publicRoute.delete("/cancel-order", userMiddleWare.isBlocked, orderController.ca
 publicRoute.get("/wallet", userMiddleWare.isBlocked, walletController.wallet)
 
 //cart routes
-publicRoute.post("/add-to-cart", userMiddleWare.checkUserBlocked, cartController.addToCart)
+publicRoute.put("/add-to-cart", userMiddleWare.checkUserBlocked, cartController.addToCart)
 publicRoute.post("/delete-cart-item", userMiddleWare.isBlocked, cartController.deleteCartItem)
 publicRoute.get("/cart", userMiddleWare.isBlocked, cartController.showCart)
 publicRoute.patch("/update-cart-data", userMiddleWare.isBlocked, cartController.updateCartByQuantity)

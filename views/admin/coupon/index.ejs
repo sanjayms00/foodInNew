@@ -1,11 +1,12 @@
 <!--  Header End -->
 <div class="container-fluid">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title fw-semibold mb-4 float-start">Coupons</h5>
-        <a href="/admin/createcoupon"><button type="button" class="btn btn-primary float-end">Add coupon</button></a>
-        <div class="card w-100">
-          <div class="card-body p-0">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title fw-semibold mb-4 float-start">Coupons</h5>
+      <a href="/admin/createcoupon"><button type="button" class="btn btn-primary float-end">Add coupon</button></a>
+      <div class="card w-100">
+        <div class="card-body p-0">
+          <% if(locals.data.length> 0){ %>
             <div class="table-responsive">
               <table class="table text-center table-striped text-nowrap mb-0 align-middle">
                 <thead class="text-dark fs-4">
@@ -37,58 +38,74 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% if(locals.data.length > 0){ 
-                    let i = 1;
-                    data.forEach((item)=>{
-                  %>
-                  <tr>
+                  <% data.forEach((item, i)=> { %>
+                    <tr>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-0"><%= i %></h6>
+                        <h6 class="fw-semibold mb-0">
+                          <%= i %>
+                        </h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.couponName %></h6>
+                        <h6 class="fw-semibold mb-1">
+                          <%= item.couponName %>
+                        </h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.discount %> %</h6>
+                        <h6 class="fw-semibold mb-1">
+                          <%= item.discount %> %
+                        </h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.minPurchase %></h6>
+                        <h6 class="fw-semibold mb-1">
+                          <%= item.minPurchase %>
+                        </h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.maxAmount %></h6>
+                        <h6 class="fw-semibold mb-1">
+                          <%= item.maxAmount %>
+                        </h6>
                       </td>
                       <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1"><%= item.validity.toLocaleString("en-US", {day: "numeric", month: "short", year: "numeric"}) %> <br>
+                        <h6 class="fw-semibold mb-1">
+                          <%= item.validity.toLocaleString("en-US", {day: "numeric" , month: "short" , year: "numeric"
+                            }) %> <br>
                       </td>
                       <td class="border-bottom-0">
                         <h6 class="fw-semibold mb-1">
                           <% if (!item.status) { %>
-                            <button type="button" onclick="changeStatus('<%= item._id %>', true, this)" class="btn btn-success w-100">Active</button>
-                            <% } else { %> 
-                              <button type="button" onclick="changeStatus('<%= item._id %>', false, this)" class="btn btn-danger w-100">Inactive</button>
-                          <% } %>
+                            <button type="button" onclick="changeStatus('<%= item._id %>', true, this)"
+                              class="btn btn-success w-100">Active</button>
+                            <% } else { %>
+                              <button type="button" onclick="changeStatus('<%= item._id %>', false, this)"
+                                class="btn btn-danger w-100">Inactive</button>
+                              <% } %>
                         </h6>
                       </td>
                       <td class="border-bottom-0">
-                          <a href="/admin/editcoupon?id=<%= item._id %>"><button type="button" class="btn btn-primary w-100">Edit</button></a>
-                          <br><br>
-                          <button type="button" class="btn btn-danger w-100" onclick="deleteCoupon('<%= item._id %>')">Delete</button>
+                        <a href="/admin/editcoupon?id=<%= item._id %>"><button type="button"
+                            class="btn btn-primary w-100">Edit</button></a>
+                        <br><br>
+                        <button type="button" class="btn btn-danger w-100"
+                          onclick="deleteCoupon('<%= item._id %>')">Delete</button>
                       </td>
-                  </tr>
-                  <% i++ }) }else{ %>
-                      <tr><p></p><%= "No Coupons To Show" %></p></tr>
-                  <% } %>
+                    </tr>
+                    <% }) %>
                 </tbody>
               </table>
             </div>
-          </div>
+            <% } else{ %>
+              <p class="my-5 text-center">
+                <%= "No Coupons To Show" %>
+              </p>
+              <% } %>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
-  
+
 
 <script>
 
@@ -99,44 +116,44 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({orderId, status}),
+        body: JSON.stringify({ orderId, status }),
       });
 
       const result = await response.json()
-      
-      if(result.status === "success"){
-        Toastify({
-            text: result.msg,
-            className: "info",
-            style: {
-                background: "linear-gradient(to right, #0b7303, #24c9a3)",
-            }
-            }).showToast();
-            setTimeout(() => {
-              location.reload()
-            }, 1000);
-      }else{
+
+      if (result.status === "success") {
         Toastify({
           text: result.msg,
           className: "info",
           style: {
-              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            background: "linear-gradient(to right, #0b7303, #24c9a3)",
+          }
+        }).showToast();
+        setTimeout(() => {
+          location.reload()
+        }, 1000);
+      } else {
+        Toastify({
+          text: result.msg,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #ff0000, #dd2a7f)",
           }
         }).showToast();
       }
-      
+
     } catch (error) {
-        Toastify({
-          text: error.message,
-          className: "info",
-          style: {
-              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-          }
-        }).showToast();
+      Toastify({
+        text: error.message,
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+        }
+      }).showToast();
     }
 
   }
-  
+
   function deleteCoupon(id) {
     Swal.fire({
       title: 'Are you sure?',
@@ -180,21 +197,19 @@
           }
         } catch (error) {
           Toastify({
-              text: result.msg,
-              className: "info",
-              style: {
-                background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-              }
-            }).showToast();
+            text: result.msg,
+            className: "info",
+            style: {
+              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+            }
+          }).showToast();
         }
       }
     })
-      
+
   }
 
 
 
 
 </script>
-
-

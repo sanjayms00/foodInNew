@@ -7,6 +7,44 @@ body {
   color: rgba(var(--color-primary-rgb), 1);
 }
 
+.navbar-brand{
+  height: 50px;
+  width: 50px;
+}
+
+/* header */
+
+.logo{
+  height: 50px;
+}
+
+.custom-nav{
+  justify-content: center;
+}
+
+/* carousel */
+
+.carousel-caption{
+  background-color: rgba(249, 249, 249, 0.8);
+  top: 50%;
+  padding: 15px;
+  height: auto;
+}
+
+.carousel-para{
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+/* footer */
+
+footer{
+  background-color: #fff3f2;
+}
+
+
+
+
 
 /* detail page wishlist and cart  */
 
@@ -46,13 +84,25 @@ body {
   color: white;
 }
 
+.bi-star-fill {
+  position: relative;
+  color: #f7ee43;
+}
+
+.bi-star-fill:hover {
+  top: -5px;
+  transition: ease-in-out 0.2s;
+  color: #e81717;
+}
+
 
 a {
   color: var(--color-links);
   text-decoration: none;
 }
 .padd-top{
-  padding: 130px 0 30px 0;
+  padding-top: 100px;
+  padding-bottom: 30px;
 }
 .signup-width{
   width: 50%;
@@ -81,7 +131,6 @@ p{
   font-weight: 500;
 }
 
-
 h1,
 h2,
 h3,
@@ -89,10 +138,6 @@ h4,
 h5,
 h6 {
   font-family: var(--font-primary);
-}
-
-#main {
-  margin-top: 90px;
 }
 
 /*--------------------------------------------------------------
@@ -119,6 +164,7 @@ section {
 /*--------------------------------------------------------------
 # Scroll top button
 --------------------------------------------------------------*/
+
 .scroll-top {
   position: fixed;
   visibility: hidden;
@@ -152,6 +198,7 @@ section {
 /*--------------------------------------------------------------
 # Page title
 --------------------------------------------------------------*/
+
 .page-title {
   font-size: 70px;
   color: var(--color-black);
@@ -179,6 +226,7 @@ section {
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+
 .header {
   height: 100px;
   transition: all 0.5s;
@@ -186,7 +234,7 @@ section {
   background: #ffcf60;
 }
 .dropdown-toggle{
-  background-color: #ffcf60;
+  /* background-color: #ffcf60; */
 }
 
 .header.sticked {
@@ -275,123 +323,8 @@ section {
 /*--------------------------------------------------------------
 # Desktop Navigation 
 --------------------------------------------------------------*/
-@media (min-width: 1280px) {
-  .navbar {
-    padding: 0;
-  }
 
-  .navbar ul {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    list-style: none;
-    align-items: center;
-  }
-
-  .navbar li {
-    position: relative;
-  }
-
-  .navbar a,
-  .navbar a:focus {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0 10px 30px;
-    font-family: var(--font-default);
-    font-size: 16px;
-    font-weight: 500;
-    color: rgba(var(--color-default-rgb), 1);
-    white-space: nowrap;
-    transition: 0.3s;
-  }
-
-  .navbar a i,
-  .navbar a:focus i {
-    font-size: 12px;
-    line-height: 0;
-    margin-left: 5px;
-  }
-
-  .navbar a:hover,
-  .navbar .active,
-  .navbar .active:focus,
-  .navbar li:hover>a {
-    color: var(--color-default);
-  }
-
-  .navbar .getstarted,
-  .navbar .getstarted:focus {
-    background: var(--color-primary);
-    padding: 8px 20px;
-    margin-left: 30px;
-    border-radius: 4px;
-    color: var(--color-white);
-  }
-
-  .navbar .getstarted:hover,
-  .navbar .getstarted:focus:hover {
-    color: var(--color-white);
-    background: rgba(var(--color-primary-rgb), 0.8);
-  }
-
-  .navbar .dropdown ul {
-    display: block;
-    position: absolute;
-    left: 14px;
-    top: calc(100% + 30px);
-    margin: 0;
-    padding: 0;
-    z-index: 99;
-    opacity: 0;
-    visibility: hidden;
-    background: var(--color-white);
-    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-    transition: 0.3s;
-    border-radius: 4px;
-  }
-
-  .navbar .dropdown ul li {
-    min-width: 200px;
-  }
-
-  .navbar .dropdown ul a {
-    padding: 5px 20px;
-    font-size: 15px;
-    text-transform: none;
-    font-weight: 400;
-  }
-
-  .navbar .dropdown ul a i {
-    font-size: 12px;
-  }
-
-  .navbar .dropdown ul a:hover,
-  .navbar .dropdown ul .active:hover,
-  .navbar .dropdown ul li:hover>a {
-    color: var(--color-primary);
-  }
-
-  .navbar .dropdown:hover>ul {
-    opacity: 1;
-    top: 100%;
-    visibility: visible;
-  }
-
-  .navbar .dropdown .dropdown ul {
-    top: 0;
-    left: calc(100% - 30px);
-    visibility: hidden;
-  }
-
-  .navbar .dropdown .dropdown:hover>ul {
-    opacity: 1;
-    top: 0;
-    left: 100%;
-    visibility: visible;
-  }
-}
-
+/* 
 @media (min-width: 1280px) and (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
     left: -90%;
@@ -400,7 +333,7 @@ section {
   .navbar .dropdown .dropdown:hover>ul {
     left: -100%;
   }
-}
+} */
 
 .mobile-nav-toggle {
   display: none;
@@ -409,7 +342,7 @@ section {
 /*--------------------------------------------------------------
 # Mobile Navigation
 --------------------------------------------------------------*/
-@media (max-width: 1279px) {
+/* @media (max-width: 1279px) {
   .navbar {
     padding: 0;
     z-index: 9997;
@@ -509,11 +442,12 @@ section {
   .mobile-nav-active .navbar>ul {
     display: block;
   }
-}
+} */
 
 /*--------------------------------------------------------------
 # Posts
 --------------------------------------------------------------*/
+
 .post-entry-1 {
   margin-bottom: 30px;
 }
@@ -1361,3 +1295,50 @@ section {
 .footer .credits a {
   color: var(--color-white);
 }
+
+@media screen and (max-width: 700px) {
+  .searchBar{
+    width: 100% !important;
+  }
+
+  .header-icons{
+    padding: 0 15px;
+  }
+}
+
+
+.navbar .dropdown ul {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: calc(100% + 30px);
+  margin: 0;
+  padding: 0;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  background: var(--color-white);
+  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  transition: 0.3s;
+  border-radius: 4px;
+}
+
+
+.navbar .dropdown ul a {
+  padding: 5px 20px;
+  font-size: 15px;
+  text-transform: none;
+  font-weight: 400;
+}
+
+.navbar .dropdown:hover>ul {
+  opacity: 1;
+  top: 100%;
+  visibility: visible;
+}
+
+.navbar .dropdown .dropdown ul {
+  top: 0;
+  left: calc(100% - 30px);
+  visibility: hidden;
+} 

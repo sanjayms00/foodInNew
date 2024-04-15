@@ -1,22 +1,28 @@
 <!--  Header End -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+  integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
 <style>
-  .selectize-input>input  {
-    min-height:  46px !important;
+  .selectize-input>input {
+    min-height: 46px !important;
   }
-  .item  {
-    line-height:  46px !important;
+
+  .item {
+    line-height: 46px !important;
   }
-  .selectize-input{
+
+  .selectize-input {
     border-radius: 7px;
     border-color: black;
   }
+
   img {
     display: block;
     /* This rule is very important, please don't ignore this */
     max-width: 100%;
   }
+
   label.cabinet {
     display: block;
     cursor: pointer;
@@ -62,11 +68,13 @@
                 <div class="row">
                   <div class="col-md-12">
                     <label class="cabinet center-block">
-                      <input type="hidden" name="bannerId" id="bannerId" value="<%= banner[0]._id %>"> 
-                      <input type="hidden" name="prevImage" id="prevImage" value="<%= banner[0].image %>">  
-                      <label for="BannerImage"><b id="bannerImageLabel">Upload Image*</b> <br>(supported formats : jpg | jpeg | png)</label>
+                      <input type="hidden" name="bannerId" id="bannerId" value="<%= banner[0]._id %>">
+                      <input type="hidden" name="prevImage" id="prevImage" value="<%= banner[0].image %>">
+                      <label for="BannerImage"><b id="bannerImageLabel">Upload Image*</b> <br>(supported formats : jpg |
+                        jpeg | png)</label>
                       <figure>
-                        <input type="file" class="item-img file center-block" name="file_photo" id="filePhoto"/>
+                        <input type="file" class="item-img file center-block" name="file_photo" id="filePhoto"
+                          accept="image/jpeg" />
                         <img src="" class="gambar img-responsive img-thumbnail mt-2 img-fluid" id="item-img-output" />
                         <figcaption><i class="fa fa-camera"></i></figcaption>
                       </figure>
@@ -78,9 +86,11 @@
                 <label for="BannerUrl" id="bannerUrlLabel"></label>
                 <select id="select-state" placeholder="Pick a Product*" class="mb-3" name="productUrl">
                   <option value="">Select a Product...</option>
-                  <% food.forEach(element => { %>
-                    <option value="/foodDetail/<%= element.slug %>" <%= banner[0].url === '/foodDetail/'+element.slug ? 'selected' : '' %>><%= element.foodName %></option>
-                  <% }) %>
+                  <% food.forEach(element=> { %>
+                    <option value="/foodDetail/<%= element.slug %>" <%=banner[0].url==='/foodDetail/' +element.slug
+                      ? 'selected' : '' %> > <%= element.foodName %>
+                    </option>
+                    <% }) %>
                 </select>
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control border-dark" name="bannerName" id="bannerName"
@@ -88,8 +98,9 @@
                   <label for="BannerName" id="bannerNameLabel">Banner Heading*</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <textarea class="form-control border-dark" style="height: 195px" maxlength="500" minlength="100" placeholder="Description..."
-                    name="bannerDescription" id="bannerDescription"><%= banner[0].description %></textarea>
+                  <textarea class="form-control border-dark" style="height: 195px" maxlength="500" minlength="100"
+                    placeholder="Description..." name="bannerDescription"
+                    id="bannerDescription"><%= banner[0].description %></textarea>
                   <label for="BannerDescription" id="bannerDescriptionLabel">Description*</label>
                 </div>
               </div>
@@ -127,7 +138,7 @@
   // Start upload preview image
   const prevImage = document.getElementById('prevImage').value
   $(".gambar").attr("src", `/banner/${prevImage}`);
-  
+
   var $uploadCrop,
     tempFilename,
     rawImg,
@@ -135,15 +146,15 @@
   function readFile(input) {
     const filePath = input.value
     const allowedExtensions = /(\.jpg|\.jpeg|\.png)/i
-    if(!allowedExtensions.exec(filePath)){
+    if (!allowedExtensions.exec(filePath)) {
       Toastify({
-          text: "Image Format not Supported",
-          className: "info",
-          style: {
-              background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-          }
-          }).showToast();
-      return 
+        text: "Image Format not Supported",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, #ff0000, #dd2a7f)",
+        }
+      }).showToast();
+      return
     }
     if (input.files && input.files[0]) {
       var reader = new FileReader();
@@ -189,12 +200,12 @@
       $('#cropImagePop').modal('hide');
     });
   });
-	
-  
+
+
   document.getElementById('Bannerform').addEventListener('submit', async (event) => {
     event.preventDefault();
-    
-    if(bannerUpdateValidate()){
+
+    if (bannerUpdateValidate()) {
       const croppedImageSrc = $('#item-img-output').attr('src');
       const formData = new FormData(event.currentTarget);
       formData.append('croppedImage', croppedImageSrc);
@@ -204,43 +215,44 @@
           body: formData
         });
         const result = await response.json()
-        if(result.status === "success"){
-        Toastify({
+        if (result.status === "success") {
+          Toastify({
             text: result.msg,
             className: "info",
             style: {
-                background: "linear-gradient(to right, #0b7303, #24c9a3)",
+              background: "linear-gradient(to right, #0b7303, #24c9a3)",
             }
-            }).showToast();
-            setTimeout(() => {
-              location.href = '/admin/banner'
-            }, 1000);
-      }else{
-        Toastify({
-          text: result.msg,
-          className: "info",
-          style: {
+          }).showToast();
+          setTimeout(() => {
+            location.href = '/admin/banner'
+          }, 1000);
+        } else {
+          Toastify({
+            text: result.msg,
+            className: "info",
+            style: {
               background: "linear-gradient(to right, #ff0000, #dd2a7f)",
-          }
-        }).showToast();
-      }
+            }
+          }).showToast();
+        }
       } catch (error) {
-        
+
       }
     }
-    
-});
 
-$(document).ready(function () {
-      $('select').selectize({
-          sortField: 'text'
-      });
+  });
+
+  $(document).ready(function () {
+    $('select').selectize({
+      sortField: 'text'
+    });
   });
 
 </script>
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+  integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 <script src="/assets/js/bannerValidate.js"></script>
 <script src="/assets/js/filePreview.js"></script>

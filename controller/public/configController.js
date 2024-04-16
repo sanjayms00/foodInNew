@@ -22,9 +22,9 @@ const emailPassword = process.env.EMAilPASSWORD;
 const login = async (req, res) => {
     try {
         const categoryData = await Category.find({})
-        res.render("public/loginMobile", {categories : categoryData})
+        res.render("public/loginMobile", { categories: categoryData })
     } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.render("public/errorPage", { msg: error.message })
     }
 }
 
@@ -34,37 +34,36 @@ const login = async (req, res) => {
 //login authenticate
 const loginAuthenticate = async (req, res) => {
     try {
-        
+
         const { emailId, loginPassword } = req.body
         //validate all fields
         if (!emailId) {
-            return res.status(400).json({status : "error", msg : "Email Id Required"});
-        } 
-        else if(!loginPassword){
-            return res.status(400).json({status : "error", msg : "Password Required"});
+            return res.status(400).json({ status: "error", msg: "Email Id Required" });
         }
-        else 
-        {
-            const checkUser = await Users.findOne({email : emailId})
-            if(!checkUser){
-                return res.status(401).json({status : "error", msg : "username and password is incorrect"})
+        else if (!loginPassword) {
+            return res.status(400).json({ status: "error", msg: "Password Required" });
+        }
+        else {
+            const checkUser = await Users.findOne({ email: emailId })
+            if (!checkUser) {
+                return res.status(401).json({ status: "error", msg: "username and password is incorrect" })
             }
             const checkPassword = await bcrypt.compare(loginPassword, checkUser.password)
-            if(!checkPassword){
-                return res.status(401).json({status : "error", msg : "username and password is incorrect"})
+            if (!checkPassword) {
+                return res.status(401).json({ status: "error", msg: "username and password is incorrect" })
             }
-            if(checkUser.blocked === true){
-                return res.status(401).json({status : "error", msg : "User is temporarily blocked. Contact the web site owner for assistance"}) 
+            if (checkUser.blocked === true) {
+                return res.status(401).json({ status: "error", msg: "User is temporarily blocked. Contact the web site owner for assistance" })
             }
             req.session.isloggedIn = true
             req.session.isauth = checkUser._id;
             req.session.email = checkUser.email;
             req.session.isBlocked = checkUser.blocked;
             req.session.userName = checkUser.firstName;
-            res.status(200).json({status : "success", msg : "successfull login"})
+            res.status(200).json({ status: "success", msg: "successfull login" })
         }
     } catch (error) {
-        res.status(500).json({status : "error", msg : "Unable to login"})
+        res.status(500).json({ status: "error", msg: "Unable to login" })
     }
 }
 
@@ -75,9 +74,9 @@ const loginAuthenticate = async (req, res) => {
 const verifyOtp = (req, res) => {
     try {
         const mobileNumber = req.query.userMobileNumber;
-        res.render("public/otpPage", {mobile : mobileNumber})
+        res.render("public/otpPage", { mobile: mobileNumber })
     } catch (error) {
-        res.status(500).render('public/errorPage', {msg : error.message})
+        res.status(500).render('public/errorPage', { msg: error.message })
     }
 }
 
@@ -87,34 +86,34 @@ const verifyOtp = (req, res) => {
 //validate otp
 const validateOtp = async (req, res) => {
     try {
-        const { otp , mobileNumber } = req.body;
-        const getUser = await Users.findOne({phone : mobileNumber})
-        if(!getUser){
-            return res.status(403).json({status : "error", msg : "Unauthorozed User"})
+        const { otp, mobileNumber } = req.body;
+        const getUser = await Users.findOne({ phone: mobileNumber })
+        if (!getUser) {
+            return res.status(403).json({ status: "error", msg: "Unauthorozed User" })
         }
-        if(getUser.blocked === true){
-            return res.status(401).json({status : "error", msg : "User is temporarily blocked. Contact the web site owner for assistance"}) 
+        if (getUser.blocked === true) {
+            return res.status(401).json({ status: "error", msg: "User is temporarily blocked. Contact the web site owner for assistance" })
         }
         client.verify.v2
             .services(verifySid)
             .verificationChecks.create({ to: `+91${mobileNumber}`, code: otp })
             .then((verification_check) => {
                 if (verification_check.status === "approved") {
-                        req.session.isauth = getUser._id;
-                        req.session.email = getUser.email;
-                        req.session.isBlocked = getUser.blocked;
-                        req.session.userName = getUser.firstName;
-                    res.status(200).json({status : "success", msg : "OTP Verified"});
+                    req.session.isauth = getUser._id;
+                    req.session.email = getUser.email;
+                    req.session.isBlocked = getUser.blocked;
+                    req.session.userName = getUser.firstName;
+                    res.status(200).json({ status: "success", msg: "OTP Verified" });
                 } else {
-                    res.status(400).json({status : "error", msg : "OTP Verification Failed"});
+                    res.status(400).json({ status: "error", msg: "OTP Verification Failed" });
                 }
             })
-            .catch((err)=>{
-                return res.status(500).json({status : "error", msg : "Unable to login"}) 
+            .catch((err) => {
+                return res.status(500).json({ status: "error", msg: "Unable to login" })
 
             })
     } catch (error) {
-        return res.status(500).json({status : "error", msg : error.message}) 
+        return res.status(500).json({ status: "error", msg: error.message })
 
     }
 }
@@ -126,25 +125,25 @@ const validateOtp = async (req, res) => {
 const validateNumber = async (req, res) => {
     try {
         const { mobileNumber } = req.body
-        const userData = await Users.findOne({phone : mobileNumber})
-        if(!userData){
-            return res.status(404).json({status : "error", msg : "Wrong Mobile Number"})
+        const userData = await Users.findOne({ phone: mobileNumber })
+        if (!userData) {
+            return res.status(404).json({ status: "error", msg: "Wrong Mobile Number" })
         }
-        if(userData.blocked === true){
-            return res.status(401).json({status : "error", msg : "User is temporarily blocked. Contact the web site owner for assistance"}) 
+        if (userData.blocked === true) {
+            return res.status(401).json({ status: "error", msg: "User is temporarily blocked. Contact the web site owner for assistance" })
         }
         client.verify.v2
-        .services(verifySid)
-        .verifications.create({ to: `+91${mobileNumber}`, channel: "sms" })
-        .then((verification) => {
-            res.json({status: "success", msg : 'number validated'})
-        })
-        .catch((err)=>{
-            res.status(200).json({status : "error", msg : "Issue sending otp"})
-        });
-        
+            .services(verifySid)
+            .verifications.create({ to: `+91${mobileNumber}`, channel: "sms" })
+            .then((verification) => {
+                res.json({ status: "success", msg: 'number validated' })
+            })
+            .catch((err) => {
+                res.status(200).json({ status: "error", msg: "Issue sending otp" })
+            });
+
     } catch (error) {
-        res.status(500).json({status : "error", msg : error.message})
+        res.status(500).json({ status: "error", msg: error.message })
     }
 }
 
@@ -156,7 +155,7 @@ const forgotPassword = (req, res) => {
     try {
         res.render("public/forgotPassword.ejs")
     } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.render("public/errorPage", { msg: error.message })
     }
 }
 
@@ -166,43 +165,43 @@ const forgotPassword = (req, res) => {
 //fogot password authenticate
 const forgotPasswordAuth = async (req, res) => {
     try {
-        const {forgotEmail} = req.body
-        const findUser = await Users.findOne({email : forgotEmail})
-        if(!findUser){
-            res.status(400).json({status : "error", msg : "User is not found"})
-        }else{
-            const newSecret = jwtsecretKey+findUser.password
+        const { forgotEmail } = req.body
+        const findUser = await Users.findOne({ email: forgotEmail })
+        if (!findUser) {
+            res.status(400).json({ status: "error", msg: "User is not found" })
+        } else {
+            const newSecret = jwtsecretKey + findUser.password
             const payload = {
-                email : findUser.email,
-                id : findUser._id
+                email: findUser.email,
+                id: findUser._id
             }
-            const token = jwt.sign(payload, newSecret, {expiresIn : '5m'})
-            const link = `https://sanjayms.online/reset-password/${findUser._id}/${token}`;
+            const token = jwt.sign(payload, newSecret, { expiresIn: '5m' })
+            const link = `https://foodin.sanjayms.online/reset-password/${findUser._id}/${token}`;
 
             //send email
             // let testAccount = await nodemailer.createTestAccount()
             const config = {
-                service : "gmail",
-                auth : {
-                    user : 'sanjayms1321999@gmail.com',
-                    pass : 'bnovdijcbozmyvgx'
+                service: "gmail",
+                auth: {
+                    user: 'sanjayms1321999@gmail.com',
+                    pass: 'bnovdijcbozmyvgx'
                 }
             }
 
             const transporter = nodemailer.createTransport(config);
 
             let mailGenerator = new mailgen({
-                theme : "default" ,
-                product : {
-                    name : "foodin",
-                    link : "https://sanjayms.online"
+                theme: "default",
+                product: {
+                    name: "foodin",
+                    link: "https://foodin.sanjayms.online"
                 }
             })
 
             let response = {
-                body : {
-                    name : `${findUser.firstName}`,
-                    intro : "Welcome to foodin! We\'re very excited to have you on board.",
+                body: {
+                    name: `${findUser.firstName}`,
+                    intro: "Welcome to foodin! We\'re very excited to have you on board.",
                     action: {
                         instructions: 'To reset password , please click here:',
                         button: {
@@ -211,7 +210,7 @@ const forgotPasswordAuth = async (req, res) => {
                             link: `${link}`
                         }
                     },
-                    outro : "looking forward to having buisness with you"
+                    outro: "looking forward to having buisness with you"
                 }
             }
 
@@ -219,20 +218,20 @@ const forgotPasswordAuth = async (req, res) => {
             // var emailText = mailGenerator.generatePlaintext(email);
 
             const message = {
-                    from: fromEmailId, 
-                    to: findUser.email, 
-                    subject: "Reset password", 
-                    html: mail, 
+                from: fromEmailId,
+                to: findUser.email,
+                subject: "Reset password",
+                html: mail,
             }
 
-            transporter.sendMail(message).then(()=>{
-                res.status(201).json({status : "success", msg : "reset password email send", })  
-            }).catch((err)=>{
-                res.status(500).json({status : "error", msg : err.message })  
+            transporter.sendMail(message).then(() => {
+                res.status(201).json({ status: "success", msg: "reset password email send", })
+            }).catch((err) => {
+                res.status(500).json({ status: "error", msg: err.message })
             })
         }
     } catch (error) {
-        res.status(500).json({status : "error", msg : error.message})
+        res.status(500).json({ status: "error", msg: error.message })
     }
 }
 
@@ -242,21 +241,21 @@ const forgotPasswordAuth = async (req, res) => {
 //fogot password authenticate
 const resetPassword = async (req, res) => {
     try {
-        const {id, token} = req.params
-        const checkUser = await Users.findOne({_id : id})
-        if(!checkUser){
+        const { id, token } = req.params
+        const checkUser = await Users.findOne({ _id: id })
+        if (!checkUser) {
             res.status(400).send("User is not found")
-        }else{
-                const secret = jwtsecretKey+checkUser.password
-                const payload = jwt.verify(token, secret)
-                if(!payload){
-                    res.status(400).send("Unauthoried user")
-                }else{
-                    res.render("public/resetPassword", {email : checkUser.email})
-                }
+        } else {
+            const secret = jwtsecretKey + checkUser.password
+            const payload = jwt.verify(token, secret)
+            if (!payload) {
+                res.status(400).send("Unauthoried user")
+            } else {
+                res.render("public/resetPassword", { email: checkUser.email })
+            }
         }
     } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.render("public/errorPage", { msg: error.message })
     }
 }
 
@@ -266,20 +265,20 @@ const resetPassword = async (req, res) => {
 //fogot password authenticate
 const resetPasswordAuth = async (req, res) => {
     try {
-        const {password, confirmPassword, email} = req.body
-        if(password !== confirmPassword){
-            res.status(400).json({status : "error", msg : "password does not match"})
-        }else{
+        const { password, confirmPassword, email } = req.body
+        if (password !== confirmPassword) {
+            res.status(400).json({ status: "error", msg: "password does not match" })
+        } else {
             const hashedPassword = await bcrypt.hash(password, 12)
-            const updatePassword = await Users.updateOne({email},{$set : {password : hashedPassword}})
-            if(!updatePassword){
-                res.status(500).json({status : "error", msg : "cannot update password at the moment"})
-            }else{
-                res.status(200).json({status : "success", msg : "password updated"})
+            const updatePassword = await Users.updateOne({ email }, { $set: { password: hashedPassword } })
+            if (!updatePassword) {
+                res.status(500).json({ status: "error", msg: "cannot update password at the moment" })
+            } else {
+                res.status(200).json({ status: "success", msg: "password updated" })
             }
         }
     } catch (error) {
-        res.status(500).json({status : 'error', msg : error.message})
+        res.status(500).json({ status: 'error', msg: error.message })
     }
 }
 
@@ -290,9 +289,9 @@ const resetPasswordAuth = async (req, res) => {
 const signup = async (req, res) => {
     try {
         const categoryData = await Category.find({})
-        res.render("public/signup", {categories : categoryData})
+        res.render("public/signup", { categories: categoryData })
     } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.render("public/errorPage", { msg: error.message })
     }
 }
 
@@ -304,10 +303,10 @@ const signupAuthenticate = async (req, res) => {
     try {
         const { firstName, lastName, emailId, mobileNumber, signupPassword, confirmPassword } = req.body
         //check the user exist or not
-        const checkUser = await Users.findOne({$or : [{email : emailId}, {phone : mobileNumber}]})
-        if(checkUser){
-            return res.status(409).json({ status : "error", msg : "User already exist, login to your account"});
-        }else{
+        const checkUser = await Users.findOne({ $or: [{ email: emailId }, { phone: mobileNumber }] })
+        if (checkUser) {
+            return res.status(409).json({ status: "error", msg: "User already exist, login to your account" });
+        } else {
             if (signupPassword === confirmPassword) {
                 const strongPassword = await bcrypt.hash(signupPassword, 12)
                 const newUser = new Users({
@@ -317,20 +316,20 @@ const signupAuthenticate = async (req, res) => {
                     phone: mobileNumber,
                     password: strongPassword,
                     isVarified: false,
-                    blocked : false,
-                    wallet : 0
+                    blocked: false,
+                    wallet: 0
                 })
                 await newUser.save()
-                .then(() => {
-                    res.status(200).json({status : "success", msg : "Registation SuccessFull"})
-                })
+                    .then(() => {
+                        res.status(200).json({ status: "success", msg: "Registation SuccessFull" })
+                    })
             } else {
-                return res.status(400).render({status : "error", msg : "Password does not match"});
+                return res.status(400).render({ status: "error", msg: "Password does not match" });
             }
         }
-    } 
+    }
     catch (error) {
-        res.status(500).json({status : "error", msg : error.message})
+        res.status(500).json({ status: "error", msg: error.message })
     }
 }
 
@@ -338,17 +337,17 @@ const signupAuthenticate = async (req, res) => {
 //-----------------------------------------------------------------------------------------------------
 
 //logout
-const logOut = (req,res)=>{
+const logOut = (req, res) => {
     try {
-        req.session.destroy((err)=>{
-            if(err){
-                res.render("public/errorPage", {msg : err.message})
-            }else{
+        req.session.destroy((err) => {
+            if (err) {
+                res.render("public/errorPage", { msg: err.message })
+            } else {
                 res.redirect("/login")
             }
         })
     } catch (error) {
-        res.render("public/errorPage", {msg : error.message})
+        res.render("public/errorPage", { msg: error.message })
     }
 }
 

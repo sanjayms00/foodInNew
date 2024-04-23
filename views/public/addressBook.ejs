@@ -22,7 +22,7 @@
                                  <p>No address to display</p>
                                 <% }else{ %>
                                     <% address.addresses.forEach(element => { %>
-                                        <div class="rounded p-3 mb-3 bg-<%= address.defaultAddress.equals(element._id) ? 'success text-light' : 'light' %>">
+                                        <div class="rounded p-3 mb-3 bg-<%= address.defaultAddress.equals(element._id) ? 'secondary text-light' : 'light' %>">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <p class="mb-0"><strong><%= element.fullName %></strong></p>
@@ -49,7 +49,7 @@
                             <div class="col-sm-12">
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addressModal">
-                                    Add Address
+                                    <b>Add Address</b>
                                 </button>
   
                                 <!-- Modal -->
@@ -95,8 +95,16 @@
                                                         </select>
                                                     </div>
                                                     <br>
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-success">Add Address</button>     
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        <b>
+                                                            Close
+                                                        </b>
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success">
+                                                        <b>
+                                                            Add Address
+                                                        </b>
+                                                    </button>     
                                                 </form>
                                             </div>
                                         </div>

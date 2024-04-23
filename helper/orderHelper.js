@@ -183,7 +183,7 @@ const updateWallet = (userId, walletAmount, orderId) => {
 //generate order invoice
 const generateInvoicePDF = async (orderData) => {
     const order = orderData[0]
-    const browser = await puppeteer.launch({ headless: 'new' });
+    const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
     const page = await browser.newPage();
 
     // Load an HTML template for your invoice

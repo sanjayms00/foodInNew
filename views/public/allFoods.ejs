@@ -197,23 +197,23 @@
                                                         class="btn btn-danger btn-sm">
                                                         Details</a>
                                                 </div>
-                                                
+
                                                 <div class="d-flex justify-content-end">
                                                     <div>
-														<i title="added to cart"
-															class="bi text-danger bi-bag-fill p-1 fs-5"
-															data-item="<%= JSON.stringify(item) %>"
-															data-auth="<%= JSON.stringify(isAuthenticated) %>"
-															onclick="addToCart(event)"></i>
-													</div>
-													<div>
-														<i title="add to wishlist"
-															class="bi text-danger bi-heart-fill p-1 fs-5"
-															data-item="<%= JSON.stringify(item) %>"
-															data-auth="<%= JSON.stringify(isAuthenticated) %>"
-															onclick="addToWishList(event)"></i>
-													</div>
-                                                    
+                                                        <i title="added to cart"
+                                                            class="bi text-danger bi-bag-fill p-1 fs-5"
+                                                            data-item="<%= JSON.stringify(item) %>"
+                                                            data-auth="<%= JSON.stringify(isAuthenticated) %>"
+                                                            onclick="addToCart(event)"></i>
+                                                    </div>
+                                                    <div>
+                                                        <i title="add to wishlist"
+                                                            class="bi text-danger bi-heart-fill p-1 fs-5"
+                                                            data-item="<%= JSON.stringify(item) %>"
+                                                            data-auth="<%= JSON.stringify(isAuthenticated) %>"
+                                                            onclick="addToWishList(event)"></i>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -249,7 +249,7 @@
                                                                 <li
                                                                     class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
                                                                     <a class="page-link"
-                                                                        href="<%= currentPage < totalPages ? '/foods?page=' + (currentPage + 1) + '&' + serializeQuery(query) : '#' %>"
+                                                                        href="<%= currentPage < totalPages ? '/foods?page='+(currentPage + 1) +'&'+serializeQuery(query):'#' %>"
                                                                         aria-label="Next">
                                                                         <span aria-hidden="true">&raquo;</span>
                                                                     </a>

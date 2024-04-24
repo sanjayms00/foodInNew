@@ -1,6 +1,5 @@
 require('dotenv').config()
 const express = require("express")
-const bodyParser = require("body-parser")
 const app = express();
 const path = require("path")
 //connect to database
@@ -11,6 +10,7 @@ mongoose.connect(process.env.DATABSE_URL, { useNewUrlParser: true, useUnifiedTop
     }).catch((err) => {
         console.log(err)
     })
+    
 // mongoose.set('debug', true)
 const nocache = require("nocache")
 //get port from environment variables
@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'views/uploads')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 app.use(express.json({ limit: '10mb' }));
 
 //public and admin routes

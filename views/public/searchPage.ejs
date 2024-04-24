@@ -20,7 +20,7 @@
                                 <img src="<%= item.image ? '/food/' + item.image : '/no-image.jpg' %>" alt="food image" class="card-img-top">
                             </a>
                             <div class="card-body">
-                                <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi fs-6 bi-circle-fill text-<%= item.type === 1 ? "success" : "danger" %>"></i></small>
+                                <small class="text-secondary"><%= item.type === 1 ? "Veg" : "Non-Veg" %> &nbsp;<i class="bi fs-6 bi-circle-fill text-<%= item.type === 1 ? 'success' : 'danger' %>"></i></small>
                                 <h5 class="card-title mb-2" style="height: 65px;"><a href="/foodDetail/<%= item.slug %>"><%= item.foodName %></a></h5>
                                 <h6 class="card-text">
                                     <% if (item.discPrice > 0) { %>
@@ -41,13 +41,24 @@
                                 </h6>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <a href="/foodDetail/<%= item.slug %>" class="btn btn-danger btn-sm">Show Details</a>
+                                        <a href="/foodDetail/<%= item.slug %>"
+                                            class="btn btn-danger btn-sm"> Details</a>
                                     </div>
-                                    <div>
-                                        <i title="added to cart" class="bi text-danger bi-bag p-1 fs-5" id="addToCart" onclick="addToCart(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
-                                    </div>
-                                    <div>
-                                        <i title="add to wishlist" class="bi text-danger bi-heart p-1 fs-5" id="addToWishList" onclick="addToWishlist(`<%= JSON.stringify(item) %>`, `<%= isAuthenticated %>`)"></i>
+                                    <div class="d-flex align-items-end">
+                                        <div>
+                                            <i title="added to cart"
+                                                class="bi text-danger bi-bag-fill p-1 fs-5"
+                                                data-item="<%= JSON.stringify(item) %>"
+                                                data-auth="<%= JSON.stringify(isAuthenticated) %>"
+                                                onclick="addToCart(event)"></i>
+                                        </div>
+                                        <div>
+                                            <i title="add to wishlist"
+                                                class="bi text-danger bi-heart-fill p-1 fs-5"
+                                                data-item="<%= JSON.stringify(item) %>"
+                                                data-auth="<%= JSON.stringify(isAuthenticated) %>"
+                                                onclick="addToWishList(event)"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -62,6 +73,8 @@
         </div>
     </div>
 </div>
+
+
 <script src="../assets/js/cart.js"></script>
 <script src="../assets/js/wishlist.js"></script>
 <%- include("./includes/footer") %>
